@@ -1,0 +1,20 @@
+.mdc-dialog__content {
+  padding-top: 5px;
+}
+
+.mat-mdc-dialog-actions {
+  padding: 8px 36px!important;
+}
+
+.mat-mdc-button {
+  transition: all 100ms ease-in-out;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.12);
+    transition: all 100ms ease-in-out;
+  }
+}
+
+.mdc-dialog__container {
+  transform: unset!important;
+}
