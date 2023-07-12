@@ -1,20 +1,48 @@
 <h1 mat-dialog-title>Add User</h1>
 <div mat-dialog-content>
   <div>
-    <mat-form-field class="mr-16" appearance="outline">
+    <mat-form-field class="mr-16" appearance="fill">
       <mat-label>First Name</mat-label>
-      <input matInput placeholder="First Name">
-      <mat-hint>Pls enter a name</mat-hint>
+      <input [(ngModel)]="user.firstName" matInput placeholder="First Name">
+      <!-- <mat-hint>Pls enter a name</mat-hint> -->
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="fill">
       <mat-label>Last Name</mat-label>
-      <input matInput placeholder="Last Name">
-      <mat-hint>Pls enter a name</mat-hint>
+      <input [(ngModel)]="user.lastName" matInput placeholder="Last Name">
+      <!-- <mat-hint>Pls enter a name</mat-hint> -->
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input [(ngModel)]="birthDate" matInput [matDatepicker]="picker">
+      <!-- <mat-hint>DD/MM/YYYY</mat-hint> -->
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Street + House No.</mat-label>
+      <input [(ngModel)]="user.street" matInput placeholder="Street + House No.">
+      <!-- <mat-hint>Pls enter a name</mat-hint> -->
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="mr-16" appearance="fill">
+      <mat-label>Zip code</mat-label>
+      <input [(ngModel)]="user.zipCode" matInput placeholder="Zip code">
+      <!-- <mat-hint>Pls enter a name</mat-hint> -->
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>City</mat-label>
+      <input [(ngModel)]="user.city" matInput placeholder="City">
+      <!-- <mat-hint>Pls enter a name</mat-hint> -->
     </mat-form-field>
   </div>
 </div>
 <div mat-dialog-actions>
   <button mat-button>Cancel</button>
-  <button mat-button>Save</button>
+  <button (click)="saveUser()" mat-button>Save</button>
 </div>
