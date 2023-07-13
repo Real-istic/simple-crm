@@ -2,7 +2,9 @@ import { Component, inject } from '@angular/core';
 import { User } from 'src/models/user.class';
 import { Firestore, docData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { collection, doc, updateDoc, setDoc } from "firebase/firestore";
+import { collection, doc, updateDoc, setDoc, getDoc } from "firebase/firestore";
+import { MatDialogRef } from '@angular/material/dialog';
+
 
 
 @Component({
@@ -14,27 +16,34 @@ export class DialogAddUserComponent {
   user = new User();
   birthDate: any = Date;
   firestore: Firestore = inject(Firestore)
+  loading: boolean = false;
+  dialogRef: MatDialogRef<DialogAddUserComponent> = inject(MatDialogRef);
   // users$: Observable<any[]>;
 
 
   constructor() {
-    const userCollection = collection(this.firestore, 'users')
+    // const userCollection = collection(this.firestore, 'users')
     // this.users$ = doc(userCollection)
-
-   }
+  }
 
   async saveUser() {
-    if (this.user.birthDate){
+    this.loading = true;
+    if (this.birthDate && this.birthDate instanceof Date) {
       this.user.birthDate = this.birthDate.getTime();
     }
 
     let userCollection = collection(this.firestore, 'users')
+    let setUser = await setDoc(doc(userCollection), this.user.toJson());
+    console.log('Result:', this.user);
+    this.loading = false;
+    this.dialogRef.close();
+    // let userInDb = await getDoc(doc(userCollection));
 
-    await setDoc(doc(userCollection, 'users'), this.user.toJson());
-
-
-    console.log('Current User is: ', collection(this.firestore, 'users'));
-
+    // if (userInDb) {
+    //   console.log('Result:', userInDb.data());
+    // } else {
+    //   console.log('An error occurred!');
+    // }
   }
 
 }
