@@ -13,14 +13,19 @@
 .logo-container {
   display: flex;
   align-items: center;
-  // justify-content: space-between;
-  padding: 6px 16px 6px 16px;
+  padding: 6px 16px 6px 8px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   height: 56px;
+  font-weight: bold;
+  font-size: 18px;
+  background-image: linear-gradient( 135deg, #0aacd4 3%, #447ae7 33%, #8346fc 66% );
+  background-size: cover;
+  color: transparent;
+  -webkit-background-clip: text;
 
   img {
-    height: 30px;
-    margin-right: 10px;
+    height: 40px;
+    margin-right: 7px;
   }
 }
 
@@ -48,7 +53,7 @@ mat-toolbar-row,
     cursor: pointer;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.2)!important;
+      background-color: rgba(0, 0, 0, 0.2) !important;
     }
 
     &:focus {
