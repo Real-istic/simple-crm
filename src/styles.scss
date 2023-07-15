@@ -24,7 +24,11 @@ body {
   font-size: 32px;
 }
 
-.mat-icon {
-  height: unset!important;
-  width: unset!important;
+mat-icon {
+  height: unset !important;
+  width: unset !important;
+  background: linear-gradient(135deg, #0aacd4 33%, #447ae7 66%, #8346fc 99%);
+  background-size: cover;
+  color: transparent;
+  -webkit-background-clip: text;
 }

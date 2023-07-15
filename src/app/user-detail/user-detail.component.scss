@@ -1,6 +1,33 @@
-mat-card {
+.header-card {
+  display: flex;
+  flex-direction: unset;
+  justify-content: flex-start;
+  align-items: center;
   margin-top: 20px;
   padding: 12px;
   min-height: 200px;
-  background: linear-gradient(135deg, #0aacd482 33%, #447ae782 66%, #8346fc83 99%);
+  max-height: 200px;
+  background: linear-gradient(135deg, #e21d79e8 25%, #e2231de5 66%, #e21ddbe8 100%);
+}
+
+.profile-pic {
+  width: 175px;
+  border-radius: 100%;
+  margin-right: 12px;
+}
+
+.user-details {
+  height: 100%;
+
+  a {
+    text-decoration: none;
+    color: black;
+    transition: all 0.2s ease-in-out;
+    border-bottom: 0px solid transparent;
+
+    &:hover {
+      transition: all 0.1s ease-in-out;
+      border-bottom: 1px solid black;
+    }
+  }
 }
