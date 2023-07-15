@@ -1,3 +1,7 @@
+mat-drawer {
+  width: 250px!important;
+}
+
 .mat-drawer-container {
   height: 100vh;
 }
@@ -13,7 +17,7 @@
 .logo-container {
   display: flex;
   align-items: center;
-  padding: 6px 16px 6px 8px;
+  padding: 6px 16px 6px 12px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   height: 56px;
   font-weight: bold;
@@ -25,7 +29,7 @@
 
   img {
     height: 40px;
-    margin-right: 7px;
+    margin-right: 10px;
   }
 }
 
@@ -34,15 +38,30 @@ mat-toolbar-row,
 .mat-toolbar-multiple-rows {
   min-height: unset;
   height: 56px;
+  padding: 0 8px;
+
+  .mat-icon {
+    background-image: linear-gradient(135deg, #0aacd4 3%, #447ae7 33%, #8346fc 66%);
+    background-size: cover;
+    color: transparent;
+    -webkit-background-clip: text;
+  }
+}
+
+.mat-toolbar.mat-primary {
+  background-color: white;
 }
 
 .menu-items {
   list-style-type: none;
-  padding: 0;
+  padding: 20px 0 0 0;
   margin: 0;
 
   mat-icon {
     margin-right: 16px;
+    background: linear-gradient(135deg, #0aacd4 33%, #447ae7 66%, #8346fc 99%);
+    color: transparent;
+    -webkit-background-clip: text;
   }
 
   li {
@@ -63,5 +82,5 @@ mat-toolbar-row,
 }
 
 .router-container {
-  padding: 16px 56px;
+  padding: 16px;
 }

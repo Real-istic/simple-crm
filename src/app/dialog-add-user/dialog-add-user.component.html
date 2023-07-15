@@ -43,7 +43,7 @@
   </div>
 </div>
 <div mat-dialog-actions>
-  <button [disabled]="loading" mat-button>Cancel</button>
+  <button [disabled]="loading" (click)="this.dialogRef.close();" mat-button>Cancel</button>
   <button [disabled]="loading" (click)="saveUser()" mat-button>Save</button>
 </div>
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>

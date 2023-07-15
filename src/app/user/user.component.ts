@@ -29,12 +29,13 @@ export class UserComponent {
     const userCollection = collection(this.firestore, 'users');
     const userDataBase = await getDocs(userCollection);
 
-    console.log('UserDatabase:', userDataBase);
-    userDataBase.forEach((doc) => {
-      console.log(doc.id, doc.data());
-      this.allUsers.push(doc.data());
+    onSnapshot(userCollection, (snapshot) => {
+      this.allUsers = [];
+      snapshot.docs.forEach((doc) => {
+        this.allUsers.push({ ...doc.data(), id: doc.id });
+      });
+      console.log('AllUser:', this.allUsers);
     });
-    console.log('AllUser:', this.allUsers);
   }
 
   openDialog() {
