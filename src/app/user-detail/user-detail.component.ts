@@ -1,7 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Firestore, collection, getDocs, onSnapshot } from '@angular/fire/firestore';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/models/user.class';
+import { DialogEditAddressComponent } from '../dialog-edit-address/dialog-edit-address.component';
+import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.component';
 
 @Component({
   selector: 'app-user-detail',
@@ -14,6 +17,7 @@ import { User } from 'src/models/user.class';
 export class UserDetailComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   firestore: Firestore = inject(Firestore);
+  dialog: MatDialog = inject(MatDialog);
   userId: string = '';
   user: User = new User();
 
@@ -41,5 +45,19 @@ export class UserDetailComponent {
         console.log('User not found');
       }
     });
+  }
+
+  openEditAddressDialog() {
+    const dialog = this.dialog.open(DialogEditAddressComponent);
+    dialog.componentInstance.user = new User(this.user);
+    dialog.componentInstance.userId = this.userId;
+
+  }
+
+  openEditHeaderDialog() {
+    const dialog = this.dialog.open(DialogEditUserComponent);
+    dialog.componentInstance.user = new User(this.user);
+    dialog.componentInstance.userId = this.userId;
+
   }
 }

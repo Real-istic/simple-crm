@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Add User</h1>
+<div mat-dialog-content>
+  <div>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Street + House No.</mat-label>
+      <input [disabled]="loading" [(ngModel)]="user.street" matInput placeholder="Street + House No.">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="mr-16" appearance="fill">
+      <mat-label>Zip code</mat-label>
+      <input [disabled]="loading" [(ngModel)]="user.zipCode" matInput placeholder="Zip code">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>City</mat-label>
+      <input [disabled]="loading" [(ngModel)]="user.city" matInput placeholder="City">
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button [disabled]="loading" (click)="this.dialogRef.close();" mat-button>Cancel</button>
+  <button [disabled]="loading" (click)="saveUser()" mat-button>Save</button>
+</div>
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>

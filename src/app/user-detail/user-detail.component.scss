@@ -8,12 +8,17 @@
   min-height: 200px;
   max-height: 200px;
   background: linear-gradient(135deg, #e21d79e8 25%, #e2231de5 66%, #e21ddbe8 100%);
+
+  mat-icon {
+    color: white;
+  }
 }
 
 .profile-pic {
   width: 175px;
   border-radius: 100%;
   margin-right: 12px;
+  border: 3px outset currentColor;
 }
 
 .address-card {
@@ -26,7 +31,8 @@ mat-card-content {
 
 .edit-user {
   position: absolute;
-  left: 16px;
+  right: 6px;
+  top: 6px;
 }
 
 .user-details {

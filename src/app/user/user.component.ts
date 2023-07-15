@@ -27,7 +27,7 @@ export class UserComponent {
 
   async ngOnInit() {
     const userCollection = collection(this.firestore, 'users');
-    const userDataBase = await getDocs(userCollection);
+    await getDocs(userCollection);
 
     onSnapshot(userCollection, (snapshot) => {
       this.allUsers = [];
