@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { User } from 'src/models/user.class';
 import { Firestore, docData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 import { collection, doc, setDoc } from "firebase/firestore";
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -36,6 +35,7 @@ export class DialogAddUserComponent {
     console.log('Result:', this.user);
     this.loading = false;
     this.dialogRef.close();
+
   }
 
 }

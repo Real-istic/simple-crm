@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
 import { User } from 'src/models/user.class';
-import { Firestore, collection, doc, getDocs, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, doc, getDocs, onSnapshot } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -41,4 +41,7 @@ export class UserComponent {
   openDialog() {
     this.dialog.open(DialogAddUserComponent);
   }
+
 }
+
+
