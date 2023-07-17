@@ -14,10 +14,12 @@ mat-drawer {
 .sidenav {
   width: 300px;
   font-weight: 500;
-  background-image: linear-gradient(135deg, #0aacd4 3%, #447ae7 33%, #8346fc 66%);
-  background-size: cover;
-  color: transparent;
-  -webkit-background-clip: text;
+  background-image: linear-gradient(135deg, #0aacd4 0%, #447ae7 100%);
+  color: rgb(207, 207, 207);
+  border: 0;
+  border-radius: 0 20px 20px 0;
+  box-shadow: 10px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
+
 }
 
 .logo-container {
@@ -28,10 +30,17 @@ mat-drawer {
   height: 56px;
   font-weight: bold;
   font-size: 18px;
-  background-image: linear-gradient(135deg, #0aacd4 3%, #447ae7 33%, #8346fc 66%);
-  background-size: cover;
-  color: transparent;
-  -webkit-background-clip: text;
+  border-radius: 0 20px 20px 0;
+  background-color: mintcream;
+  color: black;
+  box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
+
+  span {
+    background: linear-gradient(135deg, #0aacd4 3%, #447ae7 66%, #8346fc 99%);
+    background-size: cover;
+    color: transparent;
+    -webkit-background-clip: text;
+  }
 
   img {
     height: 40px;
@@ -53,11 +62,11 @@ mat-toolbar-row,
 
 .menu-items {
   list-style-type: none;
-  padding: 20px 0 0 0;
+  padding: 60px 0 0 0;
   margin: 0;
 
   mat-icon {
-    margin-right: 16px;
+    margin-right: 22px;
   }
 
   li {
@@ -69,23 +78,33 @@ mat-toolbar-row,
     border-radius: 0 20px 20px 0;
     box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
     margin-bottom: 20px;
-    transition: all 200ms ease-in-out;
+    transition: all 150ms ease-in-out;
+    width: 95%;
+    background-color: mintcream;
+    color: rgb(128, 128, 128);
 
     &:hover {
-      transition: all 100ms ease-in-out;
-      background-image: linear-gradient(135deg, #0aacd4 3%, #447ae7 33%, #8346fc 66%);
-      background-size: cover;
-      color: transparent;
-      -webkit-background-clip: text;
+      transition: all 150ms ease-in-out;
+      box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
+      color: rgb(255, 255, 255);
+      background-color: #0076C1;
+
+      mat-icon {
+        color: white;
+        transition: all 150ms ease-in-out;
+      }
     }
 
     &:focus {
-      transition: all 100ms ease-in-out;
-      background-image: linear-gradient(135deg, #0aacd4 3%, #447ae7 33%, #8346fc 66%);
-      background-size: cover;
-      color: transparent;
-      -webkit-background-clip: text;
-      background:linear-gradient(135deg, #0aacd44b 3%, #447ae741 33%);
+      transition: all 300ms ease-in-out;
+      width: 100%;
+      color: rgb(255, 255, 255);
+      background-color: rgb(46, 74, 110);
+
+      mat-icon {
+        color: white;
+        transition: all 300ms ease-in-out;
+      }
     }
   }
 }
