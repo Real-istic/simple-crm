@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { User } from 'src/models/user.class';
-import { Firestore, docData } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { collection, doc, setDoc } from "firebase/firestore";
 import { MatDialogRef } from '@angular/material/dialog';
 

@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
 import { User } from 'src/models/user.class';
-import { Firestore, addDoc, collection, doc, getDocs, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, onSnapshot } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -20,7 +20,6 @@ export class UserComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   user = new User();
   userID: string | any = '';
-  user$: Observable<any> | any;
   allUsers = [] as any;
 
   constructor() { }
