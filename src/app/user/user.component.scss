@@ -6,6 +6,20 @@ mat-card {
   position: absolute;
   right: 56px;
   bottom: 56px;
+  background-color: rgb(46, 74, 110);
+  box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
+  transition: all 150ms ease-in-out;
+
+  mat-icon {
+    transition: all 150ms ease-in-out;
+    color: rgb(255, 255, 255) !important;
+  }
+
+  &:hover {
+    transition: all 150ms ease-in-out;
+    box-shadow: 0px 10px 10px -5px #000000, inset 0px -5px 15px -5px #000000;
+    background-color: #447ae7;
+  }
 }
 
 .user-table {
@@ -14,6 +28,7 @@ mat-card {
   th {
     color: rgba(0, 0, 0, 0.33);
     text-align: start;
+
     &:first-child {
       padding-left: 16px;
     }
@@ -29,6 +44,7 @@ mat-card {
 
     &:first-child {
       cursor: unset;
+
       &:hover {
         background-color: unset;
       }
@@ -37,9 +53,10 @@ mat-card {
     &:hover {
       background-color: rgba(0, 0, 0, 0.12);
     }
-    
+
     td {
       height: 60px;
+
       &:first-child {
         padding-left: 16px;
       }

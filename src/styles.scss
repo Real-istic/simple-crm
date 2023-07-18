@@ -27,12 +27,12 @@ body {
 .mat-icon-blue {
   height: unset !important;
   width: unset !important;
-  background: linear-gradient(135deg, #0aacd4 33%, #447ae7 66%, #8346fc 99%);
+  background: linear-gradient(135deg, #0aacd4 0%, #447ae7 100%);
   background-size: cover;
   color: transparent;
   -webkit-background-clip: text;
 }
 
-button {
-  // background-color: #c3d2ff !important;
+.material-icons {
+  font-size: 26px;
 }
