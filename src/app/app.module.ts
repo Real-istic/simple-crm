@@ -29,10 +29,10 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { DialogEditAddressComponent } from './dialog-edit-address/dialog-edit-address.component';
 import { DialogEditUserComponent } from './dialog-edit-user/dialog-edit-user.component';
-import { DataTableComponent } from './data-table/data-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DataTableComponent } from './data-table/data-table.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     UserDetailComponent,
     DialogEditAddressComponent,
     DialogEditUserComponent,
-    DataTableComponent,
+    DataTableComponent
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,6 @@ import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.compo
 import { User } from 'src/models/user.class';
 import { Firestore, collection, getDocs, onSnapshot } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 
 
 @Component({
@@ -33,7 +32,7 @@ export class UserComponent {
       snapshot.docs.forEach((doc) => {
         this.allUsers.push({ ...doc.data(), id: doc.id });
       });
-      console.log('AllUser:', this.allUsers);
+      console.log('AllUsers:', this.allUsers);
     });
   }
 

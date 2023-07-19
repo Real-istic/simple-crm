@@ -37,6 +37,8 @@ body {
   font-size: 26px;
 }
 
-mat-drawer-content {
-  background-image: #e2ebfc;
+mat-drawer-content, mat-toolbar-row, mat-toolbar, mat-drawer-container {
+  background: #e2ebfc!important;
+  // background-color: rgb(46, 74, 110)!important;
 }
+
