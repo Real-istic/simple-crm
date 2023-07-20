@@ -1,0 +1,28 @@
+.add-user-button {
+  position: absolute;
+  right: 56px;
+  bottom: 56px;
+  transition: all 150ms ease-in-out;
+  box-shadow: 0px 5px 10px -5px #000000, inset 0px -5px 15px -5px #000000;
+  background-color: #447ae7;
+
+  mat-icon {
+    transition: all 150ms ease-in-out;
+    color: rgb(255, 255, 255) !important;
+  }
+
+  &:hover {
+    transition: all 150ms ease-in-out;
+    background-color: rgb(46, 74, 110);
+    box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
+    transition: all 150ms ease-in-out;
+  }
+}
+
+tr {
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.12)!important;
+  }
+}
