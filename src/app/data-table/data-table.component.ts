@@ -75,34 +75,23 @@ export class DataTableComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
-    // Create 100 users
-
-
-    // Assign the data to the data source for the table to render
-  }
+  constructor() { }
 
   async ngOnInit() {
     const userCollection = collection(this.firestore, 'users');
-    const querySnapshot = await getDocs(userCollection);
+    // const querySnapshot = await getDocs(userCollection);
 
-    // this.allUsers = [];
-    // querySnapshot.forEach((doc) => {
-    //   this.allUsers.push(new User(doc.data()));
-    // });
-
-    this.allUsers = [];
     onSnapshot(userCollection, (snapshot) => {
+      this.allUsers = [];
       snapshot.docs.forEach((doc) => {
-        this.allUsers.push(new User(doc.data()));
+       this.allUsers.push(new User(doc.data()));
       });
       console.log('AllUsers:', this.allUsers);
+      this.dataSource = new MatTableDataSource(this.allUsers);
+      console.log('DataSource:', this.dataSource);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
-
-    this.dataSource = new MatTableDataSource(this.allUsers);
-    console.log('DataSource:', this.dataSource);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
 
