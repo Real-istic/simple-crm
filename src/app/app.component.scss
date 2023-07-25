@@ -14,7 +14,7 @@ mat-drawer {
 .sidenav {
   width: 300px;
   font-weight: 500;
-  background-image: linear-gradient(0deg, #64b7e3 0%, #015090 100%);
+  background-image: linear-gradient(0deg, rgb(46, 74, 110) 0%, rgb(46, 74, 110) 100%);
   color: rgb(207, 207, 207);
   border: 0;
   border-radius: 0 20px 20px 0;
@@ -26,14 +26,9 @@ mat-drawer {
   display: flex;
   align-items: center;
   padding: 6px 16px 6px 12px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   height: 56px;
   font-weight: bold;
-  font-size: 24px;
-  border-radius: 0 20px 20px 0;
-  background-color: rgb(46, 74, 110);
-  color: black;
-  box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
+  font-size: 28px;
 
   span {
     background: linear-gradient(135deg, #c7811f 0%, #ee4455 100%);
@@ -99,19 +94,19 @@ mat-toolbar-row,
     }
 
     &:focus {
-      transition: all 300ms ease-in-out;
+      transition: all 200ms ease-in-out;
       width: 100%;
       color: rgb(255, 255, 255);
-      background-color: rgb(46, 74, 110);
+      background-color: #447ae7;
 
       mat-icon {
         color: white;
-        transition: all 300ms ease-in-out;
+        transition: all 200ms ease-in-out;
       }
     }
   }
 }
 
 .router-container {
-  padding: 16px;
+  padding: 32px;
 }

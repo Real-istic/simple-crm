@@ -1,0 +1,38 @@
+.card-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.top-info-card {
+  height: 200px;
+  width: 200px;
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px #939393;
+  padding: 10px;
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+  &:nth-child(1) {
+    background: linear-gradient(145deg, #447AE7 0%, #2d4e96 70%);
+  }
+
+  &:nth-child(2) {
+    background: linear-gradient(145deg, #ffa200 0%, #c57d00 70%);
+  }
+
+  &:nth-child(3) {
+    background: linear-gradient(145deg, #00df77 0%, #00a85a 70%);
+  }
+
+  span {
+  }
+}
+
+mat-icon {
+  color: white;
+  transform: scale(2);
+}
