@@ -29,7 +29,15 @@
   }
 
   span {
+    font-size: 32px;
+    font-weight: 500;
   }
+}
+
+.top-info-header {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 mat-icon {
