@@ -20,7 +20,8 @@ export class DialogEditUserComponent {
   async saveUser() {
     this.loading = true;
     let userCollection = collection(this.firestore, 'users')
-    await updateDoc(doc(userCollection, this.userId), this.user.toJson());
+    let userData = doc(userCollection, this.userId);
+    await updateDoc(userData, this.user.toJson());
     console.log('Result:', this.user);
     this.loading = false;
     this.dialogRef.close();
