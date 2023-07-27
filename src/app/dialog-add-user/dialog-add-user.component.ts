@@ -12,8 +12,8 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./dialog-add-user.component.scss']
 })
 export class DialogAddUserComponent {
-  user = new User();
-  birthDate: any = Date;
+  user: User = new User();
+  birthDate = new Date();
   firestore: Firestore = inject(Firestore)
   loading: boolean = false;
   dialogRef: MatDialogRef<DialogAddUserComponent> = inject(MatDialogRef);
@@ -21,21 +21,13 @@ export class DialogAddUserComponent {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
-
   async saveUser() {
     this.loading = true;
-    if (this.birthDate && this.birthDate instanceof Date) {
-      this.user.birthDate = this.birthDate.getTime();
-    }
-
+    this.user.birthDate = this.birthDate.getTime();
     let userCollection = collection(this.firestore, 'users')
     await setDoc(doc(userCollection), this.user.toJson());
     console.log('Result:', this.user);
     this.loading = false;
     this.dialogRef.close();
-
   }
-
 }

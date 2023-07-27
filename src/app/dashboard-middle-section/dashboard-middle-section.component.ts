@@ -14,6 +14,7 @@ export class DashboardMiddleSectionComponent {
         curve: 'smooth',
       },
       chart: {
+        height: '300px',
         type: 'line'
       },
       colors: ["#447AE7", "#ffa200", "#00df77"],

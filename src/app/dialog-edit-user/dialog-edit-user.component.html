@@ -20,7 +20,7 @@
   <div>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choose a date</mat-label>
-      <input [disabled]="loading" [(ngModel)]="user.birthDate" matInput [matDatepicker]="picker">
+      <input [disabled]="loading" [(ngModel)]="birthDate" matInput [matDatepicker]="picker">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>

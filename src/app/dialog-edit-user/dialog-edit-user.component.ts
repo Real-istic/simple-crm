@@ -16,9 +16,15 @@ export class DialogEditUserComponent {
   birthDate: any = this.user.birthDate;
   userId: string = '';
 
+  ngOnInit() {
+    if (this.user.birthDate) {
+      this.birthDate = new Date(this.user.birthDate);
+    }
+  }
 
   async saveUser() {
     this.loading = true;
+    this.user.birthDate = this.birthDate.getTime();
     let userCollection = collection(this.firestore, 'users')
     let userData = doc(userCollection, this.userId);
     await updateDoc(userData, this.user.toJson());
