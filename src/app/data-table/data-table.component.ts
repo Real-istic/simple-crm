@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
-  selector: 'data-table.component',
+  selector: 'app-data-table',
   styleUrls: ['data-table.component.scss'],
   templateUrl: 'data-table.component.html',
 })

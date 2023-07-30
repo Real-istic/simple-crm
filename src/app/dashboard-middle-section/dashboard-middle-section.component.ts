@@ -10,11 +10,25 @@ export class DashboardMiddleSectionComponent {
 
   ngOnInit() {
     let options = {
+      title: {
+        text: 'HISTORY',
+        align: 'left',
+        margin: 10,
+        offsetX: 0,
+        offsetY: 0,
+        floating: false,
+        style: {
+          fontSize: '14px',
+          fontWeight: 'bold',
+          fontFamily: undefined,
+          color: '#263238'
+        },
+      },
       stroke: {
         curve: 'smooth',
       },
       chart: {
-        height: '300px',
+        height: '250px',
         type: 'line'
       },
       colors: ["#447AE7", "#ffa200", "#00df77"],
