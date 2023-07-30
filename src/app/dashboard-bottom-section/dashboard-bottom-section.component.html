@@ -2,22 +2,19 @@
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
       <div class="user-wrapper">
-        <ng-container matColumnDef="firstName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
-          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user"> {{user.firstName}} {{ user.lastName}} </td>
-        </ng-container>
-
         <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> E-Mail </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
           <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user"> {{user.email}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="transactions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction </th>
+          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user">
+            {{user.transactions[0].description}} </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </div>
-      <tr class="mat-row" *matNoDataRow>
-        <!-- <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td> -->
-      </tr>
     </table>
 
     <mat-paginator [pageSizeOptions]="[3]" aria-label="Select page of users"></mat-paginator>

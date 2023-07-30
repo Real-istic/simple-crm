@@ -28,3 +28,15 @@
     <span>{{ user.zipCode}} {{ user.city }}</span>
   </mat-card-content>
 </mat-card>
+<mat-card class="address-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"><mat-icon class="mat-icon-blue">receipt_long</mat-icon></div>
+    <mat-card-title>Transactions</mat-card-title>
+  </mat-card-header>
+  <mat-card-content *ngIf="user.transactions.length">
+    <span><b>ID:</b> {{ user.transactions[user.transactions.length - 1].id }}</span><br>
+    <span><b>Date:</b> {{ formatDate(user.transactions[user.transactions.length - 1].date) }} </span><br>
+    <span><b>Amount:</b> {{ user.transactions[user.transactions.length - 1].amount}} </span><br>
+    <span><b>Description:</b> {{ user.transactions[user.transactions.length - 1].description }}</span>
+  </mat-card-content>
+</mat-card>

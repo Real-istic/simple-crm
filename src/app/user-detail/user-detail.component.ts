@@ -33,7 +33,7 @@ export class UserDetailComponent {
 
   async getUser() {
     const userCollection = collection(this.firestore, 'users');
-    const userDataBase = await getDocs(userCollection);
+    // const userDataBase = await getDocs(userCollection);
 
     onSnapshot(userCollection, (snapshot) => {
       const userDoc = snapshot.docs.find((doc) => doc.id === this.userId);
@@ -51,13 +51,17 @@ export class UserDetailComponent {
     const dialog = this.dialog.open(DialogEditAddressComponent);
     dialog.componentInstance.user = new User(this.user);
     dialog.componentInstance.userId = this.userId;
-
   }
 
   openEditHeaderDialog() {
     const dialog = this.dialog.open(DialogEditUserComponent);
     dialog.componentInstance.user = new User(this.user);
     dialog.componentInstance.userId = this.userId;
+  }
 
+  formatDate(timestamp: number): string {
+    const date = new Date(timestamp);
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   }
 }

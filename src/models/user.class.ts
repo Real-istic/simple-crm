@@ -7,7 +7,14 @@ export class User {
   zipCode: number;
   city: string;
   id: string;
-  transactions: any[];
+  transactions:
+    {
+      date: number;
+      amount: number;
+      description: string;
+      id: string;
+    }[]
+  ;
 
   constructor(obj?: any) {
     this.firstName = obj ? obj.firstName : '';

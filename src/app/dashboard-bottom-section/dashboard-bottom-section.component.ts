@@ -18,7 +18,7 @@ export class DashboardBottomSectionComponent {
   dialog: MatDialog = inject(MatDialog);
   route: ActivatedRoute = inject(ActivatedRoute);
 
-  displayedColumns: string[] = ['firstName', 'email'];
+  displayedColumns: string[] = ['email', 'transactions'];
   dataSource!: MatTableDataSource<User>;
   user = new User();
   allUsers = [] as any;
@@ -34,7 +34,7 @@ export class DashboardBottomSectionComponent {
     onSnapshot(userCollection, (snapshot) => {
       this.allUsers = [];
       snapshot.docs.forEach((doc) => {
-      this.allUsers.push(new User({ ...doc.data(), id: doc.id }));
+        this.allUsers.push(new User({ ...doc.data(), id: doc.id }));
       });
       this.dataSource = new MatTableDataSource(this.allUsers);
       console.log('AllUsers:', this.allUsers);
@@ -44,3 +44,4 @@ export class DashboardBottomSectionComponent {
     });
   }
 }
+
