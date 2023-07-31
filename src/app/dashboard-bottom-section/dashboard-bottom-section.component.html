@@ -1,17 +1,24 @@
 <div class="table-wrapper">
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSource">
       <div class="user-wrapper">
         <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
+          <th mat-header-cell *matHeaderCellDef> User </th>
           <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user"> {{user.email}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="transactions">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction </th>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Date </th>
           <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user">
-            {{user.transactions[0].description}} </td>
+            {{ formatDate(user.transactions[user.transactions.length - 1].date) }} </td>
         </ng-container>
+
+        <!-- <ng-container matColumnDef="transactions[transactions -1].date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user">
+            {{user.transactions[0].date}} </td>
+        </ng-container> -->
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </div>

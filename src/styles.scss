@@ -42,3 +42,14 @@ mat-drawer-content, mat-toolbar-row, mat-toolbar, mat-drawer-container {
   // background-color: rgb(46, 74, 110)!important;
 }
 
+.mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell {
+ background: unset!important;
+}
+
+tr {
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.12)!important;
+  }
+}

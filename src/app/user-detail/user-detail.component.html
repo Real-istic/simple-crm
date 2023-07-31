@@ -7,7 +7,7 @@
   </mat-menu>
   <img class="profile-pic" src="/assets/img/test-avatar.jpg" alt="">
   <div class="user-details">
-    <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+    <h1>{{ user.firstName }} {{ user.lastName }}</h1>
     <a href="mailto:">{{ user.email }}</a>
   </div>
 </mat-card>
@@ -33,10 +33,12 @@
     <div mat-card-avatar class="example-header-image"><mat-icon class="mat-icon-blue">receipt_long</mat-icon></div>
     <mat-card-title>Transactions</mat-card-title>
   </mat-card-header>
-  <mat-card-content *ngIf="user.transactions.length">
-    <span><b>ID:</b> {{ user.transactions[user.transactions.length - 1].id }}</span><br>
-    <span><b>Date:</b> {{ formatDate(user.transactions[user.transactions.length - 1].date) }} </span><br>
-    <span><b>Amount:</b> {{ user.transactions[user.transactions.length - 1].amount}} </span><br>
-    <span><b>Description:</b> {{ user.transactions[user.transactions.length - 1].description }}</span>
+  <mat-card-content *ngFor="let transaction of user.transactions">
+    <span>ID:<b> {{ transaction.id }}</b></span><br>
+    <span>Date:<b> {{ formatDate(transaction.date) }} </b></span><br>
+    <span>Amount:<b> {{ transaction.amount}} </b></span><br>
+    <span>Description:<b> {{ transaction.description }}</b></span>
+    <br>
+    <br>
   </mat-card-content>
 </mat-card>

@@ -18,7 +18,7 @@ export class DashboardBottomSectionComponent {
   dialog: MatDialog = inject(MatDialog);
   route: ActivatedRoute = inject(ActivatedRoute);
 
-  displayedColumns: string[] = ['email', 'transactions'];
+  displayedColumns: string[] = ['email', 'date'];
   dataSource!: MatTableDataSource<User>;
   user = new User();
   allUsers = [] as any;
@@ -36,12 +36,25 @@ export class DashboardBottomSectionComponent {
       snapshot.docs.forEach((doc) => {
         this.allUsers.push(new User({ ...doc.data(), id: doc.id }));
       });
+      this.allUsers.sort((a: any, b: any) => this.sortByLastTransactionDate(a, b));
       this.dataSource = new MatTableDataSource(this.allUsers);
       console.log('AllUsers:', this.allUsers);
       console.log('DataSource:', this.dataSource);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
+  }
+
+  sortByLastTransactionDate(a: User, b: User): number {
+    const lastTransactionDateA = a.transactions[a.transactions.length - 1]?.date || 0;
+    const lastTransactionDateB = b.transactions[b.transactions.length - 1]?.date || 0;
+    return lastTransactionDateB - lastTransactionDateA;
+  }
+
+  formatDate(timestamp: number): string {
+    const date = new Date(timestamp);
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   }
 }
 
