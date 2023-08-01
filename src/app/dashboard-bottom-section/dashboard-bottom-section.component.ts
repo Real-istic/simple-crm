@@ -18,7 +18,7 @@ export class DashboardBottomSectionComponent {
   dialog: MatDialog = inject(MatDialog);
   route: ActivatedRoute = inject(ActivatedRoute);
 
-  displayedColumns: string[] = ['email', 'date'];
+  displayedColumns: string[] = ['email', 'description', 'amount', 'date'];
   dataSource!: MatTableDataSource<User>;
   user = new User();
   allUsers = [] as any;

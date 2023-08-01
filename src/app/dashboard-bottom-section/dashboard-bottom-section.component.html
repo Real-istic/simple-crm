@@ -8,17 +8,23 @@
           <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user"> {{user.email}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user">
+            {{user.transactions[user.transactions.length -1].description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef> Amount </th>
+          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user">
+            {{user.transactions[user.transactions.length -1].amount}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef> Date </th>
           <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user">
             {{ formatDate(user.transactions[user.transactions.length - 1].date) }} </td>
         </ng-container>
-
-        <!-- <ng-container matColumnDef="transactions[transactions -1].date">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user">
-            {{user.transactions[0].date}} </td>
-        </ng-container> -->
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
