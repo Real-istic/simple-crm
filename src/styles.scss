@@ -37,18 +37,19 @@ body {
   font-size: 26px;
 }
 
-mat-drawer-content, mat-toolbar-row, mat-toolbar, mat-drawer-container {
-  background: #e2ebfc!important;
+mat-drawer-content,
+mat-toolbar-row,
+mat-toolbar,
+mat-drawer-container {
+  background: #e2ebfc !important;
 }
 
-.mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell {
- background: unset!important;
-}
+tbody {
+  tr:not(thead) {
+    cursor: pointer;
 
-tr {
-  cursor: pointer;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.12)!important;
+    &:hover {
+      background-color: rgba(255, 145, 0, 0.12) !important;
+    }
   }
 }
