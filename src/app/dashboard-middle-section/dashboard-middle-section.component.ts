@@ -8,6 +8,8 @@ import * as ApexCharts from 'apexcharts';
 })
 export class DashboardMiddleSectionComponent {
 
+  testData: number[] = [66, 122, 333, 233, 554, 777, 987, 1337];
+
   ngOnInit() {
     let options = {
       title: {
@@ -35,7 +37,7 @@ export class DashboardMiddleSectionComponent {
       series: [
         {
           name: "Users",
-          data: [66, 122, 333, 233, 554, 777, 987, 1337]
+          data: this.testData
         },
         {
           name: "Revenue",
