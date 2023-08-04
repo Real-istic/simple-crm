@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
+import { UserDataService } from '../user-data-service.service';
 
 @Component({
   selector: 'app-dashboard-middle-section',
@@ -7,10 +8,21 @@ import * as ApexCharts from 'apexcharts';
   styleUrls: ['./dashboard-middle-section.component.scss']
 })
 export class DashboardMiddleSectionComponent {
+  UserDataService: UserDataService = inject(UserDataService);
 
-  testData: number[] = [66, 122, 333, 233, 554, 777, 987, 1337];
+  userCount!: number[];
+  userRevenue!: number[];
+  userTransactions!: number[];
 
-  ngOnInit() {
+  constructor() { }
+
+  async ngOnInit() {
+    await this.UserDataService.initialize();
+    this.userCount = this.UserDataService.userData;
+    this.userRevenue = this.UserDataService.userRevenue;
+    this.userTransactions = this.UserDataService.getUserTransactions();
+
+
     let options = {
       title: {
         text: 'HISTORY',
@@ -37,15 +49,15 @@ export class DashboardMiddleSectionComponent {
       series: [
         {
           name: "Users",
-          data: this.testData
+          data: this.userCount
         },
         {
           name: "Revenue",
-          data: [120, 329, 537, 436, 354, 945, 1450, 1158]
+          data: this.userRevenue
         },
         {
           name: "Transactions",
-          data: [110, 220, 230, 440, 350, 760, 670, 1180]
+          data: this.userTransactions
         }
       ],
       xaxis: {
