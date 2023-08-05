@@ -8,8 +8,8 @@ import { User } from 'src/models/user.class';
 })
 export class UserDataService {
   firestore: Firestore = inject(Firestore);
-  userData: number[] = [15, 21, 14, 51, 35, 20, 44, 53];
-  userRevenue: number[] = [25, 55, 40, 98, 40, 120, 170, 153];
+  userData: number[] = [25, 31, 24, 51, 45, 30, 44, 53];
+  userRevenue: number[] = [25, 35, 20, 68, 40, 88, 120, 113];
   allRevenue: number = 0;
   userTransactions: number[] = [13, 6, 8, 10, 22, 33, 26, 61];
   allTransactions: number = 0;
@@ -33,7 +33,7 @@ export class UserDataService {
         resolve();
       });
     });
-    // console.log('AllUsers SERVICE:', this.allUsers);
+    console.log('AllUsers SERVICE:', this.allUsers);
   }
 
   getUserData(): number[] {
@@ -47,17 +47,7 @@ export class UserDataService {
       const user = this.allUsers[i];
       for (let j = 0; j < user.transactions.length; j++) {
         const value = user.transactions[j].description;
-        if (value === 'Bronze Package') {
-          sum += 5;
-        } else if (value === 'Silver Package') {
-          sum += 10;
-        } else if (value === 'Gold Package') {
-          sum += 15;
-        } else if (value === 'Platinum Package') {
-          sum += 30;
-        } else if (value === 'Diamond Package') {
-          sum += 50;
-        }
+        sum += this.packageValue(value);
         transactions += 1;
       }
     }
@@ -66,8 +56,27 @@ export class UserDataService {
     return this.allRevenue;
   }
 
-  getUserTransactions(): number[] {
-    return this.userTransactions;
+  packageValue(description: string) {
+    const packagePrices: {[key: string]: number } = {
+      'Bronze Package': 5,
+      'Silver Package': 10,
+      'Gold Package': 15,
+      'Platinum Package': 30,
+      'Diamond Package': 50
+    }
+    return packagePrices[description];
+  };
+
+  getUserTransactions() {
+    let transactions = 0;
+    for (let i = 0; i < this.allUsers.length; i++) {
+      const user = this.allUsers[i];
+      for (let j = 0; j < user.transactions.length; j++) {
+        transactions += 1;
+      }
+    }
+    this.allTransactions = transactions;
+    return this.allTransactions;
   }
 
   getAllUsers(): any {

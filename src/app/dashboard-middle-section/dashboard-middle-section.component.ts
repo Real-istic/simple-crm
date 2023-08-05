@@ -20,7 +20,7 @@ export class DashboardMiddleSectionComponent {
     await this.UserDataService.initialize();
     this.userCount = this.UserDataService.userData;
     this.userRevenue = this.UserDataService.userRevenue;
-    this.userTransactions = this.UserDataService.getUserTransactions();
+    this.userTransactions = this.UserDataService.userTransactions;
 
 
     let options = {
@@ -61,7 +61,7 @@ export class DashboardMiddleSectionComponent {
         }
       ],
       xaxis: {
-        categories: [2017, 2018, 2019, 2018, 2019, 2020, 2021, 2022, 2023]
+        categories: ['Oct 2022', 'Mar 2023', 'Jul 2023', 'Aug 2023']
       }
     }
 

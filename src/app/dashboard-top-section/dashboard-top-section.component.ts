@@ -18,6 +18,6 @@ export class DashboardTopSectionComponent implements OnInit {
     await this.userDataService.initialize();
     this.userCount = this.userDataService.allUsers.length;
     this.allRevenue = this.userDataService.getAllRevenue();
-    this.allTransactions = this.userDataService.allTransactions;
+    this.allTransactions = this.userDataService.getUserTransactions();
   }
 }
