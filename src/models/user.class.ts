@@ -10,7 +10,7 @@ export class User {
   transactions:
     {
       date: number;
-      amount: number;
+      price: number;
       description: string;
       id: string;
     }[]

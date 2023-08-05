@@ -31,11 +31,13 @@ import { DialogEditUserComponent } from './dialog-edit-user/dialog-edit-user.com
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatRadioModule} from '@angular/material/radio';
 import { DataTableComponent } from './data-table/data-table.component';
 import { DashboardTopSectionComponent } from './dashboard-top-section/dashboard-top-section.component';
 import { DashboardMiddleSectionComponent } from './dashboard-middle-section/dashboard-middle-section.component';
 import { DashboardBottomSectionComponent } from './dashboard-bottom-section/dashboard-bottom-section.component';
 import { DashboardRightSectionComponent } from './dashboard-right-section/dashboard-right-section.component';
+import { DialogAddTransactionComponent } from './dialog-add-transaction/dialog-add-transaction.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { DashboardRightSectionComponent } from './dashboard-right-section/dashbo
     DashboardTopSectionComponent,
     DashboardMiddleSectionComponent,
     DashboardBottomSectionComponent,
-    DashboardRightSectionComponent
+    DashboardRightSectionComponent,
+    DialogAddTransactionComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +75,7 @@ import { DashboardRightSectionComponent } from './dashboard-right-section/dashbo
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatRadioModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),

@@ -1,10 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { Firestore, collection, getDocs, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/models/user.class';
+import { Transaction } from 'src/models/transaction.class';
 import { DialogEditAddressComponent } from '../dialog-edit-address/dialog-edit-address.component';
 import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.component';
+import { DialogAddTransactionComponent } from '../dialog-add-transaction/dialog-add-transaction.component';
+
 
 @Component({
   selector: 'app-user-detail',
@@ -20,6 +23,8 @@ export class UserDetailComponent {
   dialog: MatDialog = inject(MatDialog);
   userId: string = '';
   user: User = new User();
+  transactionId: string = '';
+  transaction: Transaction = new Transaction();
 
   constructor() {}
 
@@ -59,9 +64,19 @@ export class UserDetailComponent {
     dialog.componentInstance.userId = this.userId;
   }
 
+  openAddTransactionDialog() {
+    const dialog = this.dialog.open(DialogAddTransactionComponent);
+    dialog.componentInstance.transaction = new Transaction(this.transaction);
+    dialog.componentInstance.transactionId = this.transactionId;
+    dialog.componentInstance.user = new User(this.user);
+    dialog.componentInstance.userId = this.userId;
+  }
+
+
   formatDate(timestamp: number): string {
     const date = new Date(timestamp);
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
     return date.toLocaleDateString('en-US', options);
   }
+
 }

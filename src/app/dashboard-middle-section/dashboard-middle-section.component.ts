@@ -18,9 +18,9 @@ export class DashboardMiddleSectionComponent {
 
   async ngOnInit() {
     await this.UserDataService.initialize();
-    this.userCount = this.UserDataService.userData;
-    this.userRevenue = this.UserDataService.userRevenue;
-    this.userTransactions = this.UserDataService.userTransactions;
+    this.userCount = this.UserDataService.userCountPerMonth;
+    this.userRevenue = this.UserDataService.userRevenuePerMonth;
+    this.userTransactions = this.UserDataService.userTransactionsPerMonth;
 
 
     let options = {

@@ -14,10 +14,10 @@
             {{user.transactions[user.transactions.length -1].description}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef> Amount </th>
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef> Price </th>
           <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user">
-            {{user.transactions[user.transactions.length -1].amount}} </td>
+            {{user.transactions[user.transactions.length -1].price}} </td>
         </ng-container>
 
         <ng-container matColumnDef="date">

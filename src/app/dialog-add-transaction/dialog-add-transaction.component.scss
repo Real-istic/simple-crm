@@ -1,0 +1,33 @@
+.radio-div {
+  display: flex;
+  flex-direction: column;
+  mat-radio-group {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.price-div {
+  mat-form-field {
+    display: flex;
+    align-items: flex-end;
+    width: 20%;
+    input {
+      color: black;
+    }
+  }
+  mat-label {
+    font-size: 15px;
+  }
+}
+
+mat-form-field {
+  position: relative;
+  mat-icon {
+    font-size: 16px;
+    bottom: 20px;
+    padding: 0;
+    }
+}
+
+
