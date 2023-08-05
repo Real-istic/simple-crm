@@ -4,7 +4,6 @@ import { Firestore } from '@angular/fire/firestore';
 import { collection, doc, setDoc } from "firebase/firestore";
 import { MatDialogRef } from '@angular/material/dialog';
 import { User } from 'src/models/user.class';
-import { MatRadioModule } from '@angular/material/radio';
 
 
 @Component({
@@ -14,6 +13,7 @@ import { MatRadioModule } from '@angular/material/radio';
 })
 export class DialogAddTransactionComponent {
   transaction: Transaction = new Transaction();
+  date = new Date();
   firestore: Firestore = inject(Firestore)
   loading: boolean = false;
   dialogRef: MatDialogRef<DialogAddTransactionComponent> = inject(MatDialogRef);
@@ -41,9 +41,13 @@ export class DialogAddTransactionComponent {
 
   async saveTransaction() {
     this.loading = true;
-    let userCollection = collection(this.firestore, 'users')
-    await setDoc(doc(userCollection), this.transaction.toJson());
-    console.log('Result:', this.transaction);
+    this.transaction.firstName = this.user.firstName;
+    this.transaction.lastName = this.user.lastName;
+    this.transaction.email = this.user.email;
+    this.transaction.id = this.user.id;
+    let transactionCollection = collection(this.firestore, 'transactions')
+    await setDoc(doc(transactionCollection), this.transaction.toJson());
+    console.log('Result:', this.transaction.id);
     this.loading = false;
     this.dialogRef.close();
   }

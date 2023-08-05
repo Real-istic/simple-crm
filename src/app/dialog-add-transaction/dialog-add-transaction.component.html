@@ -27,7 +27,7 @@
   </div>
   <div class="radio-div">
     <label id="example-radio-group-label">Transaction Model</label>
-    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+    <mat-radio-group [disabled]="loading" aria-labelledby="example-radio-group-label" class="example-radio-group"
       [(ngModel)]="transactionVariant">
       <mat-radio-button class="example-radio-button" *ngFor="let transactionVariant of transactionVariants"
         [value]="transactionVariant">
@@ -37,7 +37,7 @@
   </div>
   <div class="price-div">
     <mat-form-field class="mr-16" appearance="fill">
-      <mat-label>Price</mat-label>
+      <!-- <mat-label>Price</mat-label> -->
       <mat-icon matSuffix>euro</mat-icon>
       <input [(ngModel)]="transactionVariant.price" [disabled]="true" matInput>
     </mat-form-field>

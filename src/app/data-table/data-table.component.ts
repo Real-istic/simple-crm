@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from 'src/models/user.class';
-import { Firestore } from '@angular/fire/firestore';
+import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -33,12 +33,17 @@ export class DataTableComponent {
   }
 
   async ngOnInit() {
-    await this.userDataService.initialize();
-    this.allUsers = await this.userDataService.allUsers;
-    this.dataSource = new MatTableDataSource(this.allUsers);
-    console.log('DataSource:', this.dataSource);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    const userCollection = collection(this.firestore, 'users');
+
+    onSnapshot(userCollection, (snapshot) => {
+      this.allUsers = [];
+      snapshot.docs.forEach((doc) => {
+      this.allUsers.push(new User({ ...doc.data(), id: doc.id }));
+      });
+      this.dataSource = new MatTableDataSource(this.allUsers);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   applyFilter(event: Event) {

@@ -15,10 +15,8 @@ export class UserDataService {
   allRevenue: number = 0;
   allTransactions: number = 0;
   user = new User();
-  // private initializePromise: Promise<void>;
 
   constructor() {
-    // this.initializePromise = this.initialize();
   }
 
   async initialize() {
