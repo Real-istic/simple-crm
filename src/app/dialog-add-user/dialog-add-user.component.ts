@@ -1213,7 +1213,7 @@ export class DialogAddUserComponent {
     //     ...userWithoutTransactions,
     //     transactions: transactions,
     //   };
-
+    //   this.user.id = doc(userCollection).id;
     //   await setDoc(doc(userCollection), userWithTransactions);
     //   console.log('Result:', userWithTransactions);
     // }
@@ -1223,6 +1223,7 @@ export class DialogAddUserComponent {
     this.loading = true;
     this.user.birthDate = this.birthDate.getTime();
     let userCollection = collection(this.firestore, 'users')
+    this.user.id = doc(userCollection).id;
     await setDoc(doc(userCollection), this.user.toJson());
     this.loading = false;
     this.dialogRef.close();

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Transaction } from 'src/models/transaction.class';
-import { Firestore } from '@angular/fire/firestore';
+import { Firestore, addDoc } from '@angular/fire/firestore';
 import { collection, doc, setDoc } from "firebase/firestore";
 import { MatDialogRef } from '@angular/material/dialog';
 import { User } from 'src/models/user.class';
@@ -47,9 +47,14 @@ export class DialogAddTransactionComponent {
     this.transaction.userId = this.user.id;
     this.transaction.description = this.transactionVariant.name;
     this.transaction.price = this.transactionVariant.price;
+    this.transaction.date = this.date.getTime();
+
     let transactionCollection = collection(this.firestore, 'transactions')
-    await setDoc(doc(transactionCollection), this.transaction.toJson());
-    console.log('Result (userId):', this.transaction.userId);
+
+    this.transaction.id = doc(transactionCollection).id;
+
+    let transactionDoc = await setDoc(doc(transactionCollection), this.transaction.toJson());
+    console.log('Result (transactionId):', this.transaction.id);
     this.loading = false;
     this.dialogRef.close();
   }

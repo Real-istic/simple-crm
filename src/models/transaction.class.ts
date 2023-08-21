@@ -6,7 +6,7 @@ export class Transaction {
   id: string;
   description: string;
   price: number;
-  date: string;
+  date: number;
 
   constructor(obj?: any) {
     this.firstName = obj ? obj.firstName : '';
