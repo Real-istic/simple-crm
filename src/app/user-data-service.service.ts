@@ -10,13 +10,14 @@ export class UserDataService {
   firestore: Firestore = inject(Firestore);
   userCountPerMonth: number[] = [25, 31, 24, 53];
   userRevenuePerMonth: number[] = [25, 35, 20, 68];
-  userTransactionsPerMonth: number[] = [13, 6, 8, 10];
+  userTransactionsPerMonth: number[] = [33, 64, 22, 97];
   allUsers = [] as any;
   allRevenue: number = 0;
   allTransactions: number = 0;
   user = new User();
 
   constructor() {
+    this.getUserTransactions();
   }
 
   async initialize() {
@@ -62,6 +63,7 @@ export class UserDataService {
       }
     }
     this.allTransactions = transactions;
+    console.log('all transactions: ', this.allTransactions);
     return this.allTransactions;
   }
 

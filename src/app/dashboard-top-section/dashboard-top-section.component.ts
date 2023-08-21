@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UserDataService } from '../user-data-service.service';
 
 @Component({
@@ -11,8 +11,10 @@ export class DashboardTopSectionComponent implements OnInit {
   userCount!: number[];
   allRevenue!: number;
   allTransactions!: number;
+  userDataService: UserDataService = inject(UserDataService);
 
-  constructor(private userDataService: UserDataService) {}
+
+  constructor() {}
 
   async ngOnInit() {
     await this.userDataService.initialize();

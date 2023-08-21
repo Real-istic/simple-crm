@@ -44,10 +44,12 @@ export class DialogAddTransactionComponent {
     this.transaction.firstName = this.user.firstName;
     this.transaction.lastName = this.user.lastName;
     this.transaction.email = this.user.email;
-    this.transaction.id = this.user.id;
+    this.transaction.userId = this.user.id;
+    this.transaction.description = this.transactionVariant.name;
+    this.transaction.price = this.transactionVariant.price;
     let transactionCollection = collection(this.firestore, 'transactions')
     await setDoc(doc(transactionCollection), this.transaction.toJson());
-    console.log('Result:', this.transaction.id);
+    console.log('Result (userId):', this.transaction.userId);
     this.loading = false;
     this.dialogRef.close();
   }
@@ -55,6 +57,5 @@ export class DialogAddTransactionComponent {
   formatPrice(price: number): string {
     return '€ ' + price;
   }
-
 }
 
