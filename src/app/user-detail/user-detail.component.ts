@@ -31,7 +31,7 @@ export class UserDetailComponent {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.userId = params.get('id') || '';
-      console.log('got id!: ', this.userId);
+      console.log('User-id: ', this.userId);
       this.getUser();
     });
   }
