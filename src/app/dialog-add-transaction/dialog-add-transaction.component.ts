@@ -41,19 +41,14 @@ export class DialogAddTransactionComponent {
 
   async saveTransaction() {
     this.loading = true;
-    this.transaction.firstName = this.user.firstName;
-    this.transaction.lastName = this.user.lastName;
-    this.transaction.email = this.user.email;
     this.transaction.userId = this.user.id;
     this.transaction.description = this.transactionVariant.name;
     this.transaction.price = this.transactionVariant.price;
     this.transaction.date = this.date.getTime();
-
-    let transactionCollection = collection(this.firestore, 'transactions')
-
-    this.transaction.id = doc(transactionCollection).id;
-
-    let transactionDoc = await setDoc(doc(transactionCollection), this.transaction.toJson());
+    const transactionCollection = collection(this.firestore, 'transactions')
+    const transactionRef = doc(transactionCollection);
+    this.transaction.id = transactionRef.id;
+    await setDoc(transactionRef, this.transaction.toJson());
     console.log('Result (transactionId):', this.transaction.id);
     this.loading = false;
     this.dialogRef.close();
