@@ -7,7 +7,7 @@ import { collection } from '@firebase/firestore';
 import { Firestore, onSnapshot } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { UserDataService } from '../user-data-service.service';
+import { UserDataService } from '../user-data.service';
 
 
 @Component({
@@ -34,17 +34,17 @@ export class DashboardBottomSectionComponent {
   async ngOnInit() {
     await this.userDataService.initialize();
     this.allUsers = await this.userDataService.allUsers;
-    this.allUsers.sort((a: any, b: any) => this.sortByLastTransactionDate(a, b));
+    // this.allUsers.sort((a: any, b: any) => this.sortByLastTransactionDate(a, b));
     this.dataSource = new MatTableDataSource(this.allUsers);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  sortByLastTransactionDate(a: User, b: User): number {
-    const lastTransactionDateA = a.transactions[a.transactions.length - 1]?.date || 0;
-    const lastTransactionDateB = b.transactions[b.transactions.length - 1]?.date || 0;
-    return lastTransactionDateB - lastTransactionDateA;
-  }
+  // sortByLastTransactionDate(a: User, b: User): number {
+  //   const lastTransactionDateA = a.transactions[a.transactions.length - 1]?.date || 0;
+  //   const lastTransactionDateB = b.transactions[b.transactions.length - 1]?.date || 0;
+  //   return lastTransactionDateB - lastTransactionDateA;
+  // }
 
   formatDate(timestamp: number): string {
     const date = new Date(timestamp);

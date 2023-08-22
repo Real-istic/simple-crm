@@ -7,7 +7,7 @@ import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { UserDataService } from '../user-data-service.service';
+import { UserDataService } from '../user-data.service';
 
 
 @Component({
