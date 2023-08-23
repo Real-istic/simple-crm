@@ -10,15 +10,14 @@ export class TransactionDataService {
   allTransactions = [] as any;
   allRevenue: number = 0;
   transactionCount: number = 0;
+  transactionCountPerMonth: number[] = [];
   revenuePerMonth: number[] = [];
-  monthsForChart: number[] = [4, 5, 6, 7, 8]; // 4 = May, 5 = June, 6 = July, 7 = August, 8 = September
+  monthsForChart: number[] = [4, 5, 6, 7, 8]; // 4 = May, 5 = June, 6 = July, 7 = August, 8 = September (remember that January = 0, February = 1, etc.)
 
-  constructor() {
-  }
+  constructor() { }
 
   async initialize() {
     const transactionCollection = collection(this.firestore, 'transactions');
-
     await new Promise<void>((resolve) => {
       onSnapshot(transactionCollection, (snapshot) => {
         this.allTransactions = [];
@@ -31,7 +30,7 @@ export class TransactionDataService {
     console.log('TRANSACTION DATA SERVICE:', this.allTransactions);
   }
 
-  getAllRevenue() {
+  async getAllRevenue() {
     let sum = 0;
     let transactions = 0;
     for (let i = 0; i < this.allTransactions.length; i++) {
@@ -49,36 +48,45 @@ export class TransactionDataService {
     return this.transactionCount;
   }
 
-async getRevenuePerMonth() {
-  this.revenuePerMonth = []; // Clear the array before populating
 
-  for (let i = 0; i < this.monthsForChart.length; i++) {
-    const targetMonth = this.monthsForChart[i];
-    let sum = 0;
-
-    for (let j = 0; j < this.allTransactions.length; j++) {
-      const transaction = this.allTransactions[j];
-      const value = transaction.price;
-      const transactionDate = new Date(transaction.date);
-      console.log('transaction date: ', transactionDate);
-
-      // Extract year and month from the transaction date
-      const transactionYear = transactionDate.getFullYear();
-      console.log('transaction year: ', transactionYear);
-      const transactionMonth = transactionDate.getMonth();
-      console.log('transaction month: ', transactionMonth);
-
-      if (transactionMonth === targetMonth && transactionYear === new Date().getFullYear()) {
-        sum += value;
+  async getTransactionCountPerMonth() {
+    this.transactionCountPerMonth = []; // Clear the array before populating
+    for (let i = 0; i < this.monthsForChart.length; i++) {
+      const targetMonth = this.monthsForChart[i];
+      let sum = 0;
+      for (let j = 0; j < this.allTransactions.length; j++) {
+        const transaction = this.allTransactions[j];
+        const transactionDate = new Date(transaction.date * 1000);
+        const transactionYear = transactionDate.getFullYear();
+        const transactionMonth = transactionDate.getMonth();
+        if (transactionMonth === targetMonth && transactionYear === new Date().getFullYear()) {
+          sum += 1;
+        }
       }
+      this.transactionCountPerMonth.push(sum);
     }
-
-    this.revenuePerMonth.push(sum);
+    return this.transactionCountPerMonth;
   }
 
-  console.log('revenue per month: ', this.revenuePerMonth);
-}
-
+  async getRevenuePerMonth() {
+    this.revenuePerMonth = [];
+    for (let i = 0; i < this.monthsForChart.length; i++) {
+      const targetMonth = this.monthsForChart[i];
+      let sum = 0;
+      for (let j = 0; j < this.allTransactions.length; j++) {
+        const transaction = this.allTransactions[j];
+        const value = transaction.price;
+        const transactionDate = new Date(transaction.date * 1000);
+        const transactionYear = transactionDate.getFullYear();
+        const transactionMonth = transactionDate.getMonth();
+        if (transactionMonth === targetMonth && transactionYear === new Date().getFullYear()) {
+          sum += value;
+        }
+      }
+      this.revenuePerMonth.push(sum);
+    }
+    return this.revenuePerMonth;
+  }
 
 }
 

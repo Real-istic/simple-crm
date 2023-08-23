@@ -13,7 +13,6 @@ import { User } from 'src/models/user.class';
 })
 export class DialogAddTransactionComponent {
   transaction: Transaction = new Transaction();
-  date = new Date();
   firestore: Firestore = inject(Firestore)
   loading: boolean = false;
   dialogRef: MatDialogRef<DialogAddTransactionComponent> = inject(MatDialogRef);
@@ -24,16 +23,16 @@ export class DialogAddTransactionComponent {
   transactionVariant: any = '';
   transactionVariants: any[] = [{
     "name": "Bronze Package",
-    "price": 15
+    "price": 5
   }, {
     "name": "Silver Package",
-    "price": 30
+    "price": 10
   }, {
     "name": "Gold Package",
-    "price": 45
+    "price": 15
   }, {
     "name": "Platinum Package",
-    "price": 60
+    "price": 20
   }];
 
   constructor() { }
@@ -44,12 +43,12 @@ export class DialogAddTransactionComponent {
     this.transaction.userId = this.user.id;
     this.transaction.description = this.transactionVariant.name;
     this.transaction.price = this.transactionVariant.price;
-    this.transaction.date = this.date.getTime();
+    this.transaction.date = Math.floor(new Date(this.transaction.date).getTime() / 1000);
     const transactionCollection = collection(this.firestore, 'transactions')
     const transactionRef = doc(transactionCollection);
     this.transaction.id = transactionRef.id;
     await setDoc(transactionRef, this.transaction.toJson());
-    console.log('Result (transactionId):', this.transaction.id);
+    console.log('Result (transaction):', this.transaction);
     this.loading = false;
     this.dialogRef.close();
   }

@@ -22,7 +22,7 @@ export class DashboardTopSectionComponent implements OnInit {
     await this.userDataService.initialize();
     await this.transactionDataService.initialize();
     this.userCount = this.userDataService.allUsers.length;
-    this.allRevenue = this.transactionDataService.getAllRevenue();
+    this.allRevenue = await this.transactionDataService.getAllRevenue();
     this.transactionCount = this.transactionDataService.getTransactionCount();
   }
 }
