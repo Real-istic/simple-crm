@@ -10,12 +10,8 @@ import { TransactionDataService } from './transaction-data.service';
 export class UserDataService {
   firestore: Firestore = inject(Firestore);
   transactionDataService: TransactionDataService = inject(TransactionDataService);
-  userCountPerMonth: number[] = [5, 10, 7, 8, 15];
-  userRevenuePerMonth: number[] = [25, 35, 20, 68, 100];
-  userTransactionsPerMonth: number[] = [4, 7, 2, 8, 10];
+  userCountPerMonth: number[] = [];
   allUsers = [] as any;
-  allRevenue: number = 0;
-  allTransactions: number = 0;
   user = new User();
 
   constructor() { }
@@ -35,36 +31,24 @@ export class UserDataService {
     console.log('USER DATA SERVICE:', this.allUsers);
   }
 
-  getUserData(): number[] {
+  async getUserCountPerMonth() {
+    this.userCountPerMonth = [];
+    for (let i = 0; i < this.transactionDataService.monthsForChart.length; i++) {
+      const targetMonth = this.transactionDataService.monthsForChart[i];
+      let sum = 0;
+      for (let j = 0; j < this.allUsers.length; j++) {
+        const user = this.allUsers[j];
+        const userRegistrationDate = new Date(user.registrationDate * 1000);
+        const userRegistrationYear = userRegistrationDate.getFullYear();
+        const userRegistrationMonth = userRegistrationDate.getMonth();
+
+        if (userRegistrationMonth === targetMonth && userRegistrationYear === 2023) {
+          sum += 1;
+        }
+      }
+      this.userCountPerMonth.push(sum);
+    }
     return this.userCountPerMonth;
   }
-
-  // getAllRevenue() {
-  //   let sum = 0;
-  //   let transactions = 0;
-  //   for (let i = 0; i < this.allUsers.length; i++) {
-  //     const user = this.allUsers[i];
-  //     for (let j = 0; j < user.transactions.length; j++) {
-  //       const value = user.transactions[j].price;
-  //       sum += value;
-  //       transactions += 1;
-  //     }
-  //   }
-  //   this.allRevenue = sum;
-  //   return this.allRevenue;
-  // }
-
-  // getUserTransactions() {
-  //   let transactions = 0;
-  //   for (let i = 0; i < this.allUsers.length; i++) {
-  //     const user = this.allUsers[i];
-  //     for (let j = 0; j < user.transactions.length; j++) {
-  //       transactions += 1;
-  //     }
-  //   }
-  //   this.allTransactions = transactions;
-  //   console.log('all transactions: ', this.allTransactions);
-  //   return this.allTransactions;
-  // }
 
 }

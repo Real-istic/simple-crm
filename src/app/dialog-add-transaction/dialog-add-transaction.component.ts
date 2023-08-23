@@ -43,7 +43,7 @@ export class DialogAddTransactionComponent {
     this.transaction.userId = this.user.id;
     this.transaction.description = this.transactionVariant.name;
     this.transaction.price = this.transactionVariant.price;
-    this.transaction.date = Math.floor(new Date(this.transaction.date).getTime() / 1000);
+    this.transaction.date = Math.floor(new Date(this.transaction.date).getTime());
     const transactionCollection = collection(this.firestore, 'transactions')
     const transactionRef = doc(transactionCollection);
     this.transaction.id = transactionRef.id;

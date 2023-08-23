@@ -21,7 +21,7 @@ export class DashboardMiddleSectionComponent {
   async ngOnInit() {
     await this.UserDataService.initialize();
     await this.TransactionDataService.initialize();
-    this.userCount = this.UserDataService.userCountPerMonth;
+    this.userCount = await this.UserDataService.getUserCountPerMonth();
     this.userRevenue = await this.TransactionDataService.getRevenuePerMonth();
     this.TransactionCount = await this.TransactionDataService.getTransactionCountPerMonth();
 
@@ -50,7 +50,7 @@ export class DashboardMiddleSectionComponent {
       colors: ["#447AE7", "#ffa200", "#00df77"],
       series: [
         {
-          name: "Users",
+          name: "New Users",
           data: this.userCount
         },
         {

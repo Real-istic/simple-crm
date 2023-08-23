@@ -56,10 +56,10 @@ export class TransactionDataService {
       let sum = 0;
       for (let j = 0; j < this.allTransactions.length; j++) {
         const transaction = this.allTransactions[j];
-        const transactionDate = new Date(transaction.date * 1000);
+        const transactionDate = new Date(transaction.date);
         const transactionYear = transactionDate.getFullYear();
         const transactionMonth = transactionDate.getMonth();
-        if (transactionMonth === targetMonth && transactionYear === new Date().getFullYear()) {
+        if (transactionMonth === targetMonth && transactionYear === 2023) {
           sum += 1;
         }
       }
@@ -76,7 +76,7 @@ export class TransactionDataService {
       for (let j = 0; j < this.allTransactions.length; j++) {
         const transaction = this.allTransactions[j];
         const value = transaction.price;
-        const transactionDate = new Date(transaction.date * 1000);
+        const transactionDate = new Date(transaction.date);
         const transactionYear = transactionDate.getFullYear();
         const transactionMonth = transactionDate.getMonth();
         if (transactionMonth === targetMonth && transactionYear === new Date().getFullYear()) {
