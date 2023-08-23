@@ -20,30 +20,33 @@
   <div>
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Choose a date</mat-label>
-      <input [disabled]="loading" [(ngModel)]="transaction.date" matInput [matDatepicker]="picker">
+      <input [disabled]="loading" [(ngModel)]="transaction.date" matInput [matDatepicker]="picker" required>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="!transaction.date">Date is required!</mat-error>
     </mat-form-field>
   </div>
+
   <div class="radio-div">
-    <label id="example-radio-group-label">Transaction Model</label>
-    <mat-radio-group [disabled]="loading" 
-      [(ngModel)]="transactionVariant">
+    <label id="example-radio-group-label">Transaction Variant</label>
+    <mat-radio-group [disabled]="loading" [(ngModel)]="transactionVariant" required>
       <mat-radio-button *ngFor="let transactionVariant of transactionVariants"
         [value]="transactionVariant">
         {{transactionVariant.name}}
       </mat-radio-button>
     </mat-radio-group>
+    <mat-error *ngIf="!transactionVariant">Transaction Variant is required!</mat-error>
   </div>
+
   <div class="price-div">
     <mat-form-field class="mr-16" appearance="fill">
       <mat-icon matSuffix>euro</mat-icon>
       <input [(ngModel)]="transactionVariant.price" [disabled]="true" matInput>
     </mat-form-field>
   </div>
-</div>
-<div mat-dialog-actions>
-  <button [disabled]="loading" (click)="this.dialogRef.close();" mat-button>Cancel</button>
-  <button [disabled]="loading" (click)="saveTransaction()" mat-button>Save</button>
-</div>
-<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div mat-dialog-actions>
+    <button [disabled]="loading" (click)="this.dialogRef.close();" mat-button>Cancel</button>
+    <button [disabled]="loading || !isFormValid()" (click)="saveTransaction()" mat-button>Save</button>
+  </div>
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>

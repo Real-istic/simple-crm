@@ -56,5 +56,13 @@ export class DialogAddTransactionComponent {
   formatPrice(price: number): string {
     return '€ ' + price;
   }
+
+  isFormValid() {
+    return (
+      this.transaction.date as number &&
+      this.transactionVariant as string
+    );
+  }
+
 }
 
