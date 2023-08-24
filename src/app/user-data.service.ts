@@ -3,6 +3,7 @@ import { Firestore, onSnapshot } from '@angular/fire/firestore';
 import { collection } from '@firebase/firestore';
 import { User } from 'src/models/user.class';
 import { TransactionDataService } from './transaction-data.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,15 @@ export class UserDataService {
   allUsers = [] as any;
   user = new User();
 
-  constructor() { }
+  private initializedSubject = new BehaviorSubject<boolean>(false);
+  initialized$ = this.initializedSubject.asObservable();
+
+  private userCountSubject = new BehaviorSubject<number[]>([]);
+  userCount$ = this.userCountSubject.asObservable();
+
+  constructor() {
+    this.initialize();
+  }
 
   async initialize() {
     const userCollection = collection(this.firestore, 'users');
@@ -29,6 +38,10 @@ export class UserDataService {
       });
     });
     console.log('USER DATA SERVICE:', this.allUsers);
+    console.log('USER DATA SERVICE ACTIVATED')
+
+
+    this.initializedSubject.next(true);
   }
 
   async getUserCountPerMonth() {

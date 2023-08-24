@@ -7,6 +7,8 @@ import { Transaction } from 'src/models/transaction.class';
 import { DialogEditAddressComponent } from '../dialog-edit-address/dialog-edit-address.component';
 import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.component';
 import { DialogAddTransactionComponent } from '../dialog-add-transaction/dialog-add-transaction.component';
+import { UserDataService } from '../user-data.service';
+import { TransactionDataService } from '../transaction-data.service';
 
 
 @Component({
@@ -21,19 +23,23 @@ export class UserDetailComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   firestore: Firestore = inject(Firestore);
   dialog: MatDialog = inject(MatDialog);
+  userDataService: UserDataService = inject(UserDataService);
+  transactionDataService: TransactionDataService = inject(TransactionDataService);
   userId: string = '';
   user: User = new User();
   transactionId: string = '';
   transaction: Transaction = new Transaction();
+  userTransactions: Transaction[] = [];
 
   constructor() {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.userId = params.get('id') || '';
       console.log('User-id: ', this.userId);
       this.getUser();
     });
+    await this.getUserTransactions();
   }
 
   async getUser() {
@@ -50,6 +56,13 @@ export class UserDetailComponent {
         console.log('User not found');
       }
     });
+  }
+
+  async getUserTransactions() {
+    this.transactionDataService.initialize();
+    const userTransactions = this.transactionDataService.allTransactions.filter((transaction: Transaction) => transaction.userId === this.userId);
+    console.log('User transactions: ', userTransactions);
+    this.userTransactions = userTransactions;
   }
 
   openEditAddressDialog() {
@@ -71,7 +84,6 @@ export class UserDetailComponent {
     dialog.componentInstance.user = new User(this.user);
     dialog.componentInstance.userId = this.userId;
   }
-
 
   formatDate(timestamp: number): string {
     const date = new Date(timestamp);

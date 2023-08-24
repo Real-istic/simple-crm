@@ -38,6 +38,8 @@ import { DashboardMiddleSectionComponent } from './dashboard-middle-section/dash
 import { DashboardBottomSectionComponent } from './dashboard-bottom-section/dashboard-bottom-section.component';
 import { DashboardRightSectionComponent } from './dashboard-right-section/dashboard-right-section.component';
 import { DialogAddTransactionComponent } from './dialog-add-transaction/dialog-add-transaction.component';
+import { UserDataService } from './user-data.service';
+import { TransactionDataService } from './transaction-data.service';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,7 @@ import { DialogAddTransactionComponent } from './dialog-add-transaction/dialog-a
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore())
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, UserDataService, TransactionDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
