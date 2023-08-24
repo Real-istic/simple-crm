@@ -1,5 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
+import { UserDataService } from './user-data.service';
+import { TransactionDataService } from './transaction-data.service';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +10,16 @@ import { Firestore } from '@angular/fire/firestore';
 })
 export class AppComponent {
   firestore: Firestore = inject(Firestore);
+  userDataService: UserDataService = inject(UserDataService);
+  transactionDataService: TransactionDataService = inject(TransactionDataService);
   title = 'simple-crm';
+
+
+  async ngOnInit() {
+    await this.userDataService.initialize();
+    await this.transactionDataService.initialize();
+    console.log('APP COMPONENT ACTIVATED')
+  }
 }
+
+

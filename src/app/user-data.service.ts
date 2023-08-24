@@ -3,7 +3,7 @@ import { Firestore, onSnapshot } from '@angular/fire/firestore';
 import { collection } from '@firebase/firestore';
 import { User } from 'src/models/user.class';
 import { TransactionDataService } from './transaction-data.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +15,13 @@ export class UserDataService {
   allUsers = [] as any;
   user = new User();
 
-  private initializedSubject = new BehaviorSubject<boolean>(false);
-  initialized$ = this.initializedSubject.asObservable();
+  private dataChange = new BehaviorSubject<boolean>(false);
+  dataChange$ = this.dataChange.asObservable();
 
-  private userCountSubject = new BehaviorSubject<number[]>([]);
-  userCount$ = this.userCountSubject.asObservable();
+  private allUsersSubject = new BehaviorSubject<User[]>([]);
+  allUsers$: Observable<User[]> = this.allUsersSubject.asObservable();
 
-  constructor() {
-    this.initialize();
-  }
+  constructor() { }
 
   async initialize() {
     const userCollection = collection(this.firestore, 'users');
@@ -34,15 +32,20 @@ export class UserDataService {
         snapshot.docs.forEach((doc) => {
           this.allUsers.push(new User({ ...doc.data(), id: doc.id }));
         });
+        console.log('INITIALIZED', this.dataChange.value)
+        this.updateDataChange();
         resolve();
       });
     });
     console.log('USER DATA SERVICE:', this.allUsers);
     console.log('USER DATA SERVICE ACTIVATED')
-
-
-    this.initializedSubject.next(true);
   }
+
+  private updateDataChange() {
+    this.dataChange.next(true);
+  }
+
+
 
   async getUserCountPerMonth() {
     this.userCountPerMonth = [];
@@ -62,6 +65,10 @@ export class UserDataService {
       this.userCountPerMonth.push(sum);
     }
     return this.userCountPerMonth;
+  }
+
+  async getUserCount() {
+    return this.allUsers.length;
   }
 
 }

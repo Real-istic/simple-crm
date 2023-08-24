@@ -21,15 +21,13 @@ export class DashboardTopSectionComponent implements OnInit {
   async ngOnInit() {
     // await this.userDataService.initialize();
     // await this.transactionDataService.initialize();
-
-    this.userDataService.initialized$.subscribe(async initialized => {
+    this.userDataService.dataChange$.subscribe(async (initialized: any) => {
       if (initialized) {
         this.userCount = await this.userDataService.allUsers.length;
         this.allRevenue = await this.transactionDataService.getAllRevenue();
         this.transactionCount = await this.transactionDataService.getTransactionCount();
       }
     });
-
     // this.userCount = await this.userDataService.allUsers.length;
     // this.allRevenue = await this.transactionDataService.getAllRevenue();
     // this.transactionCount = await this.transactionDataService.getTransactionCount();

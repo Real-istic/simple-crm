@@ -32,8 +32,8 @@ export class DashboardBottomSectionComponent {
   constructor() { }
 
   async ngOnInit() {
-    await this.userDataService.initialize();
-    this.allUsers = await this.userDataService.allUsers;
+    // await this.userDataService.initialize();
+    // this.allUsers = await this.userDataService.allUsers;
     // this.allUsers.sort((a: any, b: any) => this.sortByLastTransactionDate(a, b));
     this.dataSource = new MatTableDataSource(this.allUsers);
     this.dataSource.paginator = this.paginator;

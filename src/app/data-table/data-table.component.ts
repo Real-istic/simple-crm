@@ -32,20 +32,6 @@ export class DataTableComponent {
   constructor() {
   }
 
-  // async ngOnInit() {
-  //   const userCollection = collection(this.firestore, 'users');
-
-  //   onSnapshot(userCollection, (snapshot) => {
-  //     this.allUsers = [];
-  //     snapshot.docs.forEach((doc) => {
-  //     this.allUsers.push(new User({ ...doc.data(), id: doc.id }));
-  //     });
-  //     this.dataSource = new MatTableDataSource(this.allUsers);
-  //     this.dataSource.paginator = this.paginator;
-  //     this.dataSource.sort = this.sort;
-  //   });
-  // }
-
   async ngOnInit() {
     const userCollection = collection(this.firestore, 'users');
 
