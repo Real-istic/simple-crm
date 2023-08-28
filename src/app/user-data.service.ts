@@ -15,10 +15,7 @@ export class UserDataService {
   allUsers = [] as any;
   user = new User();
 
-  private dataChange = new BehaviorSubject<boolean>(false);
-  dataChange$ = this.dataChange.asObservable();
-
-  private allUsersSubject = new BehaviorSubject<User[]>([]);
+  allUsersSubject = new BehaviorSubject<User[]>([]);
   allUsers$: Observable<User[]> = this.allUsersSubject.asObservable();
 
   constructor() { }
@@ -32,20 +29,13 @@ export class UserDataService {
         snapshot.docs.forEach((doc) => {
           this.allUsers.push(new User({ ...doc.data(), id: doc.id }));
         });
-        console.log('INITIALIZED', this.dataChange.value)
-        this.updateDataChange();
+        this.allUsersSubject.next(this.allUsers);
         resolve();
       });
     });
     console.log('USER DATA SERVICE:', this.allUsers);
     console.log('USER DATA SERVICE ACTIVATED')
   }
-
-  private updateDataChange() {
-    this.dataChange.next(true);
-  }
-
-
 
   async getUserCountPerMonth() {
     this.userCountPerMonth = [];
@@ -65,10 +55,6 @@ export class UserDataService {
       this.userCountPerMonth.push(sum);
     }
     return this.userCountPerMonth;
-  }
-
-  async getUserCount() {
-    return this.allUsers.length;
   }
 
 }

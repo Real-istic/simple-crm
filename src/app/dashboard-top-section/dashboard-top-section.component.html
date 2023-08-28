@@ -2,7 +2,7 @@
   <mat-card class="top-info-card">
     <mat-icon>assignment_ind</mat-icon>
     <mat-card-content class="top-info-header">Users</mat-card-content>
-    <span>{{userCount}}</span>
+    <span>{{ (userDataService.allUsers$ | async)?.length }}</span>
   </mat-card>
   <mat-card class="top-info-card">
     <mat-icon>euro</mat-icon>
