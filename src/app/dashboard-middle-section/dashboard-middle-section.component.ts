@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-middle-section',
@@ -9,20 +10,20 @@ import { TransactionDataService } from '../transaction-data.service';
   styleUrls: ['./dashboard-middle-section.component.scss']
 })
 export class DashboardMiddleSectionComponent {
-  UserDataService: UserDataService = inject(UserDataService);
-  TransactionDataService: TransactionDataService = inject(TransactionDataService);
+  userDataService: UserDataService = inject(UserDataService);
+  transactionDataService: TransactionDataService = inject(TransactionDataService);
 
-  userCount!: number[];
+  userCount = this.userDataService.userCountPerMonth;
   userRevenue!: number[];
-  TransactionCount!: number[];
+  transactionCount!: number[];
 
   constructor() { }
 
   async ngOnInit() {
-    await this.TransactionDataService.initialize();
-    this.userCount = await this.UserDataService.getUserCountPerMonth();
-    this.userRevenue = await this.TransactionDataService.getRevenuePerMonth();
-    this.TransactionCount = await this.TransactionDataService.getTransactionCountPerMonth();
+    // await this.TransactionDataService.initialize();
+    // this.userCount = await this.userDataService.getUserCountPerMonth();
+    this.userRevenue = await this.transactionDataService.getRevenuePerMonth();
+    this.transactionCount = await this.transactionDataService.getTransactionCountPerMonth();
 
     let options = {
       title: {
@@ -58,7 +59,7 @@ export class DashboardMiddleSectionComponent {
         },
         {
           name: "Transactions",
-          data: this.TransactionCount
+          data: this.transactionCount
         }
       ],
       xaxis: {

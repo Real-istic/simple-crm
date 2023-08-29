@@ -1,18 +1,26 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, onSnapshot } from '@angular/fire/firestore';
 import { collection } from '@firebase/firestore';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Transaction } from 'src/models/transaction.class';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionDataService {
   firestore: Firestore = inject(Firestore);
-  allTransactions = [] as any;
-  allRevenue: number = 0;
+  allTransactions: Transaction[] = [];
+  // allRevenue: number = 0;
   transactionCount: number = 0;
   transactionCountPerMonth: number[] = [];
   revenuePerMonth: number[] = [];
   monthsForChart: number[] = [4, 5, 6, 7, 8]; // 4 = May, 5 = June, 6 = July, 7 = August, 8 = September (remember that January = 0, February = 1, etc.)
+
+  allTransactionsSubject = new BehaviorSubject<Transaction[]>([]);
+  allTransactions$: Observable<Transaction[]> = this.allTransactionsSubject.asObservable();
+
+  allRevenueSubject = new BehaviorSubject<number>(0);
+  allRevenue$: Observable<number> = this.allRevenueSubject.asObservable();
 
   constructor() { }
 
@@ -22,8 +30,10 @@ export class TransactionDataService {
       onSnapshot(transactionCollection, (snapshot) => {
         this.allTransactions = [];
         snapshot.docs.forEach((doc) => {
-          this.allTransactions.push(doc.data());
+          this.allTransactions.push(new Transaction({ ...doc.data(), id: doc.id }));
         });
+        this.allTransactionsSubject.next(this.allTransactions);
+        this.getAllRevenue();
         resolve();
       });
     });
@@ -39,8 +49,7 @@ export class TransactionDataService {
       sum += value;
       transactions += 1;
     }
-    this.allRevenue = sum;
-    return this.allRevenue;
+    this.allRevenueSubject.next(sum);
   }
 
   getTransactionCount() {
@@ -50,7 +59,7 @@ export class TransactionDataService {
 
 
   async getTransactionCountPerMonth() {
-    this.transactionCountPerMonth = []; // Clear the array before populating
+    this.transactionCountPerMonth = [];
     for (let i = 0; i < this.monthsForChart.length; i++) {
       const targetMonth = this.monthsForChart[i];
       let sum = 0;

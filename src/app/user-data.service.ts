@@ -12,11 +12,15 @@ export class UserDataService {
   firestore: Firestore = inject(Firestore);
   transactionDataService: TransactionDataService = inject(TransactionDataService);
   userCountPerMonth: number[] = [];
-  allUsers = [] as any;
+  allUsers: User[] = [];
   user = new User();
 
   allUsersSubject = new BehaviorSubject<User[]>([]);
   allUsers$: Observable<User[]> = this.allUsersSubject.asObservable();
+
+  userCountPerMonthSubject = new BehaviorSubject<number[]>([]);
+  userCountPerMonth$: Observable<number[]> = this.userCountPerMonthSubject.asObservable();
+
 
   constructor() { }
 
@@ -30,6 +34,8 @@ export class UserDataService {
           this.allUsers.push(new User({ ...doc.data(), id: doc.id }));
         });
         this.allUsersSubject.next(this.allUsers);
+        this.userCountPerMonthSubject.next(this.userCountPerMonth);
+        this.getUserCountPerMonth();
         resolve();
       });
     });

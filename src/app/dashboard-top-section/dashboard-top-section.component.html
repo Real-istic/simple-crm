@@ -7,11 +7,11 @@
   <mat-card class="top-info-card">
     <mat-icon>euro</mat-icon>
     <mat-card-content class="top-info-header">Revenue</mat-card-content>
-    <span>{{allRevenue}}</span>
+    <span>{{ (transactionDataService.allRevenue$ | async) }}</span>
   </mat-card>
   <mat-card class="top-info-card">
     <mat-icon>receipt_long</mat-icon>
     <mat-card-content class="top-info-header">Transactions</mat-card-content>
-    <span>{{transactionCount}}</span>
+    <span>{{ (transactionDataService.allTransactions$ | async)?.length}}</span>
   </mat-card>
 </div>
