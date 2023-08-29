@@ -33,9 +33,9 @@ export class UserDataService {
         snapshot.docs.forEach((doc) => {
           this.allUsers.push(new User({ ...doc.data(), id: doc.id }));
         });
+        this.getUserCountPerMonth();
         this.allUsersSubject.next(this.allUsers);
         this.userCountPerMonthSubject.next(this.userCountPerMonth);
-        this.getUserCountPerMonth();
         resolve();
       });
     });
@@ -60,6 +60,7 @@ export class UserDataService {
       }
       this.userCountPerMonth.push(sum);
     }
+    console.log('USER COUNT PER MONTH:', this.userCountPerMonth);
     return this.userCountPerMonth;
   }
 

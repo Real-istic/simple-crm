@@ -9,8 +9,7 @@ import { Transaction } from 'src/models/transaction.class';
 })
 export class TransactionDataService {
   firestore: Firestore = inject(Firestore);
-  allTransactions: Transaction[] = [];
-  // allRevenue: number = 0;
+  allTransactions: any [] = [];
   transactionCount: number = 0;
   transactionCountPerMonth: number[] = [];
   revenuePerMonth: number[] = [];
@@ -22,6 +21,9 @@ export class TransactionDataService {
   allRevenueSubject = new BehaviorSubject<number>(0);
   allRevenue$: Observable<number> = this.allRevenueSubject.asObservable();
 
+  transactionCountPerMonthSubject = new BehaviorSubject<number[]>([]);
+  transactionCountPerMonth$: Observable<number[]> = this.transactionCountPerMonthSubject.asObservable();
+
   constructor() { }
 
   async initialize() {
@@ -30,10 +32,13 @@ export class TransactionDataService {
       onSnapshot(transactionCollection, (snapshot) => {
         this.allTransactions = [];
         snapshot.docs.forEach((doc) => {
-          this.allTransactions.push(new Transaction({ ...doc.data(), id: doc.id }));
+          this.allTransactions.push(doc.data());
         });
         this.allTransactionsSubject.next(this.allTransactions);
         this.getAllRevenue();
+        this.getTransactionCountPerMonth();
+        this.transactionCountPerMonthSubject.next(this.transactionCountPerMonth) ;
+        console.log('transactions length:', this.allTransactions.length);
         resolve();
       });
     });

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
+import { user } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -12,15 +13,15 @@ import { Observable } from 'rxjs';
 export class DashboardMiddleSectionComponent {
   userDataService: UserDataService = inject(UserDataService);
   transactionDataService: TransactionDataService = inject(TransactionDataService);
-
-  userCount = this.userDataService.userCountPerMonth;
+  chart: ApexCharts | undefined;
+  userCount!: number[];
   userRevenue!: number[];
   transactionCount!: number[];
 
   constructor() { }
 
   async ngOnInit() {
-    // await this.TransactionDataService.initialize();
+    await this.transactionDataService.initialize();
     // this.userCount = await this.userDataService.getUserCountPerMonth();
     this.userRevenue = await this.transactionDataService.getRevenuePerMonth();
     this.transactionCount = await this.transactionDataService.getTransactionCountPerMonth();
@@ -51,7 +52,7 @@ export class DashboardMiddleSectionComponent {
       series: [
         {
           name: "New Users",
-          data: this.userCount
+          data: this.userDataService.userCountPerMonth
         },
         {
           name: "Revenue",
@@ -66,10 +67,38 @@ export class DashboardMiddleSectionComponent {
         categories: ['Mar 2023', 'Jun 2023', 'Jul 2023', 'Aug 2023', 'Sep 2023']
       }
     }
+    this.userDataService.allUsers$.subscribe(() => {
+      this.updateChartSeries();
+    });
+    this.transactionDataService.allTransactions$.subscribe(() => {
+      this.updateChartSeries();
+    });
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    this.chart = new ApexCharts(document.querySelector("#chart"), options);
+    this.chart.render();
+  }
 
-    chart.render();
+  async updateChartSeries() {
+    if (this.chart) {
+      // this.userCountPerMonth = await this.userDataService.getUserCountPerMonth();
+      this.userRevenue = await this.transactionDataService.getRevenuePerMonth();
+      this.transactionCount = await this.transactionDataService.getTransactionCountPerMonth();
+
+      this.chart.updateSeries([
+        {
+          name: "New Users",
+          data: this.userDataService.userCountPerMonth
+        },
+        {
+          name: "Revenue",
+          data: this.userRevenue
+        },
+        {
+          name: "Transactions",
+          data: this.transactionCount
+        }
+      ]);
+    }
   }
 
 }

@@ -59,7 +59,7 @@ export class UserDetailComponent {
   }
 
   async getUserTransactions() {
-    this.transactionDataService.initialize();
+    await this.transactionDataService.initialize();
     const userTransactions = this.transactionDataService.allTransactions.filter((transaction: Transaction) => transaction.userId === this.userId);
     console.log('User transactions: ', userTransactions);
     this.userTransactions = userTransactions;

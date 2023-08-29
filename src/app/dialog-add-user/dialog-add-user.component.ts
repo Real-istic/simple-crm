@@ -205,8 +205,8 @@ export class DialogAddUserComponent {
 
   async saveUser() {
     this.loading = true;
-    this.user.birthDate = Math.floor(new Date(this.user.birthDate).getTime());
-    this.user.registrationDate = Math.floor(new Date().getTime());
+    this.user.birthDate = Math.floor(new Date(this.user.birthDate).getTime() / 1000);
+    this.user.registrationDate = Math.floor(new Date().getTime() / 1000);
     let userCollection = collection(this.firestore, 'users')
     const userDocRef = doc(userCollection)
     this.user.id = userDocRef.id;
