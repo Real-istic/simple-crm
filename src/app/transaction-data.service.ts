@@ -10,9 +10,6 @@ import { Transaction } from 'src/models/transaction.class';
 export class TransactionDataService {
   firestore: Firestore = inject(Firestore);
   allTransactions: any [] = [];
-  transactionCount: number = 0;
-  transactionCountPerMonth: number[] = [];
-  revenuePerMonth: number[] = [];
   monthsForChart: number[] = [4, 5, 6, 7, 8]; // 4 = May, 5 = June, 6 = July, 7 = August, 8 = September (remember that January = 0, February = 1, etc.)
 
   allTransactionsSubject = new BehaviorSubject<Transaction[]>([]);
@@ -21,11 +18,6 @@ export class TransactionDataService {
   allRevenueSubject = new BehaviorSubject<number>(0);
   allRevenue$: Observable<number> = this.allRevenueSubject.asObservable();
 
-  transactionCountPerMonthSubject = new BehaviorSubject<number[]>([]);
-  transactionCountPerMonth$: Observable<number[]> = this.transactionCountPerMonthSubject.asObservable();
-
-  revenuePerMonthSubject = new BehaviorSubject<number[]>([]);
-  revenuePerMonth$: Observable<number[]> = this.revenuePerMonthSubject.asObservable();
 
   constructor() { }
 
@@ -39,8 +31,6 @@ export class TransactionDataService {
         });
         this.allTransactionsSubject.next(this.allTransactions);
         this.getAllRevenue();
-        this.getTransactionCountPerMonth();
-        this.transactionCountPerMonthSubject.next(this.transactionCountPerMonth) ;
         console.log('transactions length:', this.allTransactions.length);
         resolve();
       });
@@ -60,14 +50,8 @@ export class TransactionDataService {
     this.allRevenueSubject.next(sum);
   }
 
-  getTransactionCount() {
-    this.transactionCount = this.allTransactions.length;
-    return this.transactionCount;
-  }
-
-
   async getTransactionCountPerMonth() {
-    this.transactionCountPerMonth = [];
+    let transactionCountPerMonth: number[] = [];
     for (let i = 0; i < this.monthsForChart.length; i++) {
       const targetMonth = this.monthsForChart[i];
       let sum = 0;
@@ -80,13 +64,13 @@ export class TransactionDataService {
           sum += 1;
         }
       }
-      this.transactionCountPerMonth.push(sum);
+      transactionCountPerMonth.push(sum);
     }
-    return this.transactionCountPerMonth;
+    return transactionCountPerMonth;
   }
 
   async getRevenuePerMonth() {
-    this.revenuePerMonth = [];
+    let revenuePerMonth: number[] = [];
     for (let i = 0; i < this.monthsForChart.length; i++) {
       const targetMonth = this.monthsForChart[i];
       let sum = 0;
@@ -100,9 +84,9 @@ export class TransactionDataService {
           sum += value;
         }
       }
-      this.revenuePerMonth.push(sum);
+      revenuePerMonth.push(sum);
     }
-    return this.revenuePerMonth;
+    return revenuePerMonth;
   }
 
 }

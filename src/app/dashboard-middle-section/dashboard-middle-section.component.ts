@@ -2,8 +2,6 @@ import { Component, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
-import { user } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-middle-section',
@@ -14,13 +12,16 @@ export class DashboardMiddleSectionComponent {
   userDataService: UserDataService = inject(UserDataService);
   transactionDataService: TransactionDataService = inject(TransactionDataService);
   chart: ApexCharts | undefined;
-  userCount!: number[];
-  userRevenue!: number[];
-  transactionCount!: number[];
 
   constructor() { }
 
   async ngOnInit() {
+    this.userDataService.allUsers$.subscribe(() => {
+      this.updateChartSeries();
+    });
+    this.transactionDataService.allTransactions$.subscribe(() => {
+      this.updateChartSeries();
+    });
 
     let options = {
       title: {
@@ -48,27 +49,21 @@ export class DashboardMiddleSectionComponent {
       series: [
         {
           name: "New Users",
-          data: this.userDataService.userCountPerMonth
+          data: await this.userDataService.getUserCountPerMonth()
         },
         {
           name: "Revenue",
-          data: this.transactionDataService.revenuePerMonth
+          data: await this.transactionDataService.getRevenuePerMonth()
         },
         {
           name: "Transactions",
-          data: this.transactionDataService.transactionCountPerMonth
+          data: this.transactionDataService.getTransactionCountPerMonth()
         }
       ],
       xaxis: {
         categories: ['Mar 2023', 'Jun 2023', 'Jul 2023', 'Aug 2023', 'Sep 2023']
       }
     }
-    this.userDataService.allUsers$.subscribe(() => {
-      this.updateChartSeries();
-    });
-    this.transactionDataService.allTransactions$.subscribe(() => {
-      this.updateChartSeries();
-    });
 
     this.chart = new ApexCharts(document.querySelector("#chart"), options);
     this.chart.render();
@@ -76,22 +71,18 @@ export class DashboardMiddleSectionComponent {
 
   async updateChartSeries() {
     if (this.chart) {
-      // this.userCountPerMonth = await this.userDataService.getUserCountPerMonth();
-      this.userRevenue = await this.transactionDataService.getRevenuePerMonth();
-      this.transactionCount = await this.transactionDataService.getTransactionCountPerMonth();
-
       this.chart.updateSeries([
         {
           name: "New Users",
-          data: this.userDataService.userCountPerMonth
+          data: await this.userDataService.getUserCountPerMonth()
         },
         {
           name: "Revenue",
-          data: this.userRevenue
+          data: await this.transactionDataService.getRevenuePerMonth()
         },
         {
           name: "Transactions",
-          data: this.transactionCount
+          data: await this.transactionDataService.getTransactionCountPerMonth()
         }
       ]);
     }

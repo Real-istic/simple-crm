@@ -11,16 +11,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class UserDataService {
   firestore: Firestore = inject(Firestore);
   transactionDataService: TransactionDataService = inject(TransactionDataService);
-  userCountPerMonth: number[] = [];
+
   allUsers: User[] = [];
-  user = new User();
+  // user = new User();
 
   allUsersSubject = new BehaviorSubject<User[]>([]);
   allUsers$: Observable<User[]> = this.allUsersSubject.asObservable();
-
-  userCountPerMonthSubject = new BehaviorSubject<number[]>([]);
-  userCountPerMonth$: Observable<number[]> = this.userCountPerMonthSubject.asObservable();
-
 
   constructor() { }
 
@@ -35,7 +31,6 @@ export class UserDataService {
         });
         this.getUserCountPerMonth();
         this.allUsersSubject.next(this.allUsers);
-        this.userCountPerMonthSubject.next(this.userCountPerMonth);
         resolve();
       });
     });
@@ -44,7 +39,7 @@ export class UserDataService {
   }
 
   async getUserCountPerMonth() {
-    this.userCountPerMonth = [];
+    let userCountPerMonth: number[] = [];
     for (let i = 0; i < this.transactionDataService.monthsForChart.length; i++) {
       const targetMonth = this.transactionDataService.monthsForChart[i];
       let sum = 0;
@@ -58,10 +53,10 @@ export class UserDataService {
           sum += 1;
         }
       }
-      this.userCountPerMonth.push(sum);
+      userCountPerMonth.push(sum);
     }
-    console.log('USER COUNT PER MONTH:', this.userCountPerMonth);
-    return this.userCountPerMonth;
+    console.log('USER COUNT PER MONTH:', userCountPerMonth);
+    return userCountPerMonth;
   }
 
 }
