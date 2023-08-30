@@ -24,6 +24,9 @@ export class TransactionDataService {
   transactionCountPerMonthSubject = new BehaviorSubject<number[]>([]);
   transactionCountPerMonth$: Observable<number[]> = this.transactionCountPerMonthSubject.asObservable();
 
+  revenuePerMonthSubject = new BehaviorSubject<number[]>([]);
+  revenuePerMonth$: Observable<number[]> = this.revenuePerMonthSubject.asObservable();
+
   constructor() { }
 
   async initialize() {

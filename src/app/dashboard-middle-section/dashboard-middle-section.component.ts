@@ -21,10 +21,6 @@ export class DashboardMiddleSectionComponent {
   constructor() { }
 
   async ngOnInit() {
-    await this.transactionDataService.initialize();
-    // this.userCount = await this.userDataService.getUserCountPerMonth();
-    this.userRevenue = await this.transactionDataService.getRevenuePerMonth();
-    this.transactionCount = await this.transactionDataService.getTransactionCountPerMonth();
 
     let options = {
       title: {
@@ -56,11 +52,11 @@ export class DashboardMiddleSectionComponent {
         },
         {
           name: "Revenue",
-          data: this.userRevenue
+          data: this.transactionDataService.revenuePerMonth
         },
         {
           name: "Transactions",
-          data: this.transactionCount
+          data: this.transactionDataService.transactionCountPerMonth
         }
       ],
       xaxis: {
