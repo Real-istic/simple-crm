@@ -25,7 +25,7 @@ export class DashboardMiddleSectionComponent {
 
     let options = {
       title: {
-        text: 'HISTORY',
+        text: 'History',
         align: 'left',
         margin: 10,
         offsetX: 0,
@@ -62,7 +62,7 @@ export class DashboardMiddleSectionComponent {
       ],
       xaxis: {
         categories: ['Mar 2023', 'Jun 2023', 'Jul 2023', 'Aug 2023', 'Sep 2023']
-      }
+      },
     }
 
     this.chart = new ApexCharts(document.querySelector("#chart"), options);

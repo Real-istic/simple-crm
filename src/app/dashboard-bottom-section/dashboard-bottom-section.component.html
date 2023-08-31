@@ -14,7 +14,7 @@
         <ng-container matColumnDef="price">
           <th mat-header-cell *matHeaderCellDef> Price </th>
           <td [routerLink]="['/user/' + transaction.userId]" mat-cell *matCellDef="let transaction">
-            {{ transaction.price }}
+            {{ transaction.price + ' €'}}
           </td>
         </ng-container>
 
