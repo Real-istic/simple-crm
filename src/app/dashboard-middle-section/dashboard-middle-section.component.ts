@@ -57,7 +57,7 @@ export class DashboardMiddleSectionComponent {
         },
         {
           name: "Transactions",
-          data: this.transactionDataService.getTransactionCountPerMonth()
+          data: await this.transactionDataService.getTransactionCountPerMonth()
         }
       ],
       xaxis: {
@@ -67,6 +67,8 @@ export class DashboardMiddleSectionComponent {
 
     this.chart = new ApexCharts(document.querySelector("#chart"), options);
     this.chart.render();
+
+
   }
 
   async updateChartSeries() {
