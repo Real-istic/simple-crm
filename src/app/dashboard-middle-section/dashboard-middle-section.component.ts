@@ -67,8 +67,6 @@ export class DashboardMiddleSectionComponent {
 
     this.chart = new ApexCharts(document.querySelector("#chart"), options);
     this.chart.render();
-
-
   }
 
   async updateChartSeries() {
