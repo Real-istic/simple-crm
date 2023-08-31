@@ -1,29 +1,28 @@
-<!-- <div class="table-wrapper">
+<div class="table-wrapper">
   <div class="mat-elevation-z8">
     <h3>Latest Transactions</h3>
     <table mat-table [dataSource]="dataSource">
       <div class="user-wrapper">
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef> User </th>
-          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user"> {{user.email}} </td>
-        </ng-container>
 
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef> Description </th>
-          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user">
-            {{user.transactions[user.transactions.length -1].description}} </td>
+          <td [routerLink]="['/user/' + transaction.userId]" mat-cell *matCellDef="let transaction">
+            {{ transaction.description }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="price">
           <th mat-header-cell *matHeaderCellDef> Price </th>
-          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user">
-            {{user.transactions[user.transactions.length -1].price}} </td>
+          <td [routerLink]="['/user/' + transaction.userId]" mat-cell *matCellDef="let transaction">
+            {{ transaction.price }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef> Date </th>
-          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user">
-            {{ formatDate(user.transactions[user.transactions.length - 1].date) }} </td>
+          <td [routerLink]="['/user/' + transaction.userId]" mat-cell *matCellDef="let transaction">
+            {{ formatDate(transaction.date) }}
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -33,4 +32,4 @@
 
     <mat-paginator [pageSizeOptions]="[3]" aria-label="Select page of users"></mat-paginator>
   </div>
-</div> -->
+</div>

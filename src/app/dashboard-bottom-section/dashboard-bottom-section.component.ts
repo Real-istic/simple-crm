@@ -3,11 +3,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from 'src/models/user.class';
-import { collection } from '@firebase/firestore';
-import { Firestore, onSnapshot } from '@angular/fire/firestore';
+import { Transaction } from 'src/models/transaction.class';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { UserDataService } from '../user-data.service';
+import { TransactionDataService } from '../transaction-data.service';
+
 
 
 @Component({
@@ -16,15 +17,15 @@ import { UserDataService } from '../user-data.service';
   styleUrls: ['./dashboard-bottom-section.component.scss']
 })
 export class DashboardBottomSectionComponent {
-  firestore: Firestore = inject(Firestore);
   dialog: MatDialog = inject(MatDialog);
   route: ActivatedRoute = inject(ActivatedRoute);
   userDataService: UserDataService = inject(UserDataService);
+  transactionDataService: TransactionDataService = inject(TransactionDataService);
 
-  displayedColumns: string[] = ['email', 'description', 'price', 'date'];
+  displayedColumns: string[] = ['description', 'price', 'date'];
   dataSource!: MatTableDataSource<User>;
-  user = new User();
-  allUsers = [] as any;
+
+  allTransactions: any[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -32,19 +33,23 @@ export class DashboardBottomSectionComponent {
   constructor() { }
 
   async ngOnInit() {
-    // await this.userDataService.initialize();
-    // this.allUsers = await this.userDataService.allUsers;
-    // this.allUsers.sort((a: any, b: any) => this.sortByLastTransactionDate(a, b));
-    this.dataSource = new MatTableDataSource(this.allUsers);
+    await this.transactionDataService.initialize();
+
+    this.transactionDataService.allTransactions$.subscribe(() => {
+      this.allTransactions = this.transactionDataService.allTransactions;
+    });
+
+    this.allTransactions.sort((a: any, b: any) => this.sortByLastTransactionDate(a, b));
+    this.dataSource = new MatTableDataSource(this.allTransactions);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  // sortByLastTransactionDate(a: User, b: User): number {
-  //   const lastTransactionDateA = a.transactions[a.transactions.length - 1]?.date || 0;
-  //   const lastTransactionDateB = b.transactions[b.transactions.length - 1]?.date || 0;
-  //   return lastTransactionDateB - lastTransactionDateA;
-  // }
+  sortByLastTransactionDate(a: any, b: any) {
+    const aDate = new Date(a.date);
+    const bDate = new Date(b.date);
+    return bDate.getTime() - aDate.getTime();
+  }
 
   formatDate(timestamp: number): string {
     const date = new Date(timestamp);
