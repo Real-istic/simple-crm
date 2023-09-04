@@ -89,6 +89,30 @@ export class TransactionDataService {
     return revenuePerMonth;
   }
 
+  async getTransactionAmountPerDescription() {
+    const TransactionAmountPerDescription: number[] = [0, 0, 0, 0];
+    for (const transaction of this.allTransactions) {
+      const transactionType = transaction.description;
+      switch (transactionType) {
+        case 'Bronze Package':
+          TransactionAmountPerDescription[0] += 1;
+          break;
+        case 'Silver Package':
+          TransactionAmountPerDescription[1] += 1;
+          break;
+        case 'Gold Package':
+          TransactionAmountPerDescription[2] += 1;
+          break;
+        case 'Platinum Package':
+          TransactionAmountPerDescription[3] += 1;
+          break;
+        default:
+          break;
+      }
+    }
+    return TransactionAmountPerDescription;
+  }
+
 }
 
 

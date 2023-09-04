@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-middle-section',
@@ -16,10 +17,12 @@ export class DashboardMiddleSectionComponent {
   constructor() { }
 
   async ngOnInit() {
-    this.userDataService.allUsers$.subscribe(() => {
-      this.updateChartSeries();
-    });
-    this.transactionDataService.allTransactions$.subscribe(() => {
+    // await this.transactionDataService.initialize();
+
+    const allUsers$ = this.userDataService.allUsers$;
+    const allTransactions$ = this.transactionDataService.allTransactions$;
+
+    merge(allUsers$, allTransactions$).subscribe(() => {
       this.updateChartSeries();
     });
 
@@ -61,8 +64,21 @@ export class DashboardMiddleSectionComponent {
         }
       ],
       xaxis: {
-        categories: ['Mar 2023', 'Jun 2023', 'Jul 2023', 'Aug 2023', 'Sep 2023']
+        categories: ['May 2023', 'Jun 2023', 'Jul 2023', 'Aug 2023', 'Sep 2023']
       },
+      animations: {
+        enabled: true,
+        easing: 'easeinout',
+        speed: 300,
+        animateGradually: {
+          enabled: true,
+          delay: 150
+        },
+        dynamicAnimation: {
+          enabled: true,
+          speed: 150
+        }
+      }
     }
 
     this.chart = new ApexCharts(document.querySelector("#chart"), options);
