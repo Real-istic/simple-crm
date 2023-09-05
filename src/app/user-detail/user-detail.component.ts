@@ -9,7 +9,7 @@ import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.co
 import { DialogAddTransactionComponent } from '../dialog-add-transaction/dialog-add-transaction.component';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 @Component({
@@ -31,11 +31,12 @@ export class UserDetailComponent {
   transactionId: string = '';
   transaction: Transaction = new Transaction();
 
+  userSubject = new BehaviorSubject<User>(new User());
+  user$ = this.userSubject.asObservable();
+
   userTransactionsSubject = new BehaviorSubject<Transaction[]>([]);
   userTransactions$ = this.userTransactionsSubject.asObservable();
 
-  userSubject = new BehaviorSubject<User>(new User());
-  user$ = this.userSubject.asObservable();
 
   constructor() { }
 
@@ -44,6 +45,7 @@ export class UserDetailComponent {
       this.userId = params.get('id') || '';
       console.log('User-id: ', this.userId);
       this.getUser();
+      this.getUserTransactions();
     });
     this.transactionDataService.allTransactions$.subscribe(() => {
       this.getUserTransactions();
@@ -52,21 +54,6 @@ export class UserDetailComponent {
       this.getUser();
     });
   }
-
-  // async getUser() {
-  //   const userCollection = collection(this.firestore, 'users');
-
-  //   onSnapshot(userCollection, (snapshot) => {
-  //     const userDoc = snapshot.docs.find((doc) => doc.id === this.userId);
-  //     if (userDoc) {
-  //       this.user = new User(null);
-  //       this.user = new User({ ...userDoc.data(), id: userDoc.id });
-  //       console.log('this user: ', this.user);
-  //     } else {
-  //       console.log('User not found');
-  //     }
-  //   });
-  // }
 
   async getUser() {
     const userDoc = this.userDataService.allUsers.find((doc) => doc.id === this.userId);

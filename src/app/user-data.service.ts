@@ -58,4 +58,15 @@ export class UserDataService {
     return userCountPerMonth;
   }
 
+  getUser(id: string): Observable<User> {
+    return new Observable<User>((observer) => {
+      const userDoc = this.allUsers.find((doc) => doc.id === id);
+      if (userDoc) {
+        observer.next(userDoc);
+      } else {
+        console.log('User not found');
+      }
+    });
+  }
+
 }
