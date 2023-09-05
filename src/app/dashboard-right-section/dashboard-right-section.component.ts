@@ -81,11 +81,11 @@ export class DashboardRightSectionComponent {
         },
         dropShadow: {
           enabled: true,
-          top: 0.2,
-          left: 0.2,
-          blur: 0.5,
+          top: 0.1,
+          left: 0.1,
+          blur: 0.2,
           color: '#000',
-          opacity: 0.35
+          opacity: 0.1
         }
       },
       plotOptions: {

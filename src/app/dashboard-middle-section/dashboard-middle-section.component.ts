@@ -13,20 +13,24 @@ export class DashboardMiddleSectionComponent {
   userDataService: UserDataService = inject(UserDataService);
   transactionDataService: TransactionDataService = inject(TransactionDataService);
   chart: ApexCharts | undefined;
+  chartOptions: any = {};
 
   constructor() { }
 
   async ngOnInit() {
-    // await this.transactionDataService.initialize();
-
     const allUsers$ = this.userDataService.allUsers$;
     const allTransactions$ = this.transactionDataService.allTransactions$;
-
+    
     merge(allUsers$, allTransactions$).subscribe(() => {
       this.updateChartSeries();
     });
+    await this.setChartOptions();
+    this.chart = new ApexCharts(document.querySelector("#chart"), this.chartOptions);
+    this.chart.render();
+  }
 
-    let options = {
+  async setChartOptions() {
+    this.chartOptions = {
       title: {
         text: 'History',
         align: 'left',
@@ -80,9 +84,6 @@ export class DashboardMiddleSectionComponent {
         }
       }
     }
-
-    this.chart = new ApexCharts(document.querySelector("#chart"), options);
-    this.chart.render();
   }
 
   async updateChartSeries() {

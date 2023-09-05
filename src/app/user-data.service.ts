@@ -13,7 +13,6 @@ export class UserDataService {
   transactionDataService: TransactionDataService = inject(TransactionDataService);
 
   allUsers: User[] = [];
-  // user = new User();
 
   allUsersSubject = new BehaviorSubject<User[]>([]);
   allUsers$: Observable<User[]> = this.allUsersSubject.asObservable();

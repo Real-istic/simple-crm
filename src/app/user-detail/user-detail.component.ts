@@ -9,6 +9,7 @@ import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.co
 import { DialogAddTransactionComponent } from '../dialog-add-transaction/dialog-add-transaction.component';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -29,9 +30,14 @@ export class UserDetailComponent {
   user: User = new User();
   transactionId: string = '';
   transaction: Transaction = new Transaction();
-  userTransactions: Transaction[] = [];
 
-  constructor() {}
+  userTransactionsSubject = new BehaviorSubject<Transaction[]>([]);
+  userTransactions$ = this.userTransactionsSubject.asObservable();
+
+  userSubject = new BehaviorSubject<User>(new User());
+  user$ = this.userSubject.asObservable();
+
+  constructor() { }
 
   async ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -39,30 +45,45 @@ export class UserDetailComponent {
       console.log('User-id: ', this.userId);
       this.getUser();
     });
-    await this.getUserTransactions();
-  }
-
-  async getUser() {
-    const userCollection = collection(this.firestore, 'users');
-    // const userDataBase = await getDocs(userCollection);
-
-    onSnapshot(userCollection, (snapshot) => {
-      const userDoc = snapshot.docs.find((doc) => doc.id === this.userId);
-      if (userDoc) {
-        this.user = new User(null);
-        this.user = new User({ ...userDoc.data(), id: userDoc.id });
-        console.log('this user: ', this.user);
-      } else {
-        console.log('User not found');
-      }
+    this.transactionDataService.allTransactions$.subscribe(() => {
+      this.getUserTransactions();
+    });
+    this.userDataService.allUsers$.subscribe(() => {
+      this.getUser();
     });
   }
 
+  // async getUser() {
+  //   const userCollection = collection(this.firestore, 'users');
+
+  //   onSnapshot(userCollection, (snapshot) => {
+  //     const userDoc = snapshot.docs.find((doc) => doc.id === this.userId);
+  //     if (userDoc) {
+  //       this.user = new User(null);
+  //       this.user = new User({ ...userDoc.data(), id: userDoc.id });
+  //       console.log('this user: ', this.user);
+  //     } else {
+  //       console.log('User not found');
+  //     }
+  //   });
+  // }
+
+  async getUser() {
+    const userDoc = this.userDataService.allUsers.find((doc) => doc.id === this.userId);
+    if (userDoc) {
+      this.user = new User(null);
+      this.user = new User({ ...userDoc, id: userDoc.id });
+      this.userSubject.next(this.user);
+      console.log('this user: ', this.user);
+    } else {
+      console.log('User not found');
+    }
+  }
+
   async getUserTransactions() {
-    await this.transactionDataService.initialize();
     const userTransactions = this.transactionDataService.allTransactions.filter((transaction: Transaction) => transaction.userId === this.userId);
     console.log('User transactions: ', userTransactions);
-    this.userTransactions = userTransactions;
+    this.userTransactionsSubject.next(userTransactions);
   }
 
   openEditAddressDialog() {
