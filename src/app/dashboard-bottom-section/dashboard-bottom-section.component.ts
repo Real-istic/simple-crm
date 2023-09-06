@@ -25,12 +25,10 @@ export class DashboardBottomSectionComponent {
   constructor() { }
 
   async ngOnInit() {
-    await this.transactionDataService.initialize();
-    this.dataSource.paginator = this.paginator;
-
     this.transactionDataService.allTransactions$.subscribe(transactions => {
       const sortedTransactionData = transactions.sort((a: any, b: any) => this.sortByLastTransactionDate(a, b));
       this.dataSource.data = sortedTransactionData;
+      this.dataSource.paginator = this.paginator;
     });
   }
 

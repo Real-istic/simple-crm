@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { TransactionDataService } from '../transaction-data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-right-section',
@@ -10,11 +11,12 @@ import { TransactionDataService } from '../transaction-data.service';
 export class DashboardRightSectionComponent {
   transactionDataService: TransactionDataService = inject(TransactionDataService);
   chart: ApexCharts | undefined;
+  dataSubscription: Subscription | undefined;
 
   constructor() { }
 
   async ngOnInit() {
-    this.transactionDataService.allTransactions$.subscribe(() => {
+    this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(() => {
       this.updateChartSeries();
     });
 
@@ -117,7 +119,16 @@ export class DashboardRightSectionComponent {
     };
 
     this.chart = new ApexCharts(document.querySelector("#chart2"), options);
-    this.chart.render();
+    await this.chart.render();
+  }
+
+  ngOnDestroy() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
   }
 
   async updateChartSeries() {
