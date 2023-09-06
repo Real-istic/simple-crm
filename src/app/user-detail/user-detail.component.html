@@ -6,7 +6,7 @@
     <button (click)="openEditHeaderDialog()" mat-menu-item>Edit Header</button>
   </mat-menu>
   <img class="profile-pic" src="/assets/img/test-avatar.jpg" alt="">
-  <div class="user-details">
+  <div class="user-details" *ngIf="user$ | async as user">
     <h1>{{ user.firstName }} {{ user.lastName }}</h1>
     <a href="mailto:">{{ user.email }}</a>
   </div>

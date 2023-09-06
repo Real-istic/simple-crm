@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, onSnapshot } from '@angular/fire/firestore';
 import { collection } from '@firebase/firestore';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Transaction } from 'src/models/transaction.class';
 
 @Injectable({
@@ -31,7 +31,6 @@ export class TransactionDataService {
         });
         this.allTransactionsSubject.next(this.allTransactions);
         this.getAllRevenue();
-        console.log('transactions length:', this.allTransactions.length);
         resolve();
       });
     });
@@ -112,6 +111,14 @@ export class TransactionDataService {
     }
     return TransactionAmountPerDescription;
   }
+
+
+  getUserTransactions(userId: string): Observable<Transaction[]> {
+    return this.allTransactions$.pipe(
+      map(transactions => transactions.filter(transaction => transaction.userId === userId))
+    );
+  }
+
 
 }
 

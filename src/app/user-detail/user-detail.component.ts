@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/models/user.class';
@@ -9,7 +8,7 @@ import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.co
 import { DialogAddTransactionComponent } from '../dialog-add-transaction/dialog-add-transaction.component';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -18,24 +17,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./user-detail.component.scss']
 })
 
-
-
 export class UserDetailComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
-  firestore: Firestore = inject(Firestore);
   dialog: MatDialog = inject(MatDialog);
   userDataService: UserDataService = inject(UserDataService);
   transactionDataService: TransactionDataService = inject(TransactionDataService);
   userId: string = '';
-  user: User = new User();
   transactionId: string = '';
   transaction: Transaction = new Transaction();
 
-  userSubject = new BehaviorSubject<User>(new User());
-  user$ = this.userSubject.asObservable();
-
-  userTransactionsSubject = new BehaviorSubject<Transaction[]>([]);
-  userTransactions$ = this.userTransactionsSubject.asObservable();
+  user$!: Observable<User | undefined>;
+  userTransactions$!: Observable<Transaction[]>;
 
 
   constructor() { }
@@ -44,52 +36,32 @@ export class UserDetailComponent {
     this.route.paramMap.subscribe(params => {
       this.userId = params.get('id') || '';
       console.log('User-id: ', this.userId);
-      this.getUser();
-      this.getUserTransactions();
     });
-    this.transactionDataService.allTransactions$.subscribe(() => {
-      this.getUserTransactions();
-    });
-    this.userDataService.allUsers$.subscribe(() => {
-      this.getUser();
-    });
+
+    this.user$ = this.userDataService.getUser(this.userId);
+    this.userTransactions$ = this.transactionDataService.getUserTransactions(this.userId);
   }
 
-  async getUser() {
-    const userDoc = this.userDataService.allUsers.find((doc) => doc.id === this.userId);
-    if (userDoc) {
-      this.user = new User(null);
-      this.user = new User({ ...userDoc, id: userDoc.id });
-      this.userSubject.next(this.user);
-      console.log('this user: ', this.user);
-    } else {
-      console.log('User not found');
-    }
-  }
-
-  async getUserTransactions() {
-    const userTransactions = this.transactionDataService.allTransactions.filter((transaction: Transaction) => transaction.userId === this.userId);
-    console.log('User transactions: ', userTransactions);
-    this.userTransactionsSubject.next(userTransactions);
-  }
-
-  openEditAddressDialog() {
+  async openEditAddressDialog() {
+    const user = await firstValueFrom(this.user$);
     const dialog = this.dialog.open(DialogEditAddressComponent);
-    dialog.componentInstance.user = new User(this.user);
+    dialog.componentInstance.user = new User(user);
     dialog.componentInstance.userId = this.userId;
   }
 
-  openEditHeaderDialog() {
+  async openEditHeaderDialog() {
+    const user = await firstValueFrom(this.user$);
     const dialog = this.dialog.open(DialogEditUserComponent);
-    dialog.componentInstance.user = new User(this.user);
+    dialog.componentInstance.user = new User(user);
     dialog.componentInstance.userId = this.userId;
   }
 
-  openAddTransactionDialog() {
+  async openAddTransactionDialog() {
+    const user = await firstValueFrom(this.user$);
     const dialog = this.dialog.open(DialogAddTransactionComponent);
     dialog.componentInstance.transaction = new Transaction(this.transaction);
     dialog.componentInstance.transactionId = this.transactionId;
-    dialog.componentInstance.user = new User(this.user);
+    dialog.componentInstance.user = new User(user);
     dialog.componentInstance.userId = this.userId;
   }
 

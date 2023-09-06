@@ -3,7 +3,7 @@ import { Firestore, onSnapshot } from '@angular/fire/firestore';
 import { collection } from '@firebase/firestore';
 import { User } from 'src/models/user.class';
 import { TransactionDataService } from './transaction-data.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,6 @@ export class UserDataService {
       });
     });
     console.log('USER DATA SERVICE:', this.allUsers);
-    console.log('USER DATA SERVICE ACTIVATED')
   }
 
   async getUserCountPerMonth() {
@@ -54,19 +53,13 @@ export class UserDataService {
       }
       userCountPerMonth.push(sum);
     }
-    console.log('USER COUNT PER MONTH:', userCountPerMonth);
     return userCountPerMonth;
   }
 
-  getUser(id: string): Observable<User> {
-    return new Observable<User>((observer) => {
-      const userDoc = this.allUsers.find((doc) => doc.id === id);
-      if (userDoc) {
-        observer.next(userDoc);
-      } else {
-        console.log('User not found');
-      }
-    });
+  getUser(id: string): Observable<User | undefined> {
+    return this.allUsers$.pipe(
+      map(users => users.find(user => user.id === id))
+    );
   }
 
 }
