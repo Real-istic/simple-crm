@@ -5,6 +5,7 @@ import { Transaction } from 'src/models/transaction.class';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { TransactionDataService } from '../transaction-data.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -19,17 +20,21 @@ export class DashboardBottomSectionComponent {
 
   displayedColumns: string[] = ['description', 'price', 'date'];
   dataSource: MatTableDataSource<Transaction> = new MatTableDataSource<Transaction>();
+  dataSubscription: Subscription | undefined;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor() { }
 
   async ngOnInit() {
-    this.transactionDataService.allTransactions$.subscribe(transactions => {
+    this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(transactions => {
       const sortedTransactionData = transactions.sort((a: any, b: any) => this.sortByLastTransactionDate(a, b));
       this.dataSource.data = sortedTransactionData;
-      this.dataSource.paginator = this.paginator;
     });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   sortByLastTransactionDate(a: any, b: any) {
@@ -42,6 +47,10 @@ export class DashboardBottomSectionComponent {
     const date = new Date(timestamp);
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
     return date.toLocaleDateString('en-US', options);
+  }
+
+  ngOnDestroy() {
+    this.dataSubscription?.unsubscribe();
   }
 }
 

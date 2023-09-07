@@ -51,7 +51,7 @@ export class DashboardRightSectionComponent {
           opacity: 0.33
         }
       },
-      colors: ["#cc6600", "#70706f", "#ffcc00", " #e0e0e0"],
+      colors: ["#cc6600", "#D3D3D3", "#ffcc00", "#a0b2c6"],
       series: await this.transactionDataService.getTransactionAmountPerDescription(),
       labels: ["Bronze Package", "Silver Package", "Gold Package", "Platinum Package"],
       dataLabels: {

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
-import { merge } from 'rxjs';
+import { Subscription, merge } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-middle-section',
@@ -14,14 +14,15 @@ export class DashboardMiddleSectionComponent {
   transactionDataService: TransactionDataService = inject(TransactionDataService);
   chart: ApexCharts | undefined;
   chartOptions: any = {};
+  dataSubscription: Subscription | undefined;
 
   constructor() { }
 
   async ngOnInit() {
     const allUsers$ = this.userDataService.allUsers$;
     const allTransactions$ = this.transactionDataService.allTransactions$;
-    
-    merge(allUsers$, allTransactions$).subscribe(() => {
+
+    this.dataSubscription = merge(allUsers$, allTransactions$).subscribe(() => {
       this.updateChartSeries();
     });
     await this.setChartOptions();
@@ -102,6 +103,15 @@ export class DashboardMiddleSectionComponent {
           data: await this.transactionDataService.getTransactionCountPerMonth()
         }
       ]);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
     }
   }
 
