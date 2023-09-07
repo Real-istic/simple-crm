@@ -21,13 +21,31 @@ export class DashboardMiddleSectionComponent {
   async ngOnInit() {
     const allUsers$ = this.userDataService.allUsers$;
     const allTransactions$ = this.transactionDataService.allTransactions$;
-
     this.dataSubscription = merge(allUsers$, allTransactions$).subscribe(() => {
       this.updateChartSeries();
     });
     await this.setChartOptions();
     this.chart = new ApexCharts(document.querySelector("#chart"), this.chartOptions);
     this.chart.render();
+  }
+
+  async updateChartSeries() {
+    if (this.chart) {
+      this.chart.updateSeries([
+        {
+          name: "New Users",
+          data: await this.userDataService.getUserCountPerMonth()
+        },
+        {
+          name: "Revenue",
+          data: await this.transactionDataService.getRevenuePerMonth()
+        },
+        {
+          name: "Transactions",
+          data: await this.transactionDataService.getTransactionCountPerMonth()
+        }
+      ]);
+    }
   }
 
   async setChartOptions() {
@@ -51,7 +69,20 @@ export class DashboardMiddleSectionComponent {
       },
       chart: {
         height: '250px',
-        type: 'line'
+        type: 'line',
+        animations: {
+          enabled: true,
+          easing: 'easeinout',
+          speed: 1000,
+          animateGradually: {
+            enabled: true,
+            delay: 0
+          },
+          dynamicAnimation: {
+            enabled: true,
+            speed: 1000
+          }
+        }
       },
       colors: ["#447AE7", "#ffa200", "#00df77"],
       series: [
@@ -71,38 +102,7 @@ export class DashboardMiddleSectionComponent {
       xaxis: {
         categories: ['May 2023', 'Jun 2023', 'Jul 2023', 'Aug 2023', 'Sep 2023']
       },
-      animations: {
-        enabled: true,
-        easing: 'easeinout',
-        speed: 300,
-        animateGradually: {
-          enabled: true,
-          delay: 150
-        },
-        dynamicAnimation: {
-          enabled: true,
-          speed: 150
-        }
-      }
-    }
-  }
 
-  async updateChartSeries() {
-    if (this.chart) {
-      this.chart.updateSeries([
-        {
-          name: "New Users",
-          data: await this.userDataService.getUserCountPerMonth()
-        },
-        {
-          name: "Revenue",
-          data: await this.transactionDataService.getRevenuePerMonth()
-        },
-        {
-          name: "Transactions",
-          data: await this.transactionDataService.getTransactionCountPerMonth()
-        }
-      ]);
     }
   }
 

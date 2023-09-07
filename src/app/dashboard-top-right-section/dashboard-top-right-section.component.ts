@@ -12,6 +12,7 @@ export class DashboardRightSectionComponent {
   transactionDataService: TransactionDataService = inject(TransactionDataService);
   chart: ApexCharts | undefined;
   dataSubscription: Subscription | undefined;
+  chartOptions: any = {};
 
   constructor() { }
 
@@ -19,8 +20,20 @@ export class DashboardRightSectionComponent {
     this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(() => {
       this.updateChartSeries();
     });
+    await this.setChartOptions();
+    this.chart = new ApexCharts(document.querySelector("#chart2"), this.chartOptions);
+    this.chart.render();
+  }
 
-    let options = {
+  async updateChartSeries() {
+    if (this.chart) {
+      this.chart.updateSeries(await this.transactionDataService.getTransactionAmountPerDescription()
+      );
+    }
+  }
+
+  async setChartOptions() {
+    this.chartOptions = {
       title: {
         text: 'Product Sales',
         align: 'left',
@@ -41,17 +54,21 @@ export class DashboardRightSectionComponent {
       chart: {
         height: '1050px',
         type: 'donut',
-        dropShadow: {
+        animations: {
           enabled: true,
-          enabledOnSeries: false,
-          top: 3,
-          left: 3,
-          blur: 3,
-          color: 'black',
-          opacity: 0.33
-        }
+          easing: 'easeinout',
+          speed: 1000,
+          animateGradually: {
+            enabled: true,
+            delay: 0
+          },
+          dynamicAnimation: {
+            enabled: true,
+            speed: 1000
+          }
+        },
       },
-      colors: ["#cc6600", "#D3D3D3", "#ffcc00", "#a0b2c6"],
+      colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],
       series: await this.transactionDataService.getTransactionAmountPerDescription(),
       labels: ["Bronze Package", "Silver Package", "Gold Package", "Platinum Package"],
       dataLabels: {
@@ -117,9 +134,6 @@ export class DashboardRightSectionComponent {
         }
       }
     };
-
-    this.chart = new ApexCharts(document.querySelector("#chart2"), options);
-    await this.chart.render();
   }
 
   ngOnDestroy() {
@@ -130,11 +144,4 @@ export class DashboardRightSectionComponent {
       this.dataSubscription.unsubscribe();
     }
   }
-
-  async updateChartSeries() {
-    if (this.chart) {
-      this.chart.updateSeries(await this.transactionDataService.getTransactionAmountPerDescription());
-    }
-  }
-
 }

@@ -38,6 +38,7 @@ import { DashboardMiddleSectionComponent } from './dashboard-middle-section/dash
 import { DashboardBottomSectionComponent } from './dashboard-bottom-section/dashboard-bottom-section.component';
 import { DashboardRightSectionComponent } from './dashboard-top-right-section/dashboard-top-right-section.component';
 import { DialogAddTransactionComponent } from './dialog-add-transaction/dialog-add-transaction.component';
+import { DashboardBottomRightSectionComponent } from './dashboard-bottom-right-section/dashboard-bottom-right-section.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { DialogAddTransactionComponent } from './dialog-add-transaction/dialog-a
     DashboardMiddleSectionComponent,
     DashboardBottomSectionComponent,
     DashboardRightSectionComponent,
-    DialogAddTransactionComponent
+    DialogAddTransactionComponent,
+    DashboardBottomRightSectionComponent
   ],
   imports: [
     BrowserModule,
