@@ -36,7 +36,7 @@ import { DataTableComponent } from './data-table/data-table.component';
 import { DashboardTopSectionComponent } from './dashboard-top-section/dashboard-top-section.component';
 import { DashboardMiddleSectionComponent } from './dashboard-middle-section/dashboard-middle-section.component';
 import { DashboardBottomSectionComponent } from './dashboard-bottom-section/dashboard-bottom-section.component';
-import { DashboardRightSectionComponent } from './dashboard-right-section/dashboard-right-section.component';
+import { DashboardRightSectionComponent } from './dashboard-top-right-section/dashboard-top-right-section.component';
 import { DialogAddTransactionComponent } from './dialog-add-transaction/dialog-add-transaction.component';
 
 @NgModule({

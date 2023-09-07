@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardRightSectionComponent } from './dashboard-right-section.component';
+import { DashboardRightSectionComponent } from './dashboard-top-right-section.component';
 
 describe('DashboardRightSectionComponent', () => {
   let component: DashboardRightSectionComponent;

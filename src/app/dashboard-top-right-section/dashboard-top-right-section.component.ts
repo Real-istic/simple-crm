@@ -4,9 +4,9 @@ import { TransactionDataService } from '../transaction-data.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-dashboard-right-section',
-  templateUrl: './dashboard-right-section.component.html',
-  styleUrls: ['./dashboard-right-section.component.scss']
+  selector: 'app-dashboard-top-right-section',
+  templateUrl: './dashboard-top-right-section.component.html',
+  styleUrls: ['./dashboard-top-right-section.component.scss']
 })
 export class DashboardRightSectionComponent {
   transactionDataService: TransactionDataService = inject(TransactionDataService);
