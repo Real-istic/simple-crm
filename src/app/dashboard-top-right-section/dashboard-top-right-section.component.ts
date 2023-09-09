@@ -46,21 +46,9 @@ export class DashboardRightSectionComponent {
         curve: 'smooth',
       },
       chart: {
-        height: '1050px',
+        width: 600,
+        height: 350,
         type: 'donut',
-        animations: {
-          enabled: true,
-          easing: 'easeinout',
-          speed: 1000,
-          animateGradually: {
-            enabled: true,
-            delay: 0
-          },
-          dynamicAnimation: {
-            enabled: true,
-            speed: 1000
-          }
-        },
       },
       colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],
       series: await this.transactionDataService.getTransactionAmountPerDescription(),
@@ -126,6 +114,15 @@ export class DashboardRightSectionComponent {
           enabled: true,
           speed: 150
         }
+      },
+      legend: {
+        position: 'right',
+        horizontalAlign: 'right',
+        offsetX: -20,
+        itemMargin: {
+          horizontal: 0,
+          vertical: 10
+      },
       }
     };
   }

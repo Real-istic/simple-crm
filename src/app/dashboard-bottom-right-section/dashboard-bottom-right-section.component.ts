@@ -46,7 +46,8 @@ export class DashboardBottomRightSectionComponent {
       }],
       chart: {
         type: 'bar',
-        height: 420,
+        height: 400,
+        width: 600,
         stacked: true,
       },
       colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],
@@ -74,19 +75,22 @@ export class DashboardBottomRightSectionComponent {
       },
       xaxis: {
         categories: await this.getTopFiveUserNamesByMostRevenue(),
-        labels: {
-
-        }
       },
       yaxis: {
-        title: {
-          text: undefined
-        },
+        labels: {
+          show: true,
+          align: 'left',
+          minWidth: 0,
+          maxWidth: 200,
+          style: {
+              colors: [],
+              fontSize: '14px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 600,
+              cssClass: 'apexcharts-yaxis-label',
+          },
+          offsetX: -10,
       },
-      tooltip: {
-        y: {
-
-        }
       },
       fill: {
         opacity: 1
@@ -94,7 +98,7 @@ export class DashboardBottomRightSectionComponent {
       legend: {
         position: 'top',
         horizontalAlign: 'left',
-        offsetX: 40
+        offsetX: -25
       }
     };
   };
@@ -119,7 +123,6 @@ export class DashboardBottomRightSectionComponent {
 
   async getTopFiveUserNamesByMostRevenue() {
     let usersByMostRevenue = await this.getTopFiveUserByMostRevenue();
-    console.log('UBMR', usersByMostRevenue)
     let usernamesByMostRevenue = [];
     for (let i = 0; i < usersByMostRevenue.length; i++) {
       const transactionUserId = usersByMostRevenue[i].userId;
@@ -130,7 +133,6 @@ export class DashboardBottomRightSectionComponent {
         }
       }
     }
-    console.log('ULBMR', usernamesByMostRevenue)
     return usernamesByMostRevenue;
   }
 
