@@ -9,7 +9,7 @@ import { Transaction } from 'src/models/transaction.class';
 })
 export class TransactionDataService {
   firestore: Firestore = inject(Firestore);
-  allTransactions: any [] = [];
+  allTransactions: any[] = [];
   monthsForChart: number[] = [4, 5, 6, 7, 8]; // 4 = May, 5 = June, 6 = July, 7 = August, 8 = September (remember that January = 0, February = 1, etc.)
 
   allTransactionsSubject = new BehaviorSubject<Transaction[]>([]);
@@ -112,14 +112,29 @@ export class TransactionDataService {
     return TransactionAmountPerDescription;
   }
 
-
   getUserTransactions(userId: string): Observable<Transaction[]> {
     return this.allTransactions$.pipe(
       map(transactions => transactions.filter(transaction => transaction.userId === userId))
     );
   }
 
-
+  async getTopFiveUserByMostRevenue() {
+    const topFiveUserListByMostRevenue: any[] = [];
+    for (let i = 0; i < this.allTransactions.length; i++) {
+      const transaction = this.allTransactions[i];
+      const userId = transaction.userId;
+      const value = transaction.price;
+      const userIndex = topFiveUserListByMostRevenue.findIndex((user) => user.userId === userId);
+      if (userIndex === -1) {
+        topFiveUserListByMostRevenue.push({ userId , value});
+      } else {
+        topFiveUserListByMostRevenue[userIndex].value += value;
+      }
+    }
+    topFiveUserListByMostRevenue.sort((a, b) => b.value - a.value);
+    return topFiveUserListByMostRevenue.slice(0, 5);
+  }
 }
+
 
 

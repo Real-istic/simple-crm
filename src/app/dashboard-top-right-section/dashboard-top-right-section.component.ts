@@ -17,8 +17,9 @@ export class DashboardRightSectionComponent {
   constructor() { }
 
   async ngOnInit() {
-    this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(() => {
-      this.updateChartSeries();
+    this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(async () => {
+      await this.setChartOptions();
+      this.chart?.updateOptions(this.chartOptions);
     });
     await this.setChartOptions();
     this.chart = new ApexCharts(document.querySelector("#chart2"), this.chartOptions);

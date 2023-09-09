@@ -20,6 +20,10 @@ export class DashboardBottomRightSectionComponent {
 
 
   async ngOnInit() {
+    this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(async () => {
+      await this.setChartOptions();
+      this.chart?.updateOptions(this.chartOptions);
+    });
     await this.setChartOptions();
     this.chart = new ApexCharts(document.querySelector("#chart3"), this.chartOptions);
     this.chart.render();
@@ -29,16 +33,16 @@ export class DashboardBottomRightSectionComponent {
     this.chartOptions = {
       series: [{
         name: 'Bronze Package',
-        data: [44, 55, 41, 37, 22, 43, 21]
+        data: [44, 55, 41, 37, 22]
       }, {
         name: 'Silver Package',
-        data: [53, 32, 33, 52, 13, 43, 32]
+        data: [53, 32, 33, 52, 13]
       }, {
         name: 'Gold Package',
-        data: [12, 17, 11, 9, 15, 11, 20]
+        data: [12, 17, 11, 9, 15]
       }, {
         name: 'Platinum Package',
-        data: [9, 7, 5, 8, 6, 9, 4]
+        data: [9, 7, 5, 8, 6]
       }],
       chart: {
         type: 'bar',
@@ -66,10 +70,10 @@ export class DashboardBottomRightSectionComponent {
         colors: ['#fff']
       },
       title: {
-        text: 'Fiction Books Sales'
+        text: 'Most Valuable Customers',
       },
       xaxis: {
-        categories: [2008, 2009, 2010, 2011, 2012],
+        categories: await this.getTopFiveUserNamesByMostRevenue(),
         labels: {
 
         }
@@ -94,6 +98,24 @@ export class DashboardBottomRightSectionComponent {
       }
     };
   };
+
+  async getTopFiveUserNamesByMostRevenue() {
+    let usersByMostRevenue = await this.transactionDataService.getTopFiveUserByMostRevenue();
+      console.log('UBMR', usersByMostRevenue)
+      let usernamesByMostRevenue = [];
+      for (let i = 0; i < usersByMostRevenue.length; i++) {
+        const transactionUserId = usersByMostRevenue[i].userId;
+        for (let j = 0; j < this.userDataService.allUsers.length; j++) {
+          const userId = this.userDataService.allUsers[j].id;
+          if (transactionUserId === userId) {
+            usernamesByMostRevenue.push(this.userDataService.allUsers[j].firstName + ' ' + this.userDataService.allUsers[j].lastName)
+          }
+        }
+      }
+      console.log('ULBMR', usernamesByMostRevenue)
+      return usernamesByMostRevenue;
+  }
+
 }
 
 
