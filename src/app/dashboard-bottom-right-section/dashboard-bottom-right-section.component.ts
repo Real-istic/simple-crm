@@ -33,16 +33,16 @@ export class DashboardBottomRightSectionComponent {
     this.chartOptions = {
       series: [{
         name: 'Bronze Package',
-        data: [44, 55, 41, 37, 22]
+        data: await this.getTopFiveUserRevenuePerPackage('Bronze Package')
       }, {
         name: 'Silver Package',
-        data: [53, 32, 33, 52, 13]
+        data: await this.getTopFiveUserRevenuePerPackage('Silver Package')
       }, {
         name: 'Gold Package',
-        data: [12, 17, 11, 9, 15]
+        data: await this.getTopFiveUserRevenuePerPackage('Gold Package')
       }, {
         name: 'Platinum Package',
-        data: [9, 7, 5, 8, 6]
+        data: await this.getTopFiveUserRevenuePerPackage('Platinum Package')
       }],
       chart: {
         type: 'bar',
@@ -99,23 +99,69 @@ export class DashboardBottomRightSectionComponent {
     };
   };
 
-  async getTopFiveUserNamesByMostRevenue() {
-    let usersByMostRevenue = await this.transactionDataService.getTopFiveUserByMostRevenue();
-      console.log('UBMR', usersByMostRevenue)
-      let usernamesByMostRevenue = [];
-      for (let i = 0; i < usersByMostRevenue.length; i++) {
-        const transactionUserId = usersByMostRevenue[i].userId;
-        for (let j = 0; j < this.userDataService.allUsers.length; j++) {
-          const userId = this.userDataService.allUsers[j].id;
-          if (transactionUserId === userId) {
-            usernamesByMostRevenue.push(this.userDataService.allUsers[j].firstName + ' ' + this.userDataService.allUsers[j].lastName)
-          }
-        }
+  async getTopFiveUserByMostRevenue() {
+    const topFiveUserListByMostRevenue: any[] = [];
+    for (let i = 0; i < this.transactionDataService.allTransactions.length; i++) {
+      const transaction = this.transactionDataService.allTransactions[i];
+      const userId = transaction.userId;
+      const value = transaction.price;
+      const userIndex = topFiveUserListByMostRevenue.findIndex((user) => user.userId === userId);
+      if (userIndex === -1) {
+        topFiveUserListByMostRevenue.push({ userId , value});
+      } else {
+        topFiveUserListByMostRevenue[userIndex].value += value;
       }
-      console.log('ULBMR', usernamesByMostRevenue)
-      return usernamesByMostRevenue;
+    }
+    topFiveUserListByMostRevenue.sort((a, b) => b.value - a.value);
+    return topFiveUserListByMostRevenue.slice(0, 5);
   }
 
+
+  async getTopFiveUserNamesByMostRevenue() {
+    let usersByMostRevenue = await this.getTopFiveUserByMostRevenue();
+    console.log('UBMR', usersByMostRevenue)
+    let usernamesByMostRevenue = [];
+    for (let i = 0; i < usersByMostRevenue.length; i++) {
+      const transactionUserId = usersByMostRevenue[i].userId;
+      for (let j = 0; j < this.userDataService.allUsers.length; j++) {
+        const userId = this.userDataService.allUsers[j].id;
+        if (transactionUserId === userId) {
+          usernamesByMostRevenue.push(this.userDataService.allUsers[j].firstName + ' ' + this.userDataService.allUsers[j].lastName)
+        }
+      }
+    }
+    console.log('ULBMR', usernamesByMostRevenue)
+    return usernamesByMostRevenue;
+  }
+
+  async getTopFiveUserRevenuePerPackage(packageType: string) {
+    let topFiveUsersByMostRevenue: any = await this.getTopFiveUserByMostRevenue();
+    let topFiveUserRevenuePerBronzePackage = [];
+    for (let i = 0; i < topFiveUsersByMostRevenue.length; i++) {
+      const topFiveUser = topFiveUsersByMostRevenue[i].userId;
+      let sum = 0;
+      for (let j = 0; j < this.transactionDataService.allTransactions.length; j++) {
+        const transaction = this.transactionDataService.allTransactions[j];
+        const transactionUserId = transaction.userId;
+        const transactionValue = transaction.price;
+        const transactionPackage = transaction.description;
+        if (topFiveUser === transactionUserId && transactionPackage === packageType) {
+          sum += transactionValue;
+        }
+      }
+      topFiveUserRevenuePerBronzePackage.push(sum);
+    }
+    return topFiveUserRevenuePerBronzePackage;
+  }
+
+  ngOnDestroy() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
+  }
 }
 
 

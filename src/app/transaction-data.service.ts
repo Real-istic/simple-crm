@@ -118,22 +118,7 @@ export class TransactionDataService {
     );
   }
 
-  async getTopFiveUserByMostRevenue() {
-    const topFiveUserListByMostRevenue: any[] = [];
-    for (let i = 0; i < this.allTransactions.length; i++) {
-      const transaction = this.allTransactions[i];
-      const userId = transaction.userId;
-      const value = transaction.price;
-      const userIndex = topFiveUserListByMostRevenue.findIndex((user) => user.userId === userId);
-      if (userIndex === -1) {
-        topFiveUserListByMostRevenue.push({ userId , value});
-      } else {
-        topFiveUserListByMostRevenue[userIndex].value += value;
-      }
-    }
-    topFiveUserListByMostRevenue.sort((a, b) => b.value - a.value);
-    return topFiveUserListByMostRevenue.slice(0, 5);
-  }
+
 }
 
 

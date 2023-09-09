@@ -18,7 +18,7 @@ export class AppComponent {
   async ngOnInit() {
     await this.userDataService.initialize();
     await this.transactionDataService.initialize();
-    console.log('APP COMPONENT ACTIVATED')
+    console.log('APP COMPONENTS ACTIVATED')
   }
 }
 

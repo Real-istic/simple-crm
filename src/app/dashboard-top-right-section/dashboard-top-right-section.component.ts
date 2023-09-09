@@ -26,13 +26,6 @@ export class DashboardRightSectionComponent {
     this.chart.render();
   }
 
-  async updateChartSeries() {
-    if (this.chart) {
-      this.chart.updateSeries(await this.transactionDataService.getTransactionAmountPerDescription()
-      );
-    }
-  }
-
   async setChartOptions() {
     this.chartOptions = {
       title: {
