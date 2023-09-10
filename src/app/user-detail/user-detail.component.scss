@@ -67,11 +67,15 @@ b {
     transition: all 150ms ease-in-out;
     color: white;
   }
-  
+
   &:hover {
     transition: all 150ms ease-in-out;
     background-color: rgb(46, 74, 110);
     box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
     transition: all 150ms ease-in-out;
   }
+}
+
+.filter-field {
+  max-width: 250px;
 }

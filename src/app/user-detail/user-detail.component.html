@@ -7,9 +7,10 @@
   </mat-menu>
   <img class="profile-pic" src="/assets/img/test-avatar.jpg" alt="">
   <div class="user-details" *ngIf="user$ | async as user">
-    <h1>{{ user.firstName }} {{ user.lastName }}</h1>
-    <a href="mailto:">{{ user.email }}</a><br>
-    <span>{{ formatDate(user.birthDate) }}</span>
+    <h1><b>{{ user.firstName }} {{ user.lastName }}</b></h1>
+    <a href="mailto:">{{ user.email }}</a><br><br>
+    <span><b>Birth Date:</b> {{ formatDate(user.birthDate) }}</span><br>
+    <span><b>Registration Date:</b> {{ formatDate(user.registrationDate) }}</span>
   </div>
 </mat-card>
 <mat-card class="address-card">
@@ -25,8 +26,8 @@
     <mat-menu #editUserMenu="matMenu">
       <button (click)="openEditAddressDialog()" mat-menu-item>Edit Address</button>
     </mat-menu>
-    <span>{{ user.street }}</span><br>
-    <span>{{ user.zipCode}} {{ user.city }}</span>
+    <span><b>Street: </b>{{ user.street }}</span><br>
+    <span><b>City: </b>{{ user.zipCode}} {{ user.city }}</span>
   </mat-card-content>
 </mat-card>
 <mat-card class="address-card">
@@ -37,19 +38,10 @@
       matTooltip="Add transaction">
       <mat-icon class="mat-icon-blue">add_card</mat-icon>
     </button>
-
   </mat-card-header>
-  <!-- <mat-card-content *ngFor="let transaction of userTransactions$ | async">
-    <span>Date:<b> {{ formatDate(transaction.date) }} </b></span><br>
-    <span>ID:<b> {{ transaction.id }}</b></span><br>
-    <span>Description:<b> {{ transaction.description }}</b></span><br>
-    <span>Price:<b> {{ transaction.price }} </b></span>
-    <br>
-    <br>
-  </mat-card-content> -->
-  <mat-form-field>
+  <mat-form-field class="filter-field">
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Description / Price / ID" #input>
   </mat-form-field>
 
   <div class="mat-elevation-z8">
@@ -79,7 +71,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </div>
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        <td  *ngIfg="user.transactions" class="mat-cell" colspan="4">No Transactions found... "{{input.value}}"</td>
       </tr>
     </table>
 

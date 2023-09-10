@@ -52,7 +52,7 @@ export class DashboardRightSectionComponent {
       },
       colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],
       series: await this.getTransactionAmountPerDescription(),
-      labels: ["Bronze Package", "Silver Package", "Gold Package", "Platinum Package"],
+      labels: ["Bronze Packages", "Silver Packages", "Gold Packages", "Platinum Packages"],
       dataLabels: {
         enabled: true,
         enabledOnSeries: undefined,

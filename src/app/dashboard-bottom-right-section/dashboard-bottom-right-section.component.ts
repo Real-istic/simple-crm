@@ -32,16 +32,16 @@ export class DashboardBottomRightSectionComponent {
   async setChartOptions() {
     this.chartOptions = {
       series: [{
-        name: 'Bronze Package',
+        name: 'Bronze Packages',
         data: await this.getTopFiveUserRevenuePerPackage('Bronze Package')
       }, {
-        name: 'Silver Package',
+        name: 'Silver Packages',
         data: await this.getTopFiveUserRevenuePerPackage('Silver Package')
       }, {
-        name: 'Gold Package',
+        name: 'Gold Packages',
         data: await this.getTopFiveUserRevenuePerPackage('Gold Package')
       }, {
-        name: 'Platinum Package',
+        name: 'Platinum Packages',
         data: await this.getTopFiveUserRevenuePerPackage('Platinum Package')
       }],
       chart: {
@@ -49,6 +49,14 @@ export class DashboardBottomRightSectionComponent {
         height: 400,
         width: 600,
         stacked: true,
+      },
+      dataLabels:{
+        enabled: false,
+        offsetY: 8,
+        offsetX: 15,
+        formatter: function (value: any) {
+          return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, });
+        },
       },
       colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],
       plotOptions: {
@@ -59,7 +67,7 @@ export class DashboardBottomRightSectionComponent {
               enabled: true,
               offsetX: -3,
               style: {
-                fontSize: '13px',
+                fontSize: '14px',
                 fontWeight: 900
               }
             }
@@ -75,6 +83,19 @@ export class DashboardBottomRightSectionComponent {
       },
       xaxis: {
         categories: await this.getTopFiveUserNamesByMostRevenue(),
+        labels: {
+          show: true,
+          formatter: function (value: any) {
+            return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, });
+          },
+          style: {
+            colors: [],
+            fontSize: '13px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 600,
+            cssClass: 'apexcharts-yaxis-label',
+          },
+        },
       },
       yaxis: {
         labels: {
@@ -90,6 +111,9 @@ export class DashboardBottomRightSectionComponent {
             cssClass: 'apexcharts-yaxis-label',
           },
           offsetX: -10,
+          formatter: function (value: any) {
+            return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+          }
         },
       },
       fill: {
@@ -99,6 +123,13 @@ export class DashboardBottomRightSectionComponent {
         position: 'top',
         horizontalAlign: 'left',
         offsetX: -25
+      },
+      tooltip: {
+        y: {
+          formatter: function (value: any) {
+            return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+          }
+        }
       }
     };
   };
@@ -161,10 +192,3 @@ export class DashboardBottomRightSectionComponent {
     this.dataSubscription?.unsubscribe();
   }
 }
-
-
-
-
-
-
-

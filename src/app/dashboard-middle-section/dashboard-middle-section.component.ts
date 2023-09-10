@@ -112,7 +112,7 @@ export class DashboardMiddleSectionComponent {
       let sum = 0;
       for (let j = 0; j < this.userDataService.allUsers.length; j++) {
         const user = this.userDataService.allUsers[j];
-        const userRegistrationDate = new Date(user.registrationDate * 1000);
+        const userRegistrationDate = new Date(user.registrationDate);
         const userRegistrationYear = userRegistrationDate.getFullYear();
         const userRegistrationMonth = userRegistrationDate.getMonth();
 

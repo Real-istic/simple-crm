@@ -28,7 +28,7 @@ export class DialogAddUserComponent {
       "street": "Sen'jin Village 3",
       "zipCode": 56789,
       "city": "Durotar",
-      "registrationDate": 1683458400
+      "registrationDate": 1683458400000
     },
     {
       "firstName": "Velen",
@@ -38,7 +38,7 @@ export class DialogAddUserComponent {
       "street": "Temple of Light 8",
       "zipCode": 34567,
       "city": "Exodar",
-      "registrationDate": 1684298400
+      "registrationDate": 1684298400000
     },
     {
       "firstName": "Cairne",
@@ -48,7 +48,7 @@ export class DialogAddUserComponent {
       "street": "Elder Rise 4",
       "zipCode": 43210,
       "city": "Thunder Bluff",
-      "registrationDate": 1685234400
+      "registrationDate": 1685234400000
     },
     {
       "firstName": "Saurfang",
@@ -58,7 +58,7 @@ export class DialogAddUserComponent {
       "street": "Warsong Hold 8",
       "zipCode": 65432,
       "city": "Nagrand",
-      "registrationDate": 1686760800
+      "registrationDate": 1686760800000
     },
     {
       "firstName": "Grom",
@@ -68,7 +68,7 @@ export class DialogAddUserComponent {
       "street": "Warchief Avenue 5",
       "zipCode": 67890,
       "city": "Orgrimmar",
-      "registrationDate": 1692746400
+      "registrationDate": 1692746400000
     },
     {
       "firstName": "Tinkmaster",
@@ -78,7 +78,7 @@ export class DialogAddUserComponent {
       "street": "Tinker Town 5",
       "zipCode": 23456,
       "city": "Ironforge",
-      "registrationDate": 1691912000
+      "registrationDate": 1691912000000
     },
     {
       "firstName": "Tyrande",
@@ -88,7 +88,7 @@ export class DialogAddUserComponent {
       "street": "Moon Temple 7",
       "zipCode": 23456,
       "city": "Darnassus",
-      "registrationDate": 1694200800
+      "registrationDate": 1694200800000
     },
     {
       "firstName": "Thrall",
@@ -98,7 +98,7 @@ export class DialogAddUserComponent {
       "street": "Shaman Avenue 2",
       "zipCode": 56789,
       "city": "Orgrimmar",
-      "registrationDate": 1686060000
+      "registrationDate": 1686060000000
     },
     {
       "firstName": "Mal'ganis",
@@ -108,7 +108,7 @@ export class DialogAddUserComponent {
       "street": "Necropolis 6",
       "zipCode": 67890,
       "city": "Stratholme",
-      "registrationDate": 1695212000
+      "registrationDate": 1695212000000
     },
     {
       "firstName": "Talanji",
@@ -118,7 +118,7 @@ export class DialogAddUserComponent {
       "street": "Dazar'alor 2",
       "zipCode": 23456,
       "city": "Zuldazar",
-      "registrationDate": 1683602400
+      "registrationDate": 1683602400000
     },
     {
       "firstName": "Malfurion",
@@ -128,7 +128,7 @@ export class DialogAddUserComponent {
       "street": "Moonglade 10",
       "zipCode": 54321,
       "city": "Darnassus",
-      "registrationDate": 1694815200
+      "registrationDate": 1694815200000
     },
     {
       "firstName": "Mayla",
@@ -138,7 +138,7 @@ export class DialogAddUserComponent {
       "street": "Highmountain Peak 5",
       "zipCode": 23456,
       "city": "Thunder Totem",
-      "registrationDate": 1684754400
+      "registrationDate": 1684754400000
     },
     {
       "firstName": "Gazlowe",
@@ -148,7 +148,7 @@ export class DialogAddUserComponent {
       "street": "Ratchet 6",
       "zipCode": 34567,
       "city": "The Barrens",
-      "registrationDate": 1694522400
+      "registrationDate": 1694522400000
     },
     {
       "firstName": "Varian",
@@ -158,7 +158,7 @@ export class DialogAddUserComponent {
       "street": "Stormwind Keep 5",
       "zipCode": 11111,
       "city": "Stormwind",
-      "registrationDate": 1685863200
+      "registrationDate": 1685863200000
     },
     {
       "firstName": "Rokhan",
@@ -168,11 +168,9 @@ export class DialogAddUserComponent {
       "street": "Sen'jin Village 8",
       "zipCode": 23456,
       "city": "Durotar",
-      "registrationDate": 1693845600
+      "registrationDate": 1693845600000
     }
   ];
-
-
 
 
 
@@ -205,8 +203,8 @@ export class DialogAddUserComponent {
 
   async saveUser() {
     this.loading = true;
-    this.user.birthDate = Math.floor(new Date(this.user.birthDate).getTime() / 1000);
-    this.user.registrationDate = Math.floor(new Date().getTime() / 1000);
+    this.user.birthDate = Math.floor(new Date(this.user.birthDate).getTime());
+    this.user.registrationDate = Math.floor(new Date().getTime());
     let userCollection = collection(this.firestore, 'users')
     const userDocRef = doc(userCollection)
     this.user.id = userDocRef.id;
