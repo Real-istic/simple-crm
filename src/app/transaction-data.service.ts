@@ -10,7 +10,6 @@ import { Transaction } from 'src/models/transaction.class';
 export class TransactionDataService {
   firestore: Firestore = inject(Firestore);
   allTransactions: any[] = [];
-
   allTransactionsSubject = new BehaviorSubject<Transaction[]>([]);
   allTransactions$: Observable<Transaction[]> = this.allTransactionsSubject.asObservable();
 
