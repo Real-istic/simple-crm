@@ -17,9 +17,7 @@ export class DialogEditUserComponent {
   userId: string = '';
 
   ngOnInit() {
-    if (this.user.birthDate) {
-      this.birthDate = new Date(this.user.birthDate);
-    }
+    this.birthDate = this.user.birthDate ? new Date(this.user.birthDate) : null;
   }
 
   async saveUser() {

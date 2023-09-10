@@ -7,7 +7,7 @@
   <mat-card class="top-info-card">
     <mat-icon>euro</mat-icon>
     <mat-card-content class="top-info-header">Revenue</mat-card-content>
-    <span>{{ (transactionDataService.allRevenue$ | async) + ' €' }}</span>
+    <span>{{ (allRevenue$ | async) + ' €' }}</span>
   </mat-card>
   <mat-card class="top-info-card">
     <mat-icon>receipt_long</mat-icon>

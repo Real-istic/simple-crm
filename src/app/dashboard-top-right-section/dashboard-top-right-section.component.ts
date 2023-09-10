@@ -51,7 +51,7 @@ export class DashboardRightSectionComponent {
         type: 'donut',
       },
       colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],
-      series: await this.transactionDataService.getTransactionAmountPerDescription(),
+      series: await this.getTransactionAmountPerDescription(),
       labels: ["Bronze Package", "Silver Package", "Gold Package", "Platinum Package"],
       dataLabels: {
         enabled: true,
@@ -122,17 +122,37 @@ export class DashboardRightSectionComponent {
         itemMargin: {
           horizontal: 0,
           vertical: 10
-      },
+        },
       }
     };
   }
 
+  async getTransactionAmountPerDescription() {
+    const TransactionAmountPerDescription: number[] = [0, 0, 0, 0];
+    for (const transaction of this.transactionDataService.allTransactions) {
+      const transactionType = transaction.description;
+      switch (transactionType) {
+        case 'Bronze Package':
+          TransactionAmountPerDescription[0] += 1;
+          break;
+        case 'Silver Package':
+          TransactionAmountPerDescription[1] += 1;
+          break;
+        case 'Gold Package':
+          TransactionAmountPerDescription[2] += 1;
+          break;
+        case 'Platinum Package':
+          TransactionAmountPerDescription[3] += 1;
+          break;
+        default:
+          break;
+      }
+    }
+    return TransactionAmountPerDescription;
+  }
+
   ngOnDestroy() {
-    if (this.chart) {
-      this.chart.destroy();
-    }
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe();
-    }
+    this.chart?.destroy();
+    this.dataSubscription?.unsubscribe();
   }
 }

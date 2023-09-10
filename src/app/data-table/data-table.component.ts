@@ -49,10 +49,7 @@ export class DataTableComponent {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.dataSource.paginator?.firstPage();
   }
 
   openDialog() {
@@ -60,10 +57,7 @@ export class DataTableComponent {
   }
 
   ngOnDestroy() {
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe();
-    } if (this.dialog) {
-      this.dialog.closeAll();
-    }
+    this.dataSubscription?.unsubscribe();
+    this.dialog?.closeAll();
   }
 }

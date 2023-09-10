@@ -15,6 +15,7 @@ export class DashboardMiddleSectionComponent {
   chart: ApexCharts | undefined;
   chartOptions: any = {};
   dataSubscription: Subscription | undefined;
+  monthsForChart: number[] = [4, 5, 6, 7, 8]; // 4 = May, 5 = June, 6 = July, 7 = August, 8 = September (remember that January = 0, February = 1, etc.)
 
   constructor() { }
 
@@ -30,22 +31,20 @@ export class DashboardMiddleSectionComponent {
   }
 
   async updateChartSeries() {
-    if (this.chart) {
-      this.chart.updateSeries([
-        {
-          name: "New Users",
-          data: await this.userDataService.getUserCountPerMonth()
-        },
-        {
-          name: "Revenue",
-          data: await this.transactionDataService.getRevenuePerMonth()
-        },
-        {
-          name: "Transactions",
-          data: await this.transactionDataService.getTransactionCountPerMonth()
-        }
-      ]);
-    }
+    this.chart?.updateSeries([
+      {
+        name: "New Users",
+        data: await this.getUserCountPerMonth()
+      },
+      {
+        name: "Revenue",
+        data: await this.getRevenuePerMonth()
+      },
+      {
+        name: "Transactions",
+        data: await this.getTransactionCountPerMonth()
+      }
+    ]);
   }
 
   async setChartOptions() {
@@ -88,15 +87,15 @@ export class DashboardMiddleSectionComponent {
       series: [
         {
           name: "New Users",
-          data: await this.userDataService.getUserCountPerMonth()
+          data: await this.getUserCountPerMonth()
         },
         {
           name: "Revenue",
-          data: await this.transactionDataService.getRevenuePerMonth()
+          data: await this.getRevenuePerMonth()
         },
         {
           name: "Transactions",
-          data: await this.transactionDataService.getTransactionCountPerMonth()
+          data: await this.getTransactionCountPerMonth()
         }
       ],
       xaxis: {
@@ -106,13 +105,68 @@ export class DashboardMiddleSectionComponent {
     }
   }
 
+  async getUserCountPerMonth() {
+    let userCountPerMonth: number[] = [];
+    for (let i = 0; i < this.monthsForChart.length; i++) {
+      const targetMonth = this.monthsForChart[i];
+      let sum = 0;
+      for (let j = 0; j < this.userDataService.allUsers.length; j++) {
+        const user = this.userDataService.allUsers[j];
+        const userRegistrationDate = new Date(user.registrationDate * 1000);
+        const userRegistrationYear = userRegistrationDate.getFullYear();
+        const userRegistrationMonth = userRegistrationDate.getMonth();
+
+        if (userRegistrationMonth === targetMonth && userRegistrationYear === 2023) {
+          sum += 1;
+        }
+      }
+      userCountPerMonth.push(sum);
+    }
+    return userCountPerMonth;
+  }
+
+  async getRevenuePerMonth() {
+    let revenuePerMonth: number[] = [];
+    for (let i = 0; i < this.monthsForChart.length; i++) {
+      const targetMonth = this.monthsForChart[i];
+      let sum = 0;
+      for (let j = 0; j < this.transactionDataService.allTransactions.length; j++) {
+        const transaction = this.transactionDataService.allTransactions[j];
+        const value = transaction.price;
+        const transactionDate = new Date(transaction.date);
+        const transactionYear = transactionDate.getFullYear();
+        const transactionMonth = transactionDate.getMonth();
+        if (transactionMonth === targetMonth && transactionYear === new Date().getFullYear()) {
+          sum += value;
+        }
+      }
+      revenuePerMonth.push(sum);
+    }
+    return revenuePerMonth;
+  }
+
+  async getTransactionCountPerMonth() {
+    let transactionCountPerMonth: number[] = [];
+    for (let i = 0; i < this.monthsForChart.length; i++) {
+      const targetMonth = this.monthsForChart[i];
+      let sum = 0;
+      for (let j = 0; j < this.transactionDataService.allTransactions.length; j++) {
+        const transaction = this.transactionDataService.allTransactions[j];
+        const transactionDate = new Date(transaction.date);
+        const transactionYear = transactionDate.getFullYear();
+        const transactionMonth = transactionDate.getMonth();
+        if (transactionMonth === targetMonth && transactionYear === 2023) {
+          sum += 1;
+        }
+      }
+      transactionCountPerMonth.push(sum);
+    }
+    return transactionCountPerMonth;
+  }
+
   ngOnDestroy() {
-    if (this.chart) {
-      this.chart.destroy();
-    }
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe();
-    }
+    this.chart?.destroy();
+    this.dataSubscription?.unsubscribe();
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
+import { Subscription, merge, Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-top-section',
@@ -8,16 +9,40 @@ import { TransactionDataService } from '../transaction-data.service';
   styleUrls: ['./dashboard-top-section.component.scss']
 })
 export class DashboardTopSectionComponent implements OnInit {
-
-  userCount!: number[];
-  allRevenue!: number;
-  transactionCount!: number;
   userDataService: UserDataService = inject(UserDataService);
   transactionDataService: TransactionDataService = inject(TransactionDataService);
+  userCount!: number[];
+  transactionCount!: number;
+  dataSubscription: Subscription | undefined;
+  dataSubscription2: Subscription | undefined;
+  allRevenueSubject = new BehaviorSubject<number>(0);
+  allRevenue$: Observable<number> = this.allRevenueSubject.asObservable();
 
 
   constructor() {}
 
   async ngOnInit() {
+    const allUsers$ = this.userDataService.allUsers$;
+    const allTransactions$ = this.transactionDataService.allTransactions$;
+    this.dataSubscription = merge(allUsers$, allTransactions$).subscribe(() => {
+      this.getAllRevenue();
+    });
   }
+
+  getAllRevenue() {
+    let sum = 0;
+    let transactions = 0;
+    for (let i = 0; i < this.transactionDataService.allTransactions.length; i++) {
+      const transaction = this.transactionDataService.allTransactions[i];
+      const value = transaction.price;
+      sum += value;
+      transactions += 1;
+    }
+    this.allRevenueSubject.next(sum);
+  }
+
+  ngOnDestroy() {
+    this.dataSubscription?.unsubscribe();
+  }
+
 }

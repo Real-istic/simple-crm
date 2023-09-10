@@ -83,14 +83,14 @@ export class DashboardBottomRightSectionComponent {
           minWidth: 0,
           maxWidth: 200,
           style: {
-              colors: [],
-              fontSize: '14px',
-              fontFamily: 'Helvetica, Arial, sans-serif',
-              fontWeight: 600,
-              cssClass: 'apexcharts-yaxis-label',
+            colors: [],
+            fontSize: '14px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 600,
+            cssClass: 'apexcharts-yaxis-label',
           },
           offsetX: -10,
-      },
+        },
       },
       fill: {
         opacity: 1
@@ -111,7 +111,7 @@ export class DashboardBottomRightSectionComponent {
       const value = transaction.price;
       const userIndex = topFiveUserListByMostRevenue.findIndex((user) => user.userId === userId);
       if (userIndex === -1) {
-        topFiveUserListByMostRevenue.push({ userId , value});
+        topFiveUserListByMostRevenue.push({ userId, value });
       } else {
         topFiveUserListByMostRevenue[userIndex].value += value;
       }
@@ -157,12 +157,8 @@ export class DashboardBottomRightSectionComponent {
   }
 
   ngOnDestroy() {
-    if (this.chart) {
-      this.chart.destroy();
-    }
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe();
-    }
+    this.chart?.destroy();
+    this.dataSubscription?.unsubscribe();
   }
 }
 
