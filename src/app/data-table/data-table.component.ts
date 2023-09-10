@@ -3,11 +3,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from 'src/models/user.class';
-import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { UserDataService } from '../user-data.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class DataTableComponent {
   displayedColumns: string[] = ['firstName', 'lastName', 'email'];
   dataSource!: MatTableDataSource<User>;
   user = new User();
-  allUsers = [] as any;
+  dataSubscription: Subscription | undefined;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -33,17 +34,16 @@ export class DataTableComponent {
   }
 
   async ngOnInit() {
-    const userCollection = collection(this.firestore, 'users');
-
-    onSnapshot(userCollection, (snapshot) => {
-      this.allUsers = [];
-      snapshot.docs.forEach((doc) => {
-      this.allUsers.push(new User({ ...doc.data(), id: doc.id }));
-      });
-      this.dataSource = new MatTableDataSource(this.allUsers);
+    this.dataSubscription = this.userDataService.allUsers$.subscribe(async (users) => {
+      this.dataSource = new MatTableDataSource(users);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -57,5 +57,13 @@ export class DataTableComponent {
 
   openDialog() {
     this.dialog.open(DialogAddUserComponent);
+  }
+
+  ngOnDestroy() {
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    } if (this.dialog) {
+      this.dialog.closeAll();
+    }
   }
 }
