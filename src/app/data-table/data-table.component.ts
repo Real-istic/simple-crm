@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from 'src/models/user.class';
-import { Firestore } from '@angular/fire/firestore';
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +16,6 @@ import { Subscription } from 'rxjs';
   templateUrl: 'data-table.component.html',
 })
 export class DataTableComponent {
-  firestore: Firestore = inject(Firestore);
   dialog: MatDialog = inject(MatDialog);
   route: ActivatedRoute = inject(ActivatedRoute);
   userDataService: UserDataService = inject(UserDataService);

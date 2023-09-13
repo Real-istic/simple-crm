@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, onSnapshot } from '@angular/fire/firestore';
-import { collection } from '@firebase/firestore';
+import { Firestore, onSnapshot, collection } from '@angular/fire/firestore';
 import { User } from 'src/models/user.class';
 import { TransactionDataService } from './transaction-data.service';
 import { BehaviorSubject, Observable, map } from 'rxjs';

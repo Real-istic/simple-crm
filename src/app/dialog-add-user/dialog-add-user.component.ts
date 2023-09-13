@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { User } from 'src/models/user.class';
-import { Firestore } from '@angular/fire/firestore';
-import { collection, doc, setDoc } from "firebase/firestore";
+import { Firestore, collection, doc, setDoc } from '@angular/fire/firestore';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
