@@ -30,7 +30,7 @@ import { DialogEditUserComponent } from './dialog-edit-user/dialog-edit-user.com
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { DataTableComponent } from './data-table/data-table.component';
 import { DashboardTopSectionComponent } from './dashboard-top-section/dashboard-top-section.component';
 import { DashboardMiddleSectionComponent } from './dashboard-middle-section/dashboard-middle-section.component';
@@ -38,6 +38,37 @@ import { DashboardBottomSectionComponent } from './dashboard-bottom-section/dash
 import { DashboardRightSectionComponent } from './dashboard-top-right-section/dashboard-top-right-section.component';
 import { DialogAddTransactionComponent } from './dialog-add-transaction/dialog-add-transaction.component';
 import { DashboardBottomRightSectionComponent } from './dashboard-bottom-right-section/dashboard-bottom-right-section.component';
+import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
+
+const firebaseUiAuthConfig: firebaseui.auth.Config = {
+  signInFlow: 'popup',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    {
+      scopes: [
+        'public_profile',
+        'email',
+        'user_likes',
+        'user_friends'
+      ],
+      customParameters: {
+        'auth_type': 'reauthenticate'
+      },
+      provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
+    },
+    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+    firebase.auth.GithubAuthProvider.PROVIDER_ID,
+    {
+      requireDisplayName: false,
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
+    },
+    firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+  ],
+  tosUrl: '<your-tos-link>',
+  privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
+  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+};
 
 @NgModule({
   declarations: [
@@ -80,7 +111,8 @@ import { DashboardBottomRightSectionComponent } from './dashboard-bottom-right-s
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]
