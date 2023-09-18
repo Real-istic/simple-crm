@@ -40,6 +40,7 @@ import { DialogAddTransactionComponent } from './dialog-add-transaction/dialog-a
 import { DashboardBottomRightSectionComponent } from './dashboard-bottom-right-section/dashboard-bottom-right-section.component';
 import { LoginComponent } from './login/login.component';
 import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -113,7 +114,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+  { provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
