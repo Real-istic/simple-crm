@@ -38,7 +38,8 @@ import { DashboardBottomSectionComponent } from './dashboard-bottom-section/dash
 import { DashboardRightSectionComponent } from './dashboard-top-right-section/dashboard-top-right-section.component';
 import { DialogAddTransactionComponent } from './dialog-add-transaction/dialog-add-transaction.component';
 import { DashboardBottomRightSectionComponent } from './dashboard-bottom-right-section/dashboard-bottom-right-section.component';
-import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
+import { LoginComponent } from './login/login.component';
+import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -56,13 +57,10 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
       },
       provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
     },
-    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    firebase.auth.GithubAuthProvider.PROVIDER_ID,
     {
       requireDisplayName: false,
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
     },
-    firebase.auth.PhoneAuthProvider.PROVIDER_ID,
     firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
   ],
   tosUrl: '<your-tos-link>',
@@ -84,7 +82,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     DashboardBottomSectionComponent,
     DashboardRightSectionComponent,
     DialogAddTransactionComponent,
-    DashboardBottomRightSectionComponent
+    DashboardBottomRightSectionComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -108,11 +107,11 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     MatSortModule,
     MatPaginatorModule,
     MatRadioModule,
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
-    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]
