@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { UserDataService } from '../user-data.service';
 import { Subscription } from 'rxjs';
+import { FirebaseAuthModule } from '../firebase-auth/firebase-auth.module';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class DataTableComponent {
   dialog: MatDialog = inject(MatDialog);
   route: ActivatedRoute = inject(ActivatedRoute);
   userDataService: UserDataService = inject(UserDataService);
+  firebaseAuthModule: FirebaseAuthModule = inject(FirebaseAuthModule);
 
   displayedColumns: string[] = ['firstName', 'lastName', 'email'];
   dataSource!: MatTableDataSource<User>;

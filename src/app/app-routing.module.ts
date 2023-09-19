@@ -1,9 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule, inject } from '@angular/core';
+import { RouterEvent, RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { DataTableComponent } from './data-table/data-table.component';
 import { LoginComponent } from './login/login.component';
+import { Router } from '@angular/router';
+import { FirebaseAuthModule } from './firebase-auth/firebase-auth.module';
+
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -17,4 +20,16 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  router = inject(Router);
+  firebaseAuthModule: FirebaseAuthModule = inject(FirebaseAuthModule);
+  ngOnInit() {
+    this.router.events.subscribe((event: any) => {
+      if (event.url === '/user/:id' || event.url === '/user-data') {
+        if (!this.firebaseAuthModule.isLoggedIn) {
+          this.router.navigate(['login']);
+        }
+      }
+    });
+  }
+ }

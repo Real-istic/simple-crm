@@ -8,24 +8,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     {
-      scopes: [
-        'public_profile',
-        'email',
-        'user_likes',
-        'user_friends'
-      ],
-      customParameters: {
-        'auth_type': 'reauthenticate'
-      },
-      provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
-    },
-    {
       requireDisplayName: false,
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
-    },
-    {
-      provider: firebase.auth.GithubAuthProvider.PROVIDER_ID,
-      clientId: 'd35c49791b812baef3bc'
     },
     firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
   ],
@@ -44,4 +28,6 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }]
 })
-export class FirebaseAuthModule { }
+export class FirebaseAuthModule {
+  isLoggedIn: boolean = false;
+}
