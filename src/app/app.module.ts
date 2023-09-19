@@ -47,10 +47,6 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    // {
-    //   provider: firebase.auth.GithubAuthProvider.PROVIDER_ID,
-    //   clientId: '<d35c49791b812baef3bc>'
-    // },
     {
       requireDisplayName: false,
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
