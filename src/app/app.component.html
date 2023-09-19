@@ -5,7 +5,8 @@
       <span>SIMPLE CRM</span>
     </div>
     <ul class="menu-items">
-      <li routerLink="/"><mat-icon class="mat-icon-blue">fact_check</mat-icon>Dashboard</li>
+      <li *ngIf="isLoggedIn" routerLink="/"><mat-icon class="mat-icon-blue">logout</mat-icon>Logout</li>
+      <li routerLink="/dashboard"><mat-icon class="mat-icon-blue">fact_check</mat-icon>Dashboard</li>
       <li routerLink="/user-data"><mat-icon class="mat-icon-blue">group</mat-icon>User Data</li>
 
     </ul>

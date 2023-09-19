@@ -39,24 +39,8 @@ import { DashboardRightSectionComponent } from './dashboard-top-right-section/da
 import { DialogAddTransactionComponent } from './dialog-add-transaction/dialog-add-transaction.component';
 import { DashboardBottomRightSectionComponent } from './dashboard-bottom-right-section/dashboard-bottom-right-section.component';
 import { LoginComponent } from './login/login.component';
-import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
-import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { FirebaseAuthModule } from './firebase-auth/firebase-auth.module';
 
-
-const firebaseUiAuthConfig: firebaseui.auth.Config = {
-  signInFlow: 'popup',
-  signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    {
-      requireDisplayName: false,
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
-    },
-    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
-  ],
-  tosUrl: '<your-tos-link>',
-  privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
-  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
-};
 
 @NgModule({
   declarations: [
@@ -97,14 +81,13 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     MatSortModule,
     MatPaginatorModule,
     MatRadioModule,
-    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
+    FirebaseAuthModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-  { provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

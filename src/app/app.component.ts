@@ -13,6 +13,7 @@ export class AppComponent {
   userDataService: UserDataService = inject(UserDataService);
   transactionDataService: TransactionDataService = inject(TransactionDataService);
   title = 'simple-crm';
+  isLoggedIn: boolean = false;
 
 
   async ngOnInit() {

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
+import { environment } from 'src/environments/environment';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -39,6 +41,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   ],
   exports: [
     FirebaseUIModule,
-  ]
+  ],
+  providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }]
 })
-export class FirebaseModule { }
+export class FirebaseAuthModule { }
