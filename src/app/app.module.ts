@@ -42,22 +42,15 @@ import { LoginComponent } from './login/login.component';
 import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
+
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    {
-      scopes: [
-        'public_profile',
-        'email',
-        'user_likes',
-        'user_friends'
-      ],
-      customParameters: {
-        'auth_type': 'reauthenticate'
-      },
-      provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
-    },
+    // {
+    //   provider: firebase.auth.GithubAuthProvider.PROVIDER_ID,
+    //   clientId: '<d35c49791b812baef3bc>'
+    // },
     {
       requireDisplayName: false,
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID

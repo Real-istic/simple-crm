@@ -1,17 +1,16 @@
 <div class="container">
   <div class="row mt-3">
     <div class="col-12 col-lg-4 offset-lg-4">
-      <mat-card class="text-center">
-        <mat-card-header>
-          <mat-icon class="mat-icon-blue">login</mat-icon>
-          <mat-card-title> Login </mat-card-title>
-        </mat-card-header>
+      <mat-card>
+        <div class="header-wrapper">
+          <img src="/assets/img/crm-logo.png" alt="">
+          <mat-card-header>
+            <mat-card-title>User Login</mat-card-title>
+          </mat-card-header>
+        </div>
         <mat-card-content>
           <div class="row mt-2">
             <div class="col-12">
-
-              TEST LOGIN COMPONENT!!!
-
               <firebase-ui (signInSuccessWithAuthResult)="successCallback($event)"
                 (signInFailure)="errorCallback($event)" (uiShown)="uiShownCallback()">
               </firebase-ui>
