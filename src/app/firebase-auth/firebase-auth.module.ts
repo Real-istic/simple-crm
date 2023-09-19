@@ -21,6 +21,10 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
       requireDisplayName: false,
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
     },
+    {
+      provider: firebase.auth.GithubAuthProvider.PROVIDER_ID,
+      clientId: 'd35c49791b812baef3bc'
+    },
     firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
   ],
   tosUrl: '<your-tos-link>',
