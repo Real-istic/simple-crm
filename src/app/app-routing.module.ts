@@ -20,16 +20,16 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule {
   router = inject(Router);
   firebaseAuthModule: FirebaseAuthModule = inject(FirebaseAuthModule);
   ngOnInit() {
     this.router.events.subscribe((event: any) => {
-      if (event.url === '/user/:id' || event.url === '/user-data') {
-        if (!this.firebaseAuthModule.isLoggedIn) {
-          this.router.navigate(['login']);
-        }
+      if ((event.url === '/user/:id' || event.url === '/user-data') && !this.firebaseAuthModule.isLoggedIn) {
+        this.router.navigate(['login']);
+        alert('You must be logged in to view this page');
       }
     });
   }
- }
+}
