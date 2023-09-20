@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { DataTableComponent } from './data-table/data-table.component';
 import { LoginComponent } from './login/login.component';
+import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 import { AuthGuard } from './auth-guard/auth.guard';
 
 
@@ -12,7 +13,10 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'user/:id', component: UserDetailComponent, canActivate: [AuthGuard] },
   { path: 'user-data', component: DataTableComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'legal-notice', component: LegalNoticeComponent },
+  { path: '**', redirectTo: '' }
+
 ];
 
 @NgModule({

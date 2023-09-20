@@ -40,6 +40,7 @@ import { DialogAddTransactionComponent } from './dialog-add-transaction/dialog-a
 import { DashboardBottomRightSectionComponent } from './dashboard-bottom-right-section/dashboard-bottom-right-section.component';
 import { LoginComponent } from './login/login.component';
 import { FirebaseAuthModule } from './firebase-auth/firebase-auth.module';
+import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { FirebaseAuthModule } from './firebase-auth/firebase-auth.module';
     DashboardRightSectionComponent,
     DialogAddTransactionComponent,
     DashboardBottomRightSectionComponent,
-    LoginComponent
+    LoginComponent,
+    LegalNoticeComponent
   ],
   imports: [
     BrowserModule,
