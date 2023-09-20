@@ -18,8 +18,11 @@ export class AppComponent {
   router: Router = inject(Router);
   firebaseAuthModule: FirebaseAuthModule = inject(FirebaseAuthModule);
 
-  
+
   async ngOnInit() {
+    await this.userDataService.initialize();
+    await this.transactionDataService.initialize();
+    console.log('APP COMPONENTS ACTIVATED')
     this.auth.onAuthStateChanged(async (user) => {
       if (user) {
         this.firebaseAuthModule.isLoggedIn = true;
@@ -27,9 +30,6 @@ export class AppComponent {
         this.firebaseAuthModule.isLoggedIn = false;
       }
     });
-    await this.userDataService.initialize();
-    await this.transactionDataService.initialize();
-    console.log('APP COMPONENTS ACTIVATED')
   }
 
   logout() {

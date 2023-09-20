@@ -13,8 +13,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     },
     firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
   ],
-  tosUrl: '<your-tos-link>',
-  privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
+  tosUrl: 'https://policies.google.com/terms?hl=en',
+  privacyPolicyUrl: 'https://policies.google.com/privacy?hl=en',
   credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
 };
 
