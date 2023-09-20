@@ -14,7 +14,7 @@ export class AuthGuard {
       return true;
     } else {
       this.router.navigate(['login']);
-      alert('You must be logged in to view this page');
+      alert('You must be logged in to access this page');
       return false;
     }
   }
