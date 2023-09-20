@@ -1,0 +1,21 @@
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { FirebaseAuthModule } from '../firebase-auth/firebase-auth.module';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard {
+
+  constructor(private router: Router, private firebaseAuthModule: FirebaseAuthModule) {}
+
+  canActivate(): boolean {
+    if (this.firebaseAuthModule.isLoggedIn) {
+      return true;
+    } else {
+      this.router.navigate(['login']);
+      alert('You must be logged in to view this page');
+      return false;
+    }
+  }
+}
