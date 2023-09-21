@@ -22,7 +22,6 @@ export class AppComponent {
   async ngOnInit() {
     await this.userDataService.initialize();
     await this.transactionDataService.initialize();
-    console.log('APP COMPONENTS ACTIVATED')
     this.auth.onAuthStateChanged(async (user) => {
       if (user) {
         this.firebaseAuthModule.isLoggedIn = true;
@@ -36,6 +35,10 @@ export class AppComponent {
     this.auth.signOut();
     this.router.navigate(['/login']);
     console.log('LOGGED OUT', this.auth.currentUser)
+  }
+
+  isUserDataActive() {
+    return this.router.url.includes('/user-data') || this.router.url.includes('/user');
   }
 }
 

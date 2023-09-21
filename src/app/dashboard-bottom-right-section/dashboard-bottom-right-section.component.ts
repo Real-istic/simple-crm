@@ -80,6 +80,12 @@ export class DashboardBottomRightSectionComponent {
       },
       title: {
         text: 'Most Valuable Customers',
+        style: {
+          fontSize: '16px',
+          fontWeight: '500',
+          fontFamily: 'Roboto, sans-serif',
+          color: '#263238'
+        },
       },
       xaxis: {
         categories: await this.getTopFiveUserNamesByMostRevenue(),
@@ -91,8 +97,9 @@ export class DashboardBottomRightSectionComponent {
           style: {
             colors: [],
             fontSize: '13px',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            fontWeight: 600,
+            fontWeight: '500',
+            fontFamily: 'Roboto, sans-serif',
+            color: '#263238',
             cssClass: 'apexcharts-yaxis-label',
           },
         },
@@ -106,8 +113,9 @@ export class DashboardBottomRightSectionComponent {
           style: {
             colors: [],
             fontSize: '14px',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            fontWeight: 600,
+            fontWeight: '500',
+            fontFamily: 'Roboto, sans-serif',
+            color: '#263238',
             cssClass: 'apexcharts-yaxis-label',
           },
           offsetX: -10,

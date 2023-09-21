@@ -79,3 +79,9 @@ b {
 .filter-field {
   max-width: 250px;
 }
+
+table {
+  tr:not(thead) {
+    cursor: unset;
+  }
+}

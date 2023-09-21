@@ -33,8 +33,13 @@ export class DialogAddTransactionComponent {
     "name": "Platinum Package",
     "price": 20
   }];
+  minDate: Date;
+  maxDate: Date;
 
-  constructor() { }
+  constructor() {
+    this.minDate = new Date(2023, 4, 1);
+    this.maxDate = new Date();
+  }
 
 
   async saveTransaction() {

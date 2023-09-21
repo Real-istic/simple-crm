@@ -36,9 +36,9 @@ export class DashboardRightSectionComponent {
         offsetY: 0,
         floating: false,
         style: {
-          fontSize: '14px',
-          fontWeight: 'bold',
-          fontFamily: undefined,
+          fontSize: '16px',
+          fontWeight: '500',
+          fontFamily: 'Roboto, sans-serif',
           color: '#263238'
         },
       },

@@ -29,6 +29,7 @@ mat-drawer {
   height: 56px;
   font-weight: bold;
   font-size: 28px;
+  text-decoration: none;
 
   span {
     background: linear-gradient(135deg, #c7811f 0%, #ee4455 100%);
@@ -59,6 +60,10 @@ mat-toolbar-row,
 }
 
 .menu-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90%;
   list-style-type: none;
   padding: 80px 0 0 0;
   margin: 0;
@@ -93,7 +98,7 @@ mat-toolbar-row,
       }
     }
 
-    &:focus {
+    &.active {
       transition: all 200ms ease-in-out;
       width: 100%;
       color: rgb(255, 255, 255);

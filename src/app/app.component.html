@@ -1,15 +1,24 @@
 <mat-drawer-container class="mat-drawer-container" autosize>
   <mat-drawer #drawer class="sidenav" [opened]="true" mode="side">
-    <a href="/dashboard" class="logo-container">
+    <a href="/" class="logo-container">
       <img src="/assets/img/crm-logo.png" alt="">
       <span>SIMPLE CRM</span>
     </a>
     <ul class="menu-items">
-      <li *ngIf="firebaseAuthModule.isLoggedIn" (click)="logout()" routerLink="/"><mat-icon class="mat-icon-blue">logout</mat-icon>Logout</li>
-      <li *ngIf="!firebaseAuthModule.isLoggedIn" routerLink="/login"><mat-icon class="mat-icon-blue">login</mat-icon>Login</li>
-      <li routerLink="/dashboard"><mat-icon class="mat-icon-blue">fact_check</mat-icon>Dashboard</li>
-      <li routerLink="/user-data"><mat-icon class="mat-icon-blue">group</mat-icon>User Data</li>
-      <li routerLink="/legal-notice"><mat-icon class="mat-icon-blue">info</mat-icon>Legal notice</li>
+      <div class="menu-items-top">
+        <li *ngIf="!firebaseAuthModule.isLoggedIn" routerLink="/login" routerLinkActive="active"><mat-icon
+            class="mat-icon-blue">login</mat-icon>Login</li>
+        <li routerLink="/dashboard" routerLinkActive="active"><mat-icon
+            class="mat-icon-blue">fact_check</mat-icon>Dashboard</li>
+        <li routerLink="/user-data" [class.active]="isUserDataActive()"><mat-icon
+            class="mat-icon-blue">group</mat-icon>User Data</li>
+      </div>
+      <div class="menu-items-bottom">
+        <li routerLink="/legal-notice" routerLinkActive="active"><mat-icon class="mat-icon-blue">info</mat-icon>Legal
+          notice</li>
+        <li *ngIf="firebaseAuthModule.isLoggedIn" (click)="logout()" routerLink="/"><mat-icon
+            class="mat-icon-blue">logout</mat-icon>Logout</li>
+      </div>
     </ul>
   </mat-drawer>
   <div class="example-sidenav-content">
