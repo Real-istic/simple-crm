@@ -15,7 +15,9 @@ export class DashboardMiddleSectionComponent {
   chart: ApexCharts | undefined;
   chartOptions: any = {};
   dataSubscription: Subscription | undefined;
-  monthsForChart: number[] = [4, 5, 6, 7, 8]; // 4 = May, 5 = June, 6 = July, 7 = August, 8 = September (remember that January = 0, February = 1, etc.)
+  // monthsForChart: number[] = [4, 5, 6, 7, 8]; // 4 = May, 5 = June, 6 = July, 7 = August, 8 = September (remember that January = 0, February = 1, etc.)
+  monthsForChart: number[] = []; // Dies wird dynamisch aktualisiert
+  categories: string[] = []; // Dies wird dynamisch aktualisiert
 
   constructor() { }
 
@@ -25,6 +27,7 @@ export class DashboardMiddleSectionComponent {
     this.dataSubscription = merge(allUsers$, allTransactions$).subscribe(() => {
       this.updateChartSeries();
     });
+    this.updateMonthsForChartAndCategories();
     await this.setChartOptions();
     this.chart = new ApexCharts(document.querySelector("#chart"), this.chartOptions);
     this.chart.render();
@@ -99,7 +102,7 @@ export class DashboardMiddleSectionComponent {
         }
       ],
       xaxis: {
-        categories: ['May 2023', 'Jun 2023', 'Jul 2023', 'Aug 2023', 'Sep 2023']
+        categories: this.categories
       },
 
     }
@@ -162,6 +165,29 @@ export class DashboardMiddleSectionComponent {
       transactionCountPerMonth.push(sum);
     }
     return transactionCountPerMonth;
+  }
+
+  updateMonthsForChartAndCategories() {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+
+    this.monthsForChart = [];
+    this.categories = [];
+
+    for (let i = 5; i >= 0; i--) {
+      const targetMonth = (currentMonth - i + 12) % 12; // rember the Year can change
+      this.monthsForChart.push(targetMonth);
+      const monthName = this.getMonthName(targetMonth);
+      this.categories.push(`${monthName} ${currentYear}`);
+    }
+  }
+
+  getMonthName(month: number): string {
+    const monthNames = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return monthNames[month];
   }
 
   ngOnDestroy() {

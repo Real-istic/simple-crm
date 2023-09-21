@@ -37,7 +37,7 @@ export class DialogAddTransactionComponent {
   maxDate: Date;
 
   constructor() {
-    this.minDate = new Date(2023, 4, 1);
+    this.minDate = new Date(2023, 3, 1);
     this.maxDate = new Date();
   }
 
