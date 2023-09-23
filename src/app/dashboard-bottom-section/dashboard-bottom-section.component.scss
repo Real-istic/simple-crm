@@ -1,6 +1,6 @@
 .table-wrapper {
   margin-top: 20px;
-  width: 640px;
+  max-width: 640px;
 }
 
 h3 {
@@ -17,9 +17,14 @@ h3 {
 .mat-elevation-z8 {
   border-radius: 5px 5px 5px 5px;
   background: white;
-  // padding: 10px;
 }
 
 mat-paginator {
   border-radius: 0 0 5px 5px;
+}
+
+@media (max-width: 480px) {
+  td {
+    font-size: 12px;
+  }
 }

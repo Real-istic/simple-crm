@@ -46,8 +46,7 @@ export class DashboardRightSectionComponent {
         curve: 'smooth',
       },
       chart: {
-        width: 607,
-        // height: 350,
+        width: '100%',
         type: 'donut',
       },
       colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],
@@ -123,7 +122,24 @@ export class DashboardRightSectionComponent {
           horizontal: 0,
           vertical: 10
         },
-      }
+      },
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          legend: {
+            itemMargin: {
+              horizontal: -10,
+              vertical: 6
+            },
+            fontSize: '10px',
+          },
+          dataLabels: {
+            style: {
+              fontSize: '12px',
+            }
+          },
+        },
+      }]
     };
   }
 

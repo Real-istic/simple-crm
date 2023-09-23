@@ -4,7 +4,8 @@ import { TransactionDataService } from './transaction-data.service';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { FirebaseAuthModule } from './firebase-auth/firebase-auth.module';
-
+import { MatDrawer } from '@angular/material/sidenav';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ export class AppComponent {
   router: Router = inject(Router);
   firebaseAuthModule: FirebaseAuthModule = inject(FirebaseAuthModule);
   mobileQuery: MediaQueryList;
+  @ViewChild(MatDrawer) drawer: MatDrawer | undefined;
 
   constructor() {
     this.mobileQuery = matchMedia('(max-width: 950px)');
@@ -48,6 +50,12 @@ export class AppComponent {
 
   isDrawerOpened(): boolean {
     return !this.mobileQuery.matches;
+  }
+
+  closeDrawerIfMobile() {
+    if (this.drawer && window.innerWidth < 950) {
+      this.drawer.close();
+    }
   }
 }
 

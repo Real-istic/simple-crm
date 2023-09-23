@@ -47,7 +47,7 @@ export class DashboardBottomRightSectionComponent {
       chart: {
         type: 'bar',
         height: 440,
-        width: 600,
+        width: '100%',
         stacked: true,
       },
       dataLabels:{
@@ -138,7 +138,37 @@ export class DashboardBottomRightSectionComponent {
             return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
           }
         }
-      }
+      },
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            height: 340,
+          },
+          yaxis: {
+            labels: {
+              style: {
+                fontSize: '10px',
+                fontWeight: '700',
+              }
+            }
+          },
+          legend: {
+            fontSize: '10px',
+          },
+          plotOptions: {
+            bar: {
+              dataLabels: {
+                total: {
+                  style: {
+                    fontSize: '12px',
+                  }
+                }
+              }
+            },
+          },
+        },
+    }]
     };
   };
 

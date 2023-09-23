@@ -12,7 +12,6 @@ body {
   padding-bottom: 20px;
 }
 
-.dashboard-left {
+.dashboard-left, .dashboard-top-right {
   width: clamp(22rem, 88vw, 640px);
-
 }

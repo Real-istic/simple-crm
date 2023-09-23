@@ -6,29 +6,28 @@
     </a>
     <ul class="menu-items">
       <div class="menu-items-top">
-        <li *ngIf="!firebaseAuthModule.isLoggedIn" routerLink="/login" routerLinkActive="active"><mat-icon
+        <li *ngIf="!firebaseAuthModule.isLoggedIn" routerLink="/login" (click)="closeDrawerIfMobile()" routerLinkActive="active"><mat-icon
             class="mat-icon-blue">login</mat-icon>Login</li>
-        <li routerLink="/dashboard" routerLinkActive="active"><mat-icon
+        <li routerLink="/dashboard" (click)="closeDrawerIfMobile()" routerLinkActive="active"><mat-icon
             class="mat-icon-blue">fact_check</mat-icon>Dashboard</li>
-        <li routerLink="/user-data" [class.active]="isUserDataActive()"><mat-icon
+        <li routerLink="/user-data" (click)="closeDrawerIfMobile()" [class.active]="isUserDataActive()"><mat-icon
             class="mat-icon-blue">group</mat-icon>User Data</li>
       </div>
       <div class="menu-items-bottom">
-        <li routerLink="/legal-notice" routerLinkActive="active"><mat-icon class="mat-icon-blue">info</mat-icon>Legal
+        <li routerLink="/legal-notice" (click)="closeDrawerIfMobile()" routerLinkActive="active"><mat-icon class="mat-icon-blue">info</mat-icon>Legal
           notice</li>
-        <li *ngIf="firebaseAuthModule.isLoggedIn" (click)="logout()" routerLink="/"><mat-icon
+        <li *ngIf="firebaseAuthModule.isLoggedIn" (click)="closeDrawerIfMobile()" (click)="logout()" routerLink="/"><mat-icon
             class="mat-icon-blue">logout</mat-icon>Logout</li>
       </div>
     </ul>
   </mat-drawer>
-  <div class="example-sidenav-content">
+  <div>
     <mat-toolbar color="primary">
       <mat-toolbar-row>
         <button class="menu-icon" (click)="drawer.toggle()" mat-mini-fab color="primary"
           aria-label="Example icon button with a menu icon">
           <mat-icon>menu</mat-icon>
         </button>
-        <span></span>
       </mat-toolbar-row>
     </mat-toolbar>
   </div>
