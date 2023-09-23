@@ -55,3 +55,8 @@ tbody {
   }
 }
 
+@media (max-width: 480px) {
+  .mat-mdc-card-content {
+    padding: 8px !important;
+}
+}

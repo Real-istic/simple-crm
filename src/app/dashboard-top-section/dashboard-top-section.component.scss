@@ -1,7 +1,9 @@
 .card-wrapper {
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  // gap: 20px;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .top-info-card {
@@ -30,14 +32,12 @@
 
   span {
   font-size: clamp(1rem, 4vw, 1.8rem);
-  // font-size: 32px;
     font-weight: 500;
   }
 }
 
 .top-info-header {
   font-size: clamp(0.65rem, 2.5vw, 1.0rem);
-  // font-size: 12px;
   margin-top: 5px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -60,8 +60,8 @@ mat-icon {
   }
 
   .top-info-card {
-    height: 25vw;
-    width: 25vw;
+    height: 28vw;
+    width: 28vw;
     padding: 5px;
     gap: 10px;
   }
@@ -76,10 +76,11 @@ mat-icon {
   .top-info-card {
     gap: 2px;
     span {
-      margin-top: -5px;
+      margin-top: -10px;
     }
   }
   .top-info-header {
+    margin-top: 0;
     letter-spacing: 1px;
     text-transform: uppercase;
   }

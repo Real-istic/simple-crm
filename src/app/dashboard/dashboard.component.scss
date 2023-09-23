@@ -11,3 +11,8 @@ body {
   gap: 20px;
   padding-bottom: 20px;
 }
+
+.dashboard-left {
+  width: clamp(22rem, 88vw, 640px);
+
+}

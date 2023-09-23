@@ -15,9 +15,8 @@ export class DashboardMiddleSectionComponent {
   chart: ApexCharts | undefined;
   chartOptions: any = {};
   dataSubscription: Subscription | undefined;
-  // monthsForChart: number[] = [4, 5, 6, 7, 8]; // 4 = May, 5 = June, 6 = July, 7 = August, 8 = September (remember that January = 0, February = 1, etc.)
-  monthsForChart: number[] = []; // Dies wird dynamisch aktualisiert
-  categories: string[] = []; // Dies wird dynamisch aktualisiert
+  monthsForChart: number[] = [];
+  categories: string[] = [];
 
   constructor() { }
 
@@ -70,7 +69,7 @@ export class DashboardMiddleSectionComponent {
         curve: 'smooth',
       },
       chart: {
-        // height: '250px',
+        width: '100%',
         type: 'line',
         animations: {
           enabled: true,
@@ -108,10 +107,28 @@ export class DashboardMiddleSectionComponent {
         breakpoint: 700,
         options: {
           chart: {
-            width: '100%',
+
+          },
+          legend: {
+            fontSize: '8px',
+          },
+          xaxis: {
+            labels: {
+              style: {
+                fontSize: '8px',
+              },
+            },
+          },
+          yaxis: {
+            labels: {
+              style: {
+                fontSize: '8px',
+              },
+            },
           }
         },
-    }]
+      }]
+
     }
   }
 
