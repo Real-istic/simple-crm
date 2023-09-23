@@ -46,7 +46,7 @@ export class DashboardBottomRightSectionComponent {
       }],
       chart: {
         type: 'bar',
-        height: 400,
+        height: 440,
         width: 600,
         stacked: true,
       },

@@ -70,7 +70,7 @@ export class DashboardMiddleSectionComponent {
         curve: 'smooth',
       },
       chart: {
-        height: '250px',
+        // height: '250px',
         type: 'line',
         animations: {
           enabled: true,
@@ -104,7 +104,14 @@ export class DashboardMiddleSectionComponent {
       xaxis: {
         categories: this.categories
       },
-
+      responsive: [{
+        breakpoint: 700,
+        options: {
+          chart: {
+            width: '100%',
+          }
+        },
+    }]
     }
   }
 

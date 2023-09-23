@@ -29,13 +29,16 @@
   }
 
   span {
-    font-size: 32px;
+  font-size: clamp(1rem, 4vw, 1.8rem);
+  // font-size: 32px;
     font-weight: 500;
   }
 }
 
 .top-info-header {
-  font-size: 12px;
+  font-size: clamp(0.65rem, 2.5vw, 1.0rem);
+  // font-size: 12px;
+  margin-top: 5px;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
@@ -49,4 +52,39 @@ mat-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 700px) {
+  .card-wrapper {
+    gap: 10px;
+  }
+
+  .top-info-card {
+    height: 25vw;
+    width: 25vw;
+    padding: 5px;
+    gap: 10px;
+  }
+
+  mat-icon {
+    transform: scale(1.5);
+  }
+}
+
+@media (max-width: 480px) {
+
+  .top-info-card {
+    gap: 2px;
+    span {
+      margin-top: -5px;
+    }
+  }
+  .top-info-header {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  mat-icon {
+    transform: scale(1.2);
+  }
 }

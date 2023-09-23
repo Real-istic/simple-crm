@@ -7,8 +7,17 @@ mat-drawer {
 }
 
 .menu-icon {
-  cursor: pointer;
-  color: black;
+  transition: all 150ms ease-in-out;
+  box-shadow: 0px 5px 10px -5px #000000, inset 0px -5px 10px -5px #000000;
+  background-color: #447ae7;
+  padding: 0 3px 2px 0;
+  margin-left: 16px;
+  &:hover {
+    transition: all 150ms ease-in-out;
+    background-color: rgb(46, 74, 110);
+    box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
+    transition: all 150ms ease-in-out;
+  }
 }
 
 .sidenav {

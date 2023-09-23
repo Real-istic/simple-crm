@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UserDataService } from './user-data.service';
 import { TransactionDataService } from './transaction-data.service';
 import { Auth } from '@angular/fire/auth';
@@ -17,6 +17,11 @@ export class AppComponent {
   auth: Auth = inject(Auth);
   router: Router = inject(Router);
   firebaseAuthModule: FirebaseAuthModule = inject(FirebaseAuthModule);
+  mobileQuery: MediaQueryList;
+
+  constructor() {
+    this.mobileQuery = matchMedia('(max-width: 950px)');
+  }
 
 
   async ngOnInit() {
@@ -39,6 +44,10 @@ export class AppComponent {
 
   isUserDataActive() {
     return this.router.url.includes('/user-data') || this.router.url.includes('/user');
+  }
+
+  isDrawerOpened(): boolean {
+    return !this.mobileQuery.matches;
   }
 }
 

@@ -46,8 +46,8 @@ export class DashboardRightSectionComponent {
         curve: 'smooth',
       },
       chart: {
-        width: 600,
-        height: 350,
+        width: 607,
+        // height: 350,
         type: 'donut',
       },
       colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],

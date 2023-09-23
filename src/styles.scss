@@ -5,6 +5,7 @@
 html,
 body {
   height: 100%;
+  font-size: clamp(0.9rem, 2vw, 1.0rem)!important;
 }
 
 body {
@@ -53,3 +54,4 @@ tbody {
     }
   }
 }
+
