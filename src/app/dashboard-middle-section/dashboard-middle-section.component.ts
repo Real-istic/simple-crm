@@ -23,8 +23,8 @@ export class DashboardMiddleSectionComponent {
   async ngOnInit() {
     const allUsers$ = this.userDataService.allUsers$;
     const allTransactions$ = this.transactionDataService.allTransactions$;
-    this.dataSubscription = merge(allUsers$, allTransactions$).subscribe(() => {
-      this.updateChartSeries();
+    this.dataSubscription = merge(allUsers$, allTransactions$).subscribe(async () => {
+     await this.updateChartSeries();
     });
     this.updateMonthsForChartAndCategories();
     await this.setChartOptions();

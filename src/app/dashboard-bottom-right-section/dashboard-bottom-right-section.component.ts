@@ -23,6 +23,7 @@ export class DashboardBottomRightSectionComponent {
     this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(async () => {
       await this.setChartOptions();
       this.chart?.updateOptions(this.chartOptions);
+
     });
     await this.setChartOptions();
     this.chart = new ApexCharts(document.querySelector("#chart3"), this.chartOptions);

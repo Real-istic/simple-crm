@@ -18,13 +18,19 @@ export class DashboardRightSectionComponent {
 
   async ngOnInit() {
     this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(async () => {
-      await this.setChartOptions();
-      this.chart?.updateOptions(this.chartOptions);
+      await this.updateChartSeries();
     });
     await this.setChartOptions();
     this.chart = new ApexCharts(document.querySelector("#chart2"), this.chartOptions);
     this.chart.render();
   }
+
+  async updateChartSeries() {
+    this.chart?.updateSeries(
+      await this.getTransactionAmountPerDescription()
+    );
+  }
+
 
   async setChartOptions() {
     this.chartOptions = {
