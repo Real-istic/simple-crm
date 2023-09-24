@@ -19,4 +19,21 @@
   }
 }
 
+@media (max-width: 480px) {
+  
+  .add-user-button {
+    left: 16px;
+    bottom: 16px;
+  }
+
+  th {
+    padding: 2px;
+    font-size: 13px;
+  }
+
+  td {
+    font-size: 12px;
+    padding: 2px;
+  }
+}
 

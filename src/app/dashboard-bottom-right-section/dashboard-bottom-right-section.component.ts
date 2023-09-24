@@ -27,7 +27,13 @@ export class DashboardBottomRightSectionComponent {
     });
     await this.setChartOptions();
     this.chart = new ApexCharts(document.querySelector("#chart3"), this.chartOptions);
-    this.chart.render();
+    if (window.innerWidth < 950) {
+      setTimeout(() => { // this delay ensures that the sidebar is fully hidden before rendering the chart to avoid rendering issues with the chart in the mobile view
+        this.chart?.render();
+      }, 250);
+    } else {
+      this.chart.render();
+    }
   }
 
   async setChartOptions() {

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { TransactionDataService } from '../transaction-data.service';
 import { Subscription } from 'rxjs';
+import { set } from '@angular/fire/database';
 
 @Component({
   selector: 'app-dashboard-top-right-section',
@@ -22,7 +23,13 @@ export class DashboardRightSectionComponent {
     });
     await this.setChartOptions();
     this.chart = new ApexCharts(document.querySelector("#chart2"), this.chartOptions);
-    this.chart.render();
+    if (window.innerWidth < 950) {
+      setTimeout(() => { // this delay ensures that the sidebar is fully hidden before rendering the chart to avoid rendering issues with the chart in the mobile view
+        this.chart?.render();
+      }, 250);
+    } else {
+      this.chart.render();
+    }
   }
 
   async updateChartSeries() {
@@ -133,7 +140,7 @@ export class DashboardRightSectionComponent {
           legend: {
             itemMargin: {
               horizontal: -10,
-              vertical: 6
+              vertical: 5
             },
             fontSize: '10px',
           },

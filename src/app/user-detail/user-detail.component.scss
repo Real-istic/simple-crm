@@ -85,3 +85,40 @@ table {
     cursor: unset;
   }
 }
+
+
+@media (max-width: 560px) {
+
+  .profile-pic {
+    margin-bottom: 20px;
+  }
+
+  .header-card {
+    flex-direction: column;
+    min-height: 200px;
+    max-height: 350px;
+  }
+
+  th {
+    padding: 2px;
+    font-size: 13px;
+  }
+
+  td {
+    font-size: 10px;
+    padding: 2px;
+  }
+
+  .add-transaction-button {
+    left: 16px;
+    bottom: 16px;
+    z-index: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .mat-mdc-card-title,
+  .mat-mdc-card-subtitle {
+    padding: 6px!important;
+  }
+}

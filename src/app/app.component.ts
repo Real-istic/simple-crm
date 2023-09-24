@@ -25,7 +25,6 @@ export class AppComponent {
     this.mobileQuery = matchMedia('(max-width: 950px)');
   }
 
-
   async ngOnInit() {
     await this.userDataService.initialize();
     await this.transactionDataService.initialize();
