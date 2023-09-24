@@ -22,7 +22,7 @@ export class DashboardBottomRightSectionComponent {
   async ngOnInit() {
     this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(async () => {
       await this.setChartOptions();
-      this.chart?.updateOptions(this.chartOptions);
+      await this.chart?.updateOptions(this.chartOptions);
 
     });
     await this.setChartOptions();
@@ -48,7 +48,6 @@ export class DashboardBottomRightSectionComponent {
       chart: {
         type: 'bar',
         height: 440,
-        width: '100%',
         stacked: true,
       },
       dataLabels:{

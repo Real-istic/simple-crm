@@ -11,8 +11,8 @@ import { Subscription } from 'rxjs';
 export class DashboardRightSectionComponent {
   transactionDataService: TransactionDataService = inject(TransactionDataService);
   chart: ApexCharts | undefined;
-  dataSubscription: Subscription | undefined;
   chartOptions: any = {};
+  dataSubscription: Subscription | undefined;
 
   constructor() { }
 
@@ -30,7 +30,6 @@ export class DashboardRightSectionComponent {
       await this.getTransactionAmountPerDescription()
     );
   }
-
 
   async setChartOptions() {
     this.chartOptions = {
@@ -52,7 +51,6 @@ export class DashboardRightSectionComponent {
         curve: 'smooth',
       },
       chart: {
-        width: '100%',
         type: 'donut',
       },
       colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],

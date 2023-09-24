@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { UserDataService } from './user-data.service';
 import { TransactionDataService } from './transaction-data.service';
 import { Auth } from '@angular/fire/auth';
@@ -48,8 +48,13 @@ export class AppComponent {
     return this.router.url.includes('/user-data') || this.router.url.includes('/user');
   }
 
-  isDrawerOpened(): boolean {
-    return !this.mobileQuery.matches;
+  @HostListener('window:resize')
+  onResize() {
+    if (this.mobileQuery.matches) {
+      this.drawer?.close();
+    } else {
+      this.drawer?.open();
+    }
   }
 
   closeDrawerIfMobile() {

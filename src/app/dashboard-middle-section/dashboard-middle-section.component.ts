@@ -69,7 +69,6 @@ export class DashboardMiddleSectionComponent {
         curve: 'smooth',
       },
       chart: {
-        width: '100%',
         type: 'line',
         animations: {
           enabled: true,
