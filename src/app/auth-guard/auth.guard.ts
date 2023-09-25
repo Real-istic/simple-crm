@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { FirebaseAuthModule } from '../firebase-auth/firebase-auth.module';
 
 @Injectable({
@@ -7,7 +6,7 @@ import { FirebaseAuthModule } from '../firebase-auth/firebase-auth.module';
 })
 export class AuthGuard {
 
-  constructor(private router: Router, private firebaseAuthModule: FirebaseAuthModule) {}
+  constructor(private firebaseAuthModule: FirebaseAuthModule) {}
 
   canActivate(): boolean {
     if (this.firebaseAuthModule.isLoggedIn) {

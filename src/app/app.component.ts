@@ -23,11 +23,6 @@ export class AppComponent {
 
   constructor() {
     this.mobileQuery = matchMedia('(max-width: 950px)');
-  }
-
-  async ngOnInit() {
-    await this.userDataService.initialize();
-    await this.transactionDataService.initialize();
     this.auth.onAuthStateChanged(async (user) => {
       if (user) {
         this.firebaseAuthModule.isLoggedIn = true;
@@ -35,6 +30,12 @@ export class AppComponent {
         this.firebaseAuthModule.isLoggedIn = false;
       }
     });
+  }
+
+  async ngOnInit() {
+    await this.userDataService.initialize();
+    await this.transactionDataService.initialize();
+
   }
 
   logout() {

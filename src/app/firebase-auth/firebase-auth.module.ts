@@ -29,5 +29,5 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }]
 })
 export class FirebaseAuthModule {
-  isLoggedIn: boolean = false;
+  isLoggedIn: boolean = true;
 }
