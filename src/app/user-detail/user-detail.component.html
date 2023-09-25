@@ -1,5 +1,5 @@
 <mat-card class="header-card">
-  <button [matMenuTriggerFor]="editUserHeader" class="edit-user" mat-icon-button>
+  <button [matMenuTriggerFor]="editUserHeader" matTooltip="Edit user information" class="edit-user" mat-icon-button>
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #editUserHeader="matMenu">
@@ -20,7 +20,7 @@
     <mat-card-subtitle>Germany</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content *ngIf="user$ | async as user">
-    <button [matMenuTriggerFor]="editUserMenu" class="edit-user" mat-icon-button>
+    <button [matMenuTriggerFor]="editUserMenu" matTooltip="Edit address" class="edit-user" mat-icon-button>
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #editUserMenu="matMenu">
@@ -39,12 +39,12 @@
       <mat-icon class="mat-icon-blue">add_card</mat-icon>
     </button>
   </mat-card-header>
-  <mat-form-field class="filter-field">
+  <mat-form-field matTooltip="Search for transaction information" matTooltipPosition="right" class="filter-field">
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Description / Price / ID" #input>
   </mat-form-field>
 
-  <div class="mat-elevation-z8">
+  <div class="table-wrapper" class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
       <div class="transaction-wrapper">
         <ng-container matColumnDef="description">
