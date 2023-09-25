@@ -13,7 +13,6 @@ export class AuthGuard {
     if (this.firebaseAuthModule.isLoggedIn) {
       return true;
     } else {
-      // this.router.navigate(['login']);
       alert('You must be logged in to access this page');
       return false;
     }

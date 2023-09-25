@@ -1,5 +1,5 @@
 mat-drawer {
-  width: 250px !important;
+  width: 200px;
 }
 
 .mat-drawer-container {
@@ -12,6 +12,10 @@ mat-drawer {
   background-color: #447ae7;
   padding: 0 3px 2px 0;
   margin-left: 16px;
+  position: fixed;
+  top: 10px;
+  left: auto;
+  z-index: 1;
   &:hover {
     transition: all 150ms ease-in-out;
     background-color: rgb(46, 74, 110);
@@ -74,7 +78,7 @@ mat-toolbar-row,
   justify-content: space-between;
   height: 90%;
   list-style-type: none;
-  padding: 80px 0 0 0;
+  padding: 80px 0 20px 0;
   margin: 0;
 
   mat-icon {

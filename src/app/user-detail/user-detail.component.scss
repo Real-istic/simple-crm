@@ -25,6 +25,10 @@
   margin-top: 30px;
 }
 
+mat-card {
+  min-width: 318px;
+}
+
 mat-card-content {
   margin-left: 55px;
 }
@@ -117,8 +121,9 @@ table {
 }
 
 @media (max-width: 480px) {
+
   .mat-mdc-card-title,
   .mat-mdc-card-subtitle {
-    padding: 6px!important;
+    padding: 6px !important;
   }
 }
