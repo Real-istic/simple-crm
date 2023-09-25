@@ -15,7 +15,6 @@ const routes: Routes = [
   { path: 'user-data', component: DataTableComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'legal-notice', component: LegalNoticeComponent },
-  { path: '**', redirectTo: '/dashboard' }
 ];
 
 @NgModule({
