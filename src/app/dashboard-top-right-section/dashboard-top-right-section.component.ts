@@ -26,7 +26,7 @@ export class DashboardRightSectionComponent {
     if (window.innerWidth < 950) {
       setTimeout(() => { // this delay ensures that the sidebar is fully hidden before rendering the chart to avoid rendering issues with the chart in the mobile view
         this.chart?.render();
-      }, 250);
+      }, 350);
     } else {
       this.chart.render();
     }
@@ -59,6 +59,7 @@ export class DashboardRightSectionComponent {
       },
       chart: {
         type: 'donut',
+        maxHeight: 200,
       },
       colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],
       series: await this.getTransactionAmountPerDescription(),

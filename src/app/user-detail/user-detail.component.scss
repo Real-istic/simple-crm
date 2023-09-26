@@ -143,3 +143,9 @@ mat-paginator {
     padding: 6px !important;
   }
 }
+
+@media (min-width: 2000px) {
+  .user-wrapper {
+    padding: 0 20%;
+  }
+}

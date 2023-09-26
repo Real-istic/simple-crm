@@ -48,3 +48,9 @@ mat-paginator {
     padding: 2px;
   }
 }
+
+@media (min-width: 2000px) {
+  .table-wrapper {
+    padding: 0 20%;
+  }
+}

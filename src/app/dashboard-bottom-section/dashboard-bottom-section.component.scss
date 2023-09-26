@@ -28,3 +28,9 @@ mat-paginator {
     font-size: 12px;
   }
 }
+
+@media (min-width: 2000px) {
+  .table-wrapper {
+    max-width: 100%;
+  }
+}

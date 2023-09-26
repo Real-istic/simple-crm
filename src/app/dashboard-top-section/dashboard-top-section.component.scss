@@ -3,6 +3,7 @@
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+  gap: 20px;
 }
 
 .top-info-card {
@@ -30,7 +31,7 @@
   }
 
   span {
-  font-size: clamp(1rem, 4vw, 1.8rem);
+    font-size: clamp(1rem, 4vw, 1.8rem);
     font-weight: 500;
   }
 }
@@ -74,10 +75,12 @@ mat-icon {
 
   .top-info-card {
     gap: 2px;
+
     span {
       margin-top: -10px;
     }
   }
+
   .top-info-header {
     margin-top: 0;
     letter-spacing: 1px;
@@ -86,5 +89,30 @@ mat-icon {
 
   mat-icon {
     transform: scale(1.2);
+  }
+}
+
+@media (min-width: 2000px) {
+
+  .top-info-header {
+    font-size: clamp(0.65rem, 1vw, 2.0rem);
+    font-weight: 500;
+
+  }
+
+  .top-info-card {
+    width: 33%;
+    height: 10vw;
+    padding: 20px;
+    gap: 20%;
+
+    span {
+      font-size: clamp(0.5rem, 1.5vw, 3rem);
+      font-weight: 500;
+    }
+  }
+
+  mat-icon {
+    transform: scale(3);
   }
 }

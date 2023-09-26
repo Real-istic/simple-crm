@@ -30,7 +30,7 @@ export class DashboardBottomRightSectionComponent {
     if (window.innerWidth < 950) {
       setTimeout(() => { // this delay ensures that the sidebar is fully hidden before rendering the chart to avoid rendering issues with the chart in the mobile view
         this.chart?.render();
-      }, 250);
+      }, 350);
     } else {
       this.chart.render();
     }
