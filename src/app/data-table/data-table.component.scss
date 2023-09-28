@@ -1,10 +1,6 @@
-.table-wrapper {
-  padding: 20px 0;
-}
-
 .add-user-button {
   position: absolute;
-  top: 80px;
+  top: 75px;
   right: 30px;
   padding: 0 20px;
   height: 48px;
@@ -52,6 +48,10 @@
   }
 }
 
+.filter-field {
+  max-width: 250px;
+}
+
 .mat-elevation-z8 {
   min-width: fit-content;
 }
@@ -89,6 +89,6 @@ mat-paginator {
 
 @media (min-width: 2000px) {
   .table-wrapper {
-    padding: 20px 20%;
+    padding: 0 20% !important;
   }
 }

@@ -1,34 +1,40 @@
 <div class="table-wrapper">
-  <button (click)="openDialog()" class="add-user-button" color="primary" matTooltip="Add user">
-    <mat-icon class="mat-icon-blue">person_add</mat-icon>
-    <span>Add User</span>
-  </button>
-  <mat-form-field matTooltip="Search user information" matTooltipPosition="right">
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Name / E-Mail" #input>
-  </mat-form-field>
-  <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
-      <div class="user-wrapper">
-        <ng-container matColumnDef="firstName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
-          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user"> {{user.firstName}} </td>
-        </ng-container>
-        <ng-container matColumnDef="lastName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
-          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user"> {{user.lastName}} </td>
-        </ng-container>
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> E-Mail </th>
-          <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user"> {{user.email}} </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </div>
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-      </tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[10, 15, 25, 50]" aria-label="Select page of users"></mat-paginator>
-  </div>
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"><mat-icon class="mat-icon-blue">group</mat-icon></div>
+      <mat-card-title>User Data</mat-card-title>
+    </mat-card-header>
+    <button (click)="openDialog()" class="add-user-button" color="primary" matTooltip="Add user">
+      <mat-icon class="mat-icon-blue">person_add</mat-icon>
+      <span>Add User</span>
+    </button>
+    <mat-form-field class="filter-field" matTooltip="Search user information" matTooltipPosition="right">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Name / E-Mail" #input>
+    </mat-form-field>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <div class="user-wrapper">
+          <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+            <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user"> {{user.firstName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+            <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user"> {{user.lastName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> E-Mail </th>
+            <td [routerLink]="['/user/' + user.id]" mat-cell *matCellDef="let user"> {{user.email}} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </div>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[10, 15, 25, 50]" aria-label="Select page of users"></mat-paginator>
+    </div>
+  </mat-card>
 </div>
