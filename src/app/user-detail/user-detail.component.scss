@@ -1,3 +1,7 @@
+.user-wrapper {
+  padding: 20px 0;
+}
+
 .header-card {
   display: flex;
   flex-direction: unset;
@@ -60,23 +64,55 @@ b {
 }
 
 .add-transaction-button {
-  position: fixed;
-  right: 56px;
-  bottom: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 80px;
+  right: 30px;
+  padding: 0 20px;
+  height: 48px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 20px 20px 20px 20px;
+  border-style: none;
+  box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
+  margin-bottom: 20px;
   transition: all 150ms ease-in-out;
-  box-shadow: 0px 5px 10px -5px #000000, inset 0px -5px 15px -5px #000000;
   background-color: #447ae7;
-
-  mat-icon {
-    transition: all 150ms ease-in-out;
-    color: white;
-  }
+  color: white;
+  z-index: 1;
 
   &:hover {
     transition: all 150ms ease-in-out;
     background-color: rgb(46, 74, 110);
     box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
     transition: all 150ms ease-in-out;
+  }
+
+  mat-icon {
+    color: white !important;
+    transition: all 150ms ease-in-out;
+  }
+
+  &.active {
+    transition: all 200ms ease-in-out;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    background-color: #447ae7;
+
+    mat-icon {
+      color: white;
+      transition: all 200ms ease-in-out;
+    }
+  }
+
+  span {
+    margin-left: 22px;
+    font-size: clamp(0.9rem, 2vw, 1.0rem) !important;
+    font-weight: bold;
   }
 }
 
@@ -98,18 +134,22 @@ mat-paginator {
   min-width: 100%;
 }
 
-@media (max-width: 1050px) {
+@media (max-width: 580px) {
 
   .add-transaction-button {
-    left: auto;
-    margin-left: -15px;
+    position: fixed;
+    top: unset;
     right: unset;
-    bottom: 10px;
-    z-index: 1;
-  }
-}
+    bottom: 40px;
+    left: auto;
+    padding: 15px 15px;
+    min-width: 50px;
 
-@media (max-width: 560px) {
+    span {
+      margin-left: 10px;
+      display: none;
+    };
+  }
 
   .profile-pic {
     margin-bottom: 20px;
@@ -146,6 +186,6 @@ mat-paginator {
 
 @media (min-width: 2000px) {
   .user-wrapper {
-    padding: 0 20%;
+    padding: 20px 20%;
   }
 }

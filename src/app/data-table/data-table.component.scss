@@ -1,21 +1,54 @@
-.add-user-button {
-  position: fixed;
-  right: 56px;
-  bottom: 56px;
-  transition: all 150ms ease-in-out;
-  box-shadow: 0px 5px 10px -5px #000000, inset 0px -5px 15px -5px #000000;
-  background-color: #447ae7;
+.table-wrapper {
+  padding: 20px 0;
+}
 
-  mat-icon {
-    transition: all 150ms ease-in-out;
-    color: rgb(255, 255, 255);
-  }
+.add-user-button {
+  position: absolute;
+  top: 80px;
+  right: 30px;
+  padding: 0 20px;
+  height: 48px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 20px 20px 20px 20px;
+  border-style: none;
+  box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
+  margin-bottom: 20px;
+  transition: all 150ms ease-in-out;
+  background-color: #447ae7;
+  color: white;
+  z-index: 1;
 
   &:hover {
     transition: all 150ms ease-in-out;
     background-color: rgb(46, 74, 110);
     box-shadow: 0px 10px 10px -10px #000000, inset 0px -5px 15px -10px #000000;
     transition: all 150ms ease-in-out;
+  }
+
+  mat-icon {
+    color: white !important;
+    transition: all 150ms ease-in-out;
+  }
+
+  &.active {
+    transition: all 200ms ease-in-out;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    background-color: #447ae7;
+
+    mat-icon {
+      color: white;
+      transition: all 200ms ease-in-out;
+    }
+  }
+
+  span {
+    margin-left: 22px;
+    font-size: clamp(0.9rem, 2vw, 1.0rem) !important;
+    font-weight: bold;
   }
 }
 
@@ -27,16 +60,21 @@ mat-paginator {
   min-width: 100%;
 }
 
-@media(max-width: 980px) {
-  .add-user-button {
-    left: auto;
-    right: unset;
-    bottom: 10px;
-    margin-right: -15px;
-  }
-}
 
 @media (max-width: 480px) {
+
+  .add-user-button {
+    position: fixed;
+    top: unset;
+    right: unset;
+    bottom: 40px;
+    left: auto;
+    padding: 15px 15px;
+
+    span {
+      display: none;
+    }
+  }
 
   th {
     padding: 2px;
@@ -51,6 +89,6 @@ mat-paginator {
 
 @media (min-width: 2000px) {
   .table-wrapper {
-    padding: 0 20%;
+    padding: 20px 20%;
   }
 }
