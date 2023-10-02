@@ -14,6 +14,7 @@ export class TransactionDataService {
 
   constructor() { }
 
+  // initializes the transaction data from the firestore database and delivers it to the app
   async initialize() {
     const transactionCollection = collection(this.firestore, 'transactions');
     await new Promise<void>((resolve) => {
@@ -29,6 +30,7 @@ export class TransactionDataService {
     console.log('TRANSACTION DATA SERVICE:', this.allTransactions);
   }
 
+  // returns all transactions for the specific user
   getUserTransactions(userId: string): Observable<Transaction[]> {
     return this.allTransactions$.pipe(
       map(transactions => transactions.filter(transaction => transaction.userId === userId))

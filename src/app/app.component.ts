@@ -21,6 +21,7 @@ export class AppComponent {
   mobileQuery: MediaQueryList;
   @ViewChild(MatDrawer) drawer: MatDrawer | undefined;
 
+  // checks if the user is logged in
   constructor() {
     this.mobileQuery = matchMedia('(max-width: 950px)');
     this.auth.onAuthStateChanged(async (user) => {
@@ -32,22 +33,25 @@ export class AppComponent {
     });
   }
 
+  // initializes the user and transaction data
   async ngOnInit() {
     await this.userDataService.initialize();
     await this.transactionDataService.initialize();
-
   }
 
+  // logs the user out
   logout() {
     this.auth.signOut();
     this.router.navigate(['/login']);
     console.log('LOGGED OUT', this.auth.currentUser)
   }
 
+  // checks if the user is on the user or user-data page
   isUserDataActive() {
     return this.router.url.includes('/user-data') || this.router.url.includes('/user');
   }
 
+  // opens or closes the drawer depending on the screen size to make the app more mobile friendly
   @HostListener('window:resize')
   onResize() {
     if (this.mobileQuery.matches) {
@@ -57,6 +61,7 @@ export class AppComponent {
     }
   }
 
+  // closes the drawer at a small screen size
   closeDrawerIfMobile() {
     if (this.drawer && window.innerWidth < 950) {
       this.drawer.close();

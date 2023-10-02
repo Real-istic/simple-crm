@@ -40,15 +40,14 @@ export class UserDetailComponent {
 
   constructor() { }
 
+  // renders the user's data and transactions
   async ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.userId = params.get('id') || '';
       console.log('User-id: ', this.userId);
     });
-
     this.user$ = this.userDataService.getUser(this.userId);
     this.userTransactions$ = this.transactionDataService.getUserTransactions(this.userId);
-
     this.userTransactions$.subscribe(transactions => {
       this.dataSource = new MatTableDataSource(transactions);
       this.dataSource.paginator = this.paginator;
@@ -56,11 +55,13 @@ export class UserDetailComponent {
     });
   }
 
+  // sets up the paginator and sort after the view init.
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
+  // opens the edit address dialog
   async openEditAddressDialog() {
     const user = await firstValueFrom(this.user$);
     const dialog = this.dialog.open(DialogEditAddressComponent);
@@ -68,6 +69,7 @@ export class UserDetailComponent {
     dialog.componentInstance.userId = this.userId;
   }
 
+  // opens the edit header dialog
   async openEditHeaderDialog() {
     const user = await firstValueFrom(this.user$);
     const dialog = this.dialog.open(DialogEditUserComponent);
@@ -75,6 +77,7 @@ export class UserDetailComponent {
     dialog.componentInstance.userId = this.userId;
   }
 
+  // opens the add transaction dialog
   async openAddTransactionDialog() {
     const user = await firstValueFrom(this.user$);
     const dialog = this.dialog.open(DialogAddTransactionComponent);
@@ -84,12 +87,14 @@ export class UserDetailComponent {
     dialog.componentInstance.userId = this.userId;
   }
 
+  // formats the date to a readable format
   formatDate(timestamp: number): string {
     const date = new Date(timestamp);
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
     return date.toLocaleDateString('en-US', options);
   }
 
+  // handles the filter for the transaction table
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

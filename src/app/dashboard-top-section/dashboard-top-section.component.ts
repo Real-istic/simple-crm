@@ -21,6 +21,7 @@ export class DashboardTopSectionComponent implements OnInit {
 
   constructor() {}
 
+  // sets the allUser and allTransactions subscriptions and calls the getAllRevenue function if the data changes.
   async ngOnInit() {
     const allUsers$ = this.userDataService.allUsers$;
     const allTransactions$ = this.transactionDataService.allTransactions$;
@@ -29,6 +30,7 @@ export class DashboardTopSectionComponent implements OnInit {
     });
   }
 
+  // gets the revenue for all transactions and sets the allRevenueSubject.
   getAllRevenue() {
     let sum = 0;
     let transactions = 0;
@@ -41,6 +43,7 @@ export class DashboardTopSectionComponent implements OnInit {
     this.allRevenueSubject.next(sum);
   }
 
+  // unsubscribes from the subscriptions when the component gets destroyed to avoid memory leaks.
   ngOnDestroy() {
     this.dataSubscription?.unsubscribe();
   }

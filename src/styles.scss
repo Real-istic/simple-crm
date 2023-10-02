@@ -5,7 +5,7 @@
 html,
 body {
   height: 100%;
-  font-size: clamp(0.9rem, 2vw, 1.0rem)!important;
+  font-size: clamp(0.9rem, 2vw, 1.0rem) !important;
 }
 
 body {
@@ -58,5 +58,5 @@ tbody {
 @media (max-width: 480px) {
   .mat-mdc-card-content {
     padding: 8px !important;
-}
+  }
 }

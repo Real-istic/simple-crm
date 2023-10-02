@@ -18,12 +18,11 @@ export class DashboardBottomRightSectionComponent {
 
   constructor() { }
 
-
+  // chart options are set, data subscription is set and the chart is rendered. Chart options get updated when the data changes.
   async ngOnInit() {
     this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(async () => {
       await this.setChartOptions();
       await this.chart?.updateOptions(this.chartOptions);
-
     });
     await this.setChartOptions();
     this.chart = new ApexCharts(document.querySelector("#chart3"), this.chartOptions);
@@ -36,6 +35,7 @@ export class DashboardBottomRightSectionComponent {
     }
   }
 
+  // chart options and data are set, they define the different chart properties and more importantly the data that is displayed in the chart.
   async setChartOptions() {
     this.chartOptions = {
       series: [{
@@ -178,6 +178,7 @@ export class DashboardBottomRightSectionComponent {
     };
   };
 
+  // the top five users by most revenue are calculated by iterating over all transactions and adding the price of each transaction to the user's total revenue.
   async getTopFiveUserByMostRevenue() {
     const topFiveUserListByMostRevenue: any[] = [];
     for (let i = 0; i < this.transactionDataService.allTransactions.length; i++) {
@@ -195,7 +196,7 @@ export class DashboardBottomRightSectionComponent {
     return topFiveUserListByMostRevenue.slice(0, 5);
   }
 
-
+  // the top five user names by most revenue are calculated by iterating over the top five users by most revenue and comparing their userId to the userId of all users.
   async getTopFiveUserNamesByMostRevenue() {
     let usersByMostRevenue = await this.getTopFiveUserByMostRevenue();
     let usernamesByMostRevenue = [];
@@ -211,9 +212,10 @@ export class DashboardBottomRightSectionComponent {
     return usernamesByMostRevenue;
   }
 
+  // ("packageType" (for example: Bronze Package, Silver Package etc. )) is passed as an argument to this function to determine which package type is being calculated. The top five user revenue per package is calculated by iterating over all transactions and adding the price of each transaction to the user's total revenue per package.
   async getTopFiveUserRevenuePerPackage(packageType: string) {
     let topFiveUsersByMostRevenue: any = await this.getTopFiveUserByMostRevenue();
-    let topFiveUserRevenuePerBronzePackage = [];
+    let topFiveUserRevenuePerPackage = [];
     for (let i = 0; i < topFiveUsersByMostRevenue.length; i++) {
       const topFiveUser = topFiveUsersByMostRevenue[i].userId;
       let sum = 0;
@@ -226,11 +228,12 @@ export class DashboardBottomRightSectionComponent {
           sum += transactionValue;
         }
       }
-      topFiveUserRevenuePerBronzePackage.push(sum);
+      topFiveUserRevenuePerPackage.push(sum);
     }
-    return topFiveUserRevenuePerBronzePackage;
+    return topFiveUserRevenuePerPackage;
   }
 
+  // the chart gets destroyed and the data subscription gets unsubscribed to avoid memory leaks.
   ngOnDestroy() {
     this.chart?.destroy();
     this.dataSubscription?.unsubscribe();

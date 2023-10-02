@@ -15,7 +15,7 @@ export class DialogEditAddressComponent {
   firestore: Firestore = inject(Firestore)
   userId: string = '';
 
-
+  // updates the user data in the database.
   async saveUser() {
     this.loading = true;
     let userCollection = collection(this.firestore, 'users')

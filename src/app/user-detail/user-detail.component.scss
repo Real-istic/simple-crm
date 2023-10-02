@@ -135,7 +135,6 @@ mat-paginator {
 }
 
 @media (max-width: 580px) {
-
   .add-transaction-button {
     position: fixed;
     top: unset;
@@ -148,7 +147,9 @@ mat-paginator {
     span {
       margin-left: 10px;
       display: none;
-    };
+    }
+
+    ;
   }
 
   .profile-pic {
@@ -177,7 +178,6 @@ mat-paginator {
 }
 
 @media (max-width: 480px) {
-
   .mat-mdc-card-title,
   .mat-mdc-card-subtitle {
     padding: 6px !important;

@@ -36,12 +36,13 @@ export class DialogAddTransactionComponent {
   minDate: Date;
   maxDate: Date;
 
+  // sets the minDate and maxDate for the datepicker.
   constructor() {
     this.minDate = new Date(2023, 3, 1);
     this.maxDate = new Date();
   }
 
-
+  // saves the transaction to the database. 
   async saveTransaction() {
     this.loading = true;
     this.transaction.userId = this.user.id;
@@ -57,10 +58,12 @@ export class DialogAddTransactionComponent {
     this.dialogRef.close();
   }
 
+  // formats the price to a string with a € sign.
   formatPrice(price: number): string {
     return '€ ' + price;
   }
 
+  // checks if the form is valid.
   isFormValid() {
     return (
       this.transaction.date as number &&

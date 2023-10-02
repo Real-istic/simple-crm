@@ -28,9 +28,9 @@ export class DataTableComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
-  }
+  constructor() { }
 
+  // allUsers is subscribed to and the table gets updated when the data changes, also the dataSource paginator and sort gets set.
   async ngOnInit() {
     this.dataSubscription = this.userDataService.allUsers$.subscribe(async (users) => {
       this.dataSource = new MatTableDataSource(users);
@@ -39,21 +39,25 @@ export class DataTableComponent {
     });
   }
 
+  // the dataSource paginator and sort gets set again after the view has been initialized to ensure that the paginator and sort are working properly.
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
+  // filters the dataSource based on the filterValue.
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     this.dataSource.paginator?.firstPage();
   }
 
+  // opens the dialog for adding a new user.
   openDialog() {
     this.dialog.open(DialogAddUserComponent);
   }
 
+  // unsubscribes from the subscriptions and closes the dialog when the component gets destroyed to avoid memory leaks.
   ngOnDestroy() {
     this.dataSubscription?.unsubscribe();
     this.dialog?.closeAll();

@@ -15,11 +15,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // redirect to home page after login
   successCallback(data: FirebaseUISignInSuccessWithAuthResult) {
-    console.log('successCallback', data);
     this.router.navigate(['/']);
   }
 
+  // error behavior if login fails
   errorCallback(data: FirebaseUISignInFailure) {
     console.warn('errorCallback', data);
   }

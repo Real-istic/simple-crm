@@ -19,6 +19,7 @@ export class UserDataService {
 
   constructor() { }
 
+  // initializes the user data from the firestore database and delivers it to the app
   async initialize() {
     const userCollection = collection(this.firestore, 'users');
     await new Promise<void>((resolve) => {
@@ -34,6 +35,7 @@ export class UserDataService {
     console.log('USER DATA SERVICE:', this.allUsers);
   }
 
+  // returns the user with the specific id
   getUser(id: string): Observable<User | undefined> {
     return this.allUsers$.pipe(
       map(users => users.find(user => user.id === id))

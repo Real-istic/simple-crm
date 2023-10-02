@@ -17,6 +17,7 @@ export class DashboardRightSectionComponent {
 
   constructor() { }
 
+  // chart options are set, data subscription is set and the chart is rendered.
   async ngOnInit() {
     this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(async () => {
       await this.updateChartSeries();
@@ -32,12 +33,14 @@ export class DashboardRightSectionComponent {
     }
   }
 
+  // updates the chart series with the new data.
   async updateChartSeries() {
     this.chart?.updateSeries(
       await this.getTransactionAmountPerDescription()
     );
   }
 
+  // chart options and data are set, they define the different chart properties and more importantly the data that is displayed in the chart.
   async setChartOptions() {
     this.chartOptions = {
       title: {
@@ -155,6 +158,7 @@ export class DashboardRightSectionComponent {
     };
   }
 
+  // returns an array with the amount of transactions per description.
   async getTransactionAmountPerDescription() {
     const TransactionAmountPerDescription: number[] = [0, 0, 0, 0];
     for (const transaction of this.transactionDataService.allTransactions) {
@@ -179,6 +183,7 @@ export class DashboardRightSectionComponent {
     return TransactionAmountPerDescription;
   }
 
+  // the chart gets destroyed and the data subscription gets unsubscribed to avoid memory leaks.
   ngOnDestroy() {
     this.chart?.destroy();
     this.dataSubscription?.unsubscribe();

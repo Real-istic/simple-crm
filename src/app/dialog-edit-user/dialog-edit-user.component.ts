@@ -16,10 +16,12 @@ export class DialogEditUserComponent {
   birthDate: any = this.user.birthDate;
   userId: string = '';
 
+  // sets the birthDate to the user's birthDate.
   ngOnInit() {
     this.birthDate = this.user.birthDate ? new Date(this.user.birthDate) : null;
   }
 
+  // updates the user data in the database.
   async saveUser() {
     this.loading = true;
     this.user.birthDate = this.birthDate.getTime();
