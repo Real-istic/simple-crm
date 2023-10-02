@@ -27,7 +27,6 @@ export class TransactionDataService {
         resolve();
       });
     });
-    console.log('TRANSACTION DATA SERVICE:', this.allTransactions);
   }
 
   // returns all transactions for the specific user

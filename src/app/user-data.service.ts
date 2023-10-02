@@ -32,7 +32,6 @@ export class UserDataService {
         resolve();
       });
     });
-    console.log('USER DATA SERVICE:', this.allUsers);
   }
 
   // returns the user with the specific id
