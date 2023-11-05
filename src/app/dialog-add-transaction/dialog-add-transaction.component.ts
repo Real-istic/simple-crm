@@ -42,7 +42,7 @@ export class DialogAddTransactionComponent {
     this.maxDate = new Date();
   }
 
-  // saves the transaction to the database. 
+  // saves the transaction to the database.
   async saveTransaction() {
     this.loading = true;
     this.transaction.userId = this.user.id;
@@ -53,7 +53,6 @@ export class DialogAddTransactionComponent {
     const transactionRef = doc(transactionCollection);
     this.transaction.id = transactionRef.id;
     await setDoc(transactionRef, this.transaction.toJson());
-    console.log('Result (transaction):', this.transaction);
     this.loading = false;
     this.dialogRef.close();
   }

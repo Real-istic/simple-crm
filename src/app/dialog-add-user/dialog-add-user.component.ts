@@ -46,7 +46,6 @@ export class DialogAddUserComponent {
     const userDocRef = doc(userCollection)
     this.user.id = userDocRef.id;
     await setDoc(userDocRef, this.user.toJson());
-    console.log('Result (user):', this.user);
     this.loading = false;
     this.dialogRef.close();
   }

@@ -44,7 +44,6 @@ export class UserDetailComponent {
   async ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.userId = params.get('id') || '';
-      console.log('User-id: ', this.userId);
     });
     this.user$ = this.userDataService.getUser(this.userId);
     this.userTransactions$ = this.transactionDataService.getUserTransactions(this.userId);

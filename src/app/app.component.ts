@@ -43,7 +43,7 @@ export class AppComponent {
   logout() {
     this.auth.signOut();
     this.router.navigate(['/login']);
-    console.log('LOGGED OUT', this.auth.currentUser)
+    // console.log('LOGGED OUT', this.auth.currentUser)
   }
 
   // checks if the user is on the user or user-data page
