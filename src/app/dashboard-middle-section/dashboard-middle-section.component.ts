@@ -143,11 +143,11 @@ export class DashboardMiddleSectionComponent {
     this.monthsForChart = [];
     this.categories = [];
 
-    for (let i = 5; i >= 0; i--) {
+    for (let i = 6; i > 0; i--) {
       const targetMonth = (currentMonth - i + 12) % 12; // remember the Year can change
       this.monthsForChart.push(targetMonth);
       const monthName = this.getMonthName(targetMonth);
-      this.categories.push(`${monthName} ${currentYear}`);
+      this.categories.push(`${monthName}`);
     }
   }
 
@@ -192,7 +192,7 @@ export class DashboardMiddleSectionComponent {
         const transactionDate = new Date(transaction.date);
         const transactionYear = transactionDate.getFullYear();
         const transactionMonth = transactionDate.getMonth();
-        if (transactionMonth === targetMonth && transactionYear === new Date().getFullYear()) {
+        if (transactionMonth === targetMonth && transactionYear === 2023) {
           sum += value;
         }
       }

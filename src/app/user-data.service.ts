@@ -32,6 +32,7 @@ export class UserDataService {
         resolve();
       });
     });
+    // console.log('Initialized user data', this.allUsers);
   }
 
   // returns the user with the specific id
