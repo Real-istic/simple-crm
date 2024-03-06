@@ -137,13 +137,12 @@ export class DashboardMiddleSectionComponent {
   // sets the last 6 months for the chart and the categories for (month names) the x-axis.
   updateMonthsForChartAndCategories() {
     const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth();
 
     this.monthsForChart = [];
     this.categories = [];
 
-    for (let i = 6; i > 0; i--) {
+    for (let i = 5; i >= 0; i--) {
       const targetMonth = (currentMonth - i + 12) % 12; // remember the Year can change
       this.monthsForChart.push(targetMonth);
       const monthName = this.getMonthName(targetMonth);
@@ -170,8 +169,8 @@ export class DashboardMiddleSectionComponent {
         const userRegistrationDate = new Date(user.registrationDate);
         const userRegistrationYear = userRegistrationDate.getFullYear();
         const userRegistrationMonth = userRegistrationDate.getMonth();
-
-        if (userRegistrationMonth === targetMonth && userRegistrationYear === 2023) {
+        const currentYear = new Date().getFullYear();
+        if (userRegistrationMonth === targetMonth && userRegistrationYear === currentYear) {
           sum += 1;
         }
       }
@@ -192,7 +191,8 @@ export class DashboardMiddleSectionComponent {
         const transactionDate = new Date(transaction.date);
         const transactionYear = transactionDate.getFullYear();
         const transactionMonth = transactionDate.getMonth();
-        if (transactionMonth === targetMonth && transactionYear === 2023) {
+        const currentYear = new Date().getFullYear();
+        if (transactionMonth === targetMonth && transactionYear === currentYear) {
           sum += value;
         }
       }
@@ -212,7 +212,8 @@ export class DashboardMiddleSectionComponent {
         const transactionDate = new Date(transaction.date);
         const transactionYear = transactionDate.getFullYear();
         const transactionMonth = transactionDate.getMonth();
-        if (transactionMonth === targetMonth && transactionYear === 2023) {
+        const currentYear = new Date().getFullYear();
+        if (transactionMonth === targetMonth && transactionYear === currentYear) {
           sum += 1;
         }
       }
