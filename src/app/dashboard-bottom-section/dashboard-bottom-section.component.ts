@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Transaction } from 'src/models/transaction.class';
@@ -13,34 +13,32 @@ import { Subscription } from 'rxjs';
   templateUrl: './dashboard-bottom-section.component.html',
   styleUrls: ['./dashboard-bottom-section.component.scss']
 })
-export class DashboardBottomSectionComponent {
-  dialog: MatDialog = inject(MatDialog);
-  route: ActivatedRoute = inject(ActivatedRoute);
-  transactionDataService: TransactionDataService = inject(TransactionDataService);
+export class DashboardBottomSectionComponent implements OnInit, OnDestroy {
+  private dialog: MatDialog = inject(MatDialog);
+  private route: ActivatedRoute = inject(ActivatedRoute);
+  private transactionDataService: TransactionDataService = inject(TransactionDataService);
 
   displayedColumns: string[] = ['description', 'price', 'date'];
   dataSource: MatTableDataSource<Transaction> = new MatTableDataSource<Transaction>();
-  dataSubscription: Subscription | undefined;
+  private dataSubscription?: Subscription;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor() { }
-
   // data subscription is set and the table data gets sorted by the transaction date, also the dataSource for the MatTable gets updated with the sorted data.
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(transactions => {
-      const sortedTransactionData = transactions.sort((a: any, b: any) => this.sortByLastTransactionDate(a, b));
+      const sortedTransactionData: Transaction[] = transactions.sort((a: Transaction, b: Transaction) => this.sortByLastTransactionDate(a, b));
       this.dataSource.data = sortedTransactionData;
     });
   }
 
   // the paginator is set after the view is initialized to ensure that the paginator is available when the data is loaded.
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 
   // the data gets sorted by the transaction date. The data is sorted in descending order, so the most recent transaction is at the top.
-  sortByLastTransactionDate(a: any, b: any) {
+  private sortByLastTransactionDate(a: Transaction, b: Transaction): number {
     const aDate = new Date(a.date);
     const bDate = new Date(b.date);
     return bDate.getTime() - aDate.getTime();
@@ -54,7 +52,7 @@ export class DashboardBottomSectionComponent {
   }
 
   // the data subscription gets unsubscribed to avoid memory leaks.
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.dataSubscription?.unsubscribe();
   }
 }

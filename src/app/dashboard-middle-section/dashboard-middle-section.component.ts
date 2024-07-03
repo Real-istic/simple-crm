@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
@@ -9,23 +9,21 @@ import { Subscription, merge } from 'rxjs';
   templateUrl: './dashboard-middle-section.component.html',
   styleUrls: ['./dashboard-middle-section.component.scss']
 })
-export class DashboardMiddleSectionComponent {
-  userDataService: UserDataService = inject(UserDataService);
-  transactionDataService: TransactionDataService = inject(TransactionDataService);
-  chart: ApexCharts | undefined;
-  chartOptions: any = {};
-  dataSubscription: Subscription | undefined;
-  monthsForChart: number[] = [];
-  categories: string[] = [];
-
-  constructor() { }
+export class DashboardMiddleSectionComponent implements OnInit, OnDestroy {
+  private userDataService: UserDataService = inject(UserDataService);
+  private transactionDataService: TransactionDataService = inject(TransactionDataService);
+  private chart?: ApexCharts;
+  private chartOptions = {};
+  private dataSubscription?: Subscription;
+  private monthsForChart: number[] = [];
+  private categories: string[] = [];
 
   // allUsers and allTransactions are subscribed to and the chart gets updated when the data changes also the chart options are set and the chart is rendered.
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     const allUsers$ = this.userDataService.allUsers$;
     const allTransactions$ = this.transactionDataService.allTransactions$;
     this.dataSubscription = merge(allUsers$, allTransactions$).subscribe(async () => {
-     await this.updateChartSeries();
+      await this.updateChartSeries();
     });
     this.updateMonthsForChartAndCategories(); // sets the last 6 months for the chart
     await this.setChartOptions();
@@ -34,7 +32,7 @@ export class DashboardMiddleSectionComponent {
   }
 
   // the chart series are updated with the new data.
-  async updateChartSeries() {
+  private async updateChartSeries(): Promise<void> {
     this.chart?.updateSeries([
       {
         name: "New Users",
@@ -52,7 +50,7 @@ export class DashboardMiddleSectionComponent {
   }
 
   // chart options and data are set, they define the different chart properties and more importantly the data that is displayed in the chart.
-  async setChartOptions() {
+  private async setChartOptions(): Promise<void> {
     this.chartOptions = {
       title: {
         text: 'History',
@@ -135,7 +133,7 @@ export class DashboardMiddleSectionComponent {
   }
 
   // sets the last 6 months for the chart and the categories for (month names) the x-axis.
-  updateMonthsForChartAndCategories() {
+  private updateMonthsForChartAndCategories(): void {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();
 
@@ -151,7 +149,7 @@ export class DashboardMiddleSectionComponent {
   }
 
   // returns the month name for a given month number. (0 = Jan, 1 = Feb, ...)
-  getMonthName(month: number): string {
+  private getMonthName(month: number): string {
     const monthNames = [
       'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
     ];
@@ -159,7 +157,7 @@ export class DashboardMiddleSectionComponent {
   }
 
   // analyses the registered users per month (for the last 6 months) and returns an array with the number of registered users per month.
-  async getUserCountPerMonth() {
+  private async getUserCountPerMonth(): Promise<number[]> {
     let userCountPerMonth: number[] = [];
     for (let i = 0; i < this.monthsForChart.length; i++) {
       const targetMonth = this.monthsForChart[i];
@@ -180,7 +178,7 @@ export class DashboardMiddleSectionComponent {
   }
 
   // analyses the revenue per month (for the last 6 months ()) and returns an array with the revenue per month.
-  async getRevenuePerMonth() {
+  private async getRevenuePerMonth(): Promise<number[]> {
     let revenuePerMonth: number[] = [];
     for (let i = 0; i < this.monthsForChart.length; i++) {
       const targetMonth = this.monthsForChart[i];
@@ -202,7 +200,7 @@ export class DashboardMiddleSectionComponent {
   }
 
   // analyses the transactions per month (for the last 6 months) and returns an array with the number of transactions per month.
-  async getTransactionCountPerMonth() {
+  private async getTransactionCountPerMonth(): Promise<number[]> {
     let transactionCountPerMonth: number[] = [];
     for (let i = 0; i < this.monthsForChart.length; i++) {
       const targetMonth = this.monthsForChart[i];
@@ -223,9 +221,8 @@ export class DashboardMiddleSectionComponent {
   }
 
   // the chart gets destroyed and the data subscription gets unsubscribed to avoid memory leaks.
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.chart?.destroy();
     this.dataSubscription?.unsubscribe();
   }
-
 }

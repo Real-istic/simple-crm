@@ -1,25 +1,24 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
 import { Subscription } from 'rxjs';
+import { UserValue } from 'src/models/userValue.class';
 
 @Component({
   selector: 'app-dashboard-bottom-right-section',
   templateUrl: './dashboard-bottom-right-section.component.html',
   styleUrls: ['./dashboard-bottom-right-section.component.scss']
 })
-export class DashboardBottomRightSectionComponent {
-  userDataService: UserDataService = inject(UserDataService);
-  transactionDataService: TransactionDataService = inject(TransactionDataService);
-  chart: ApexCharts | undefined;
-  chartOptions: any = {};
-  dataSubscription: Subscription | undefined;
-
-  constructor() { }
+export class DashboardBottomRightSectionComponent implements OnInit, OnDestroy {
+  private userDataService: UserDataService = inject(UserDataService);
+  private transactionDataService: TransactionDataService = inject(TransactionDataService);
+  private chart?: ApexCharts;
+  private chartOptions = {};
+  private dataSubscription?: Subscription;
 
   // chart options are set, data subscription is set and the chart is rendered. Chart options get updated when the data changes.
-  async ngOnInit() {
+async ngOnInit(): Promise<void> {
     this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(async () => {
       await this.setChartOptions();
       await this.chart?.updateOptions(this.chartOptions);
@@ -36,7 +35,7 @@ export class DashboardBottomRightSectionComponent {
   }
 
   // chart options and data are set, they define the different chart properties and more importantly the data that is displayed in the chart.
-  async setChartOptions() {
+  private async setChartOptions() {
     this.chartOptions = {
       series: [{
         name: 'Bronze Packages',
@@ -56,12 +55,12 @@ export class DashboardBottomRightSectionComponent {
         height: 440,
         stacked: true,
       },
-      dataLabels:{
+      dataLabels: {
         enabled: false,
         offsetY: 8,
         offsetX: 15,
-        formatter: function (value: any) {
-          return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, });
+        formatter: function (value: number) {
+          return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 });
         },
       },
       colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],
@@ -125,7 +124,7 @@ export class DashboardBottomRightSectionComponent {
             cssClass: 'apexcharts-yaxis-label',
           },
           offsetX: -10,
-          formatter: function (value: any) {
+          formatter: function (value: number) {
             return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
           }
         },
@@ -140,7 +139,7 @@ export class DashboardBottomRightSectionComponent {
       },
       tooltip: {
         y: {
-          formatter: function (value: any) {
+          formatter: function (value: number) {
             return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
           }
         }
@@ -174,13 +173,15 @@ export class DashboardBottomRightSectionComponent {
             },
           },
         },
-    }]
+      }]
     };
   };
 
+
+
   // the top five users by most revenue are calculated by iterating over all transactions and adding the price of each transaction to the user's total revenue.
-  async getTopFiveUserByMostRevenue() {
-    const topFiveUserListByMostRevenue: any[] = [];
+  private getTopFiveUserByMostRevenue(): UserValue[] {
+    const topFiveUserListByMostRevenue: UserValue[] = [];
     for (let i = 0; i < this.transactionDataService.allTransactions.length; i++) {
       const transaction = this.transactionDataService.allTransactions[i];
       const userId = transaction.userId;
@@ -197,8 +198,8 @@ export class DashboardBottomRightSectionComponent {
   }
 
   // the top five user names by most revenue are calculated by iterating over the top five users by most revenue and comparing their userId to the userId of all users.
-  async getTopFiveUserNamesByMostRevenue() {
-    let usersByMostRevenue = await this.getTopFiveUserByMostRevenue();
+  private getTopFiveUserNamesByMostRevenue(): string[] {
+    let usersByMostRevenue = this.getTopFiveUserByMostRevenue();
     let usernamesByMostRevenue = [];
     for (let i = 0; i < usersByMostRevenue.length; i++) {
       const transactionUserId = usersByMostRevenue[i].userId;
@@ -213,8 +214,8 @@ export class DashboardBottomRightSectionComponent {
   }
 
   // ("packageType" (for example: Bronze Package, Silver Package etc. )) is passed as an argument to this function to determine which package type is being calculated. The top five user revenue per package is calculated by iterating over all transactions and adding the price of each transaction to the user's total revenue per package.
-  async getTopFiveUserRevenuePerPackage(packageType: string) {
-    let topFiveUsersByMostRevenue: any = await this.getTopFiveUserByMostRevenue();
+  private getTopFiveUserRevenuePerPackage(packageType: string): number[] {
+    let topFiveUsersByMostRevenue: UserValue[] = this.getTopFiveUserByMostRevenue();
     let topFiveUserRevenuePerPackage = [];
     for (let i = 0; i < topFiveUsersByMostRevenue.length; i++) {
       const topFiveUser = topFiveUsersByMostRevenue[i].userId;
