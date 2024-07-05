@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
@@ -10,45 +10,69 @@ import { UserValue } from 'src/models/userValue.class';
   templateUrl: './dashboard-bottom-right-section.component.html',
   styleUrls: ['./dashboard-bottom-right-section.component.scss']
 })
-export class DashboardBottomRightSectionComponent implements OnInit, OnDestroy {
+export class DashboardBottomRightSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   private userDataService: UserDataService = inject(UserDataService);
   private transactionDataService: TransactionDataService = inject(TransactionDataService);
   private chart?: ApexCharts;
   private chartOptions = {};
   private dataSubscription?: Subscription;
 
-  // chart options are set, data subscription is set and the chart is rendered. Chart options get updated when the data changes.
-async ngOnInit(): Promise<void> {
-    this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(async () => {
-      await this.setChartOptions();
-      await this.chart?.updateOptions(this.chartOptions);
-    });
-    await this.setChartOptions();
-    this.chart = new ApexCharts(document.querySelector("#chart3"), this.chartOptions);
-    if (window.innerWidth < 950) {
-      setTimeout(() => { // this delay ensures that the sidebar is fully hidden before rendering the chart to avoid rendering issues with the chart in the mobile view
-        this.chart?.render();
-      }, 350);
-    } else {
-      this.chart.render();
-    }
+  ngOnInit(): void {
+    this.setSubscription();
+    this.setChartOptions();
   }
 
-  // chart options and data are set, they define the different chart properties and more importantly the data that is displayed in the chart.
-  private async setChartOptions() {
+  /**
+   * initializes the subscription
+   */
+  private setSubscription(): void {
+    this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(() => {
+      this.updateChartSeries();
+    });
+  }
+
+  /**
+   * updates the chart series
+   */
+  private updateChartSeries(): void {
+    this.chart?.updateSeries([
+      {
+        name: 'Bronze Packages',
+        data: this.getTopFiveUserRevenuePerPackage('Bronze Package')
+      },
+      {
+        name: 'Silver Packages',
+        data: this.getTopFiveUserRevenuePerPackage('Silver Package')
+      },
+      {
+        name: 'Gold Packages',
+        data: this.getTopFiveUserRevenuePerPackage('Gold Package')
+      },
+      {
+        name: 'Platinum Packages',
+        data: this.getTopFiveUserRevenuePerPackage('Platinum Package')
+      }
+    ]);
+  }
+
+  /**
+   * chart options and data are set, they define the different chart
+   * properties and more importantly the data that is displayed in the chart.
+   */
+  private setChartOptions(): void {
     this.chartOptions = {
       series: [{
         name: 'Bronze Packages',
-        data: await this.getTopFiveUserRevenuePerPackage('Bronze Package')
+        data: this.getTopFiveUserRevenuePerPackage('Bronze Package')
       }, {
         name: 'Silver Packages',
-        data: await this.getTopFiveUserRevenuePerPackage('Silver Package')
+        data: this.getTopFiveUserRevenuePerPackage('Silver Package')
       }, {
         name: 'Gold Packages',
-        data: await this.getTopFiveUserRevenuePerPackage('Gold Package')
+        data: this.getTopFiveUserRevenuePerPackage('Gold Package')
       }, {
         name: 'Platinum Packages',
-        data: await this.getTopFiveUserRevenuePerPackage('Platinum Package')
+        data: this.getTopFiveUserRevenuePerPackage('Platinum Package')
       }],
       chart: {
         type: 'bar',
@@ -93,7 +117,7 @@ async ngOnInit(): Promise<void> {
         },
       },
       xaxis: {
-        categories: await this.getTopFiveUserNamesByMostRevenue(),
+        categories: this.getTopFiveUserNamesByMostRevenue(),
         labels: {
           show: true,
           formatter: function (value: any) {
@@ -179,7 +203,12 @@ async ngOnInit(): Promise<void> {
 
 
 
-  // the top five users by most revenue are calculated by iterating over all transactions and adding the price of each transaction to the user's total revenue.
+  /**
+   * the top five users by most revenue are calculated by iterating over all
+   * transactions and adding the price of each transaction to the user's total revenue.
+   * 
+   * @returns the top five user listed by the most revenue
+   */
   private getTopFiveUserByMostRevenue(): UserValue[] {
     const topFiveUserListByMostRevenue: UserValue[] = [];
     for (let i = 0; i < this.transactionDataService.allTransactions.length; i++) {
@@ -197,7 +226,12 @@ async ngOnInit(): Promise<void> {
     return topFiveUserListByMostRevenue.slice(0, 5);
   }
 
-  // the top five user names by most revenue are calculated by iterating over the top five users by most revenue and comparing their userId to the userId of all users.
+  /**
+   * the top five user names by most revenue are calculated by iterating over the top
+   * five users by most revenue and comparing their userId to the userId of all users.
+   * 
+   * @returns the usernames by the most revenue
+   */
   private getTopFiveUserNamesByMostRevenue(): string[] {
     let usersByMostRevenue = this.getTopFiveUserByMostRevenue();
     let usernamesByMostRevenue = [];
@@ -213,7 +247,15 @@ async ngOnInit(): Promise<void> {
     return usernamesByMostRevenue;
   }
 
-  // ("packageType" (for example: Bronze Package, Silver Package etc. )) is passed as an argument to this function to determine which package type is being calculated. The top five user revenue per package is calculated by iterating over all transactions and adding the price of each transaction to the user's total revenue per package.
+  /**
+   * packageType is passed as an argument to this function to determine which package
+   * type is being calculated. The top five user revenue per package is calculated by 
+   * iterating over all transactions and adding the price of each transaction to the
+   * user's total revenue per package.
+   * 
+   * @param packageType for example: Bronze Package, Silver Package etc.
+   * @returns the top five revenue per package
+   */
   private getTopFiveUserRevenuePerPackage(packageType: string): number[] {
     let topFiveUsersByMostRevenue: UserValue[] = this.getTopFiveUserByMostRevenue();
     let topFiveUserRevenuePerPackage = [];
@@ -234,8 +276,15 @@ async ngOnInit(): Promise<void> {
     return topFiveUserRevenuePerPackage;
   }
 
-  // the chart gets destroyed and the data subscription gets unsubscribed to avoid memory leaks.
-  ngOnDestroy() {
+  ngAfterViewInit(): void {
+    this.chart = new ApexCharts(document.querySelector("#chart3"), this.chartOptions);
+    this.chart.render();
+  }
+
+  /**
+   * the chart gets destroyed and the data subscription gets unsubscribed to avoid memory leaks.
+   */
+  ngOnDestroy(): void {
     this.chart?.destroy();
     this.dataSubscription?.unsubscribe();
   }

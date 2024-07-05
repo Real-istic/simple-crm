@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { TransactionDataService } from '../transaction-data.service';
 import { Subscription } from 'rxjs';
-import { set } from '@angular/fire/database';
 
 @Component({
   selector: 'app-dashboard-top-right-section',
@@ -10,38 +9,38 @@ import { set } from '@angular/fire/database';
   styleUrls: ['./dashboard-top-right-section.component.scss']
 })
 export class DashboardRightSectionComponent {
-  transactionDataService: TransactionDataService = inject(TransactionDataService);
-  chart: ApexCharts | undefined;
-  chartOptions: any = {};
-  dataSubscription: Subscription | undefined;
+  private transactionDataService: TransactionDataService = inject(TransactionDataService);
+  private chart?: ApexCharts;
+  private chartOptions: any = {};
+  private dataSubscription?: Subscription;
 
-  constructor() { }
-
-  // chart options are set, data subscription is set and the chart is rendered.
-  async ngOnInit() {
-    this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(async () => {
-      await this.updateChartSeries();
-    });
-    await this.setChartOptions();
-    this.chart = new ApexCharts(document.querySelector("#chart2"), this.chartOptions);
-    if (window.innerWidth < 950) {
-      setTimeout(() => { // this delay ensures that the sidebar is fully hidden before rendering the chart to avoid rendering issues with the chart in the mobile view
-        this.chart?.render();
-      }, 350);
-    } else {
-      this.chart.render();
-    }
+  ngOnInit(): void {
+    this.setSubscription();
   }
 
-  // updates the chart series with the new data.
-  async updateChartSeries() {
+  /**
+   * chart Subscriptions is set
+   */
+  private setSubscription(): void {
+    this.dataSubscription = this.transactionDataService.allTransactions$.subscribe(() => {
+      this.updateChartSeries();
+    });
+  }
+
+  /**
+   * updates the chart series with the new data.
+   */
+  private updateChartSeries(): void {
     this.chart?.updateSeries(
-      await this.getTransactionAmountPerDescription()
+      this.getTransactionAmountPerDescription()
     );
   }
 
-  // chart options and data are set, they define the different chart properties and more importantly the data that is displayed in the chart.
-  async setChartOptions() {
+  /**
+   * chart options and data are set, they define the different chart
+   * properties and more importantly the data that is displayed in the chart.
+   */
+  private setChartOptions(): void {
     this.chartOptions = {
       title: {
         text: 'Product Sales',
@@ -65,7 +64,7 @@ export class DashboardRightSectionComponent {
         maxHeight: 200,
       },
       colors: ["#cc6600", "#C0C0C0", "#ffcc00", "#a0b2c6"],
-      series: await this.getTransactionAmountPerDescription(),
+      series: this.getTransactionAmountPerDescription(),
       labels: ["Bronze Packages", "Silver Packages", "Gold Packages", "Platinum Packages"],
       dataLabels: {
         enabled: true,
@@ -158,8 +157,12 @@ export class DashboardRightSectionComponent {
     };
   }
 
-  // returns an array with the amount of transactions per description.
-  async getTransactionAmountPerDescription() {
+  /**
+   * returns an array with the amount of transactions per description.
+   * 
+   * @returns the transaction amount per description
+   */
+  private getTransactionAmountPerDescription(): number[] {
     const TransactionAmountPerDescription: number[] = [0, 0, 0, 0];
     for (const transaction of this.transactionDataService.allTransactions) {
       const transactionType = transaction.description;
@@ -183,8 +186,19 @@ export class DashboardRightSectionComponent {
     return TransactionAmountPerDescription;
   }
 
-  // the chart gets destroyed and the data subscription gets unsubscribed to avoid memory leaks.
-  ngOnDestroy() {
+  /**
+   * initializes and Renders the Chart
+   */
+  ngAfterViewInit(): void {
+    this.setChartOptions();
+    this.chart = new ApexCharts(document.querySelector("#chart2"), this.chartOptions);
+    this.chart.render();
+  }
+
+  /**
+   * the chart gets destroyed and the data subscription gets unsubscribed to avoid memory leaks.
+   */
+  ngOnDestroy(): void {
     this.chart?.destroy();
     this.dataSubscription?.unsubscribe();
   }

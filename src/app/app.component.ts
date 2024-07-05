@@ -67,6 +67,10 @@ export class AppComponent {
       this.drawer.close();
     }
   }
+
+  ngAfterViewInit(): void {
+    this.closeDrawerIfMobile();
+  }
 }
 
 

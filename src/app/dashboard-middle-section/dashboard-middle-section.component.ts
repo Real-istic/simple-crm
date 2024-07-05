@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
@@ -9,7 +9,7 @@ import { Subscription, merge } from 'rxjs';
   templateUrl: './dashboard-middle-section.component.html',
   styleUrls: ['./dashboard-middle-section.component.scss']
 })
-export class DashboardMiddleSectionComponent implements OnInit, OnDestroy {
+export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   private userDataService: UserDataService = inject(UserDataService);
   private transactionDataService: TransactionDataService = inject(TransactionDataService);
   private chart?: ApexCharts;
@@ -18,39 +18,48 @@ export class DashboardMiddleSectionComponent implements OnInit, OnDestroy {
   private monthsForChart: number[] = [];
   private categories: string[] = [];
 
-  // allUsers and allTransactions are subscribed to and the chart gets updated when the data changes also the chart options are set and the chart is rendered.
-  async ngOnInit(): Promise<void> {
-    const allUsers$ = this.userDataService.allUsers$;
-    const allTransactions$ = this.transactionDataService.allTransactions$;
-    this.dataSubscription = merge(allUsers$, allTransactions$).subscribe(async () => {
-      await this.updateChartSeries();
-    });
-    this.updateMonthsForChartAndCategories(); // sets the last 6 months for the chart
-    await this.setChartOptions();
-    this.chart = new ApexCharts(document.querySelector("#chart"), this.chartOptions);
-    this.chart.render();
+  ngOnInit(): void {
+    this.setSubscription();
+    this.updateMonthsForChartAndCategories();
+    this.setChartOptions();
   }
 
-  // the chart series are updated with the new data.
-  private async updateChartSeries(): Promise<void> {
+  /**
+   * initializes the subscription
+   */
+  setSubscription(): void {
+    const allUsers$ = this.userDataService.allUsers$;
+    const allTransactions$ = this.transactionDataService.allTransactions$;
+    this.dataSubscription = merge(allUsers$, allTransactions$).subscribe(() => {
+      this.updateChartSeries();
+    });
+  }
+
+  /**
+   * the chart series are updated with the new data.
+   */
+  private updateChartSeries(): void {
     this.chart?.updateSeries([
       {
         name: "New Users",
-        data: await this.getUserCountPerMonth()
+        data: this.getUserCountPerMonth()
       },
       {
         name: "Revenue",
-        data: await this.getRevenuePerMonth()
+        data: this.getRevenuePerMonth()
       },
       {
         name: "Transactions",
-        data: await this.getTransactionCountPerMonth()
+        data: this.getTransactionCountPerMonth()
       }
     ]);
   }
 
-  // chart options and data are set, they define the different chart properties and more importantly the data that is displayed in the chart.
-  private async setChartOptions(): Promise<void> {
+  /**
+   * chart options and data are set, they define the different chart
+   * properties and more importantly the data that is displayed in the chart.
+   */
+  private setChartOptions(): void {
     this.chartOptions = {
       title: {
         text: 'History',
@@ -89,15 +98,15 @@ export class DashboardMiddleSectionComponent implements OnInit, OnDestroy {
       series: [
         {
           name: "New Users",
-          data: await this.getUserCountPerMonth()
+          data: this.getUserCountPerMonth()
         },
         {
           name: "Revenue",
-          data: await this.getRevenuePerMonth()
+          data: this.getRevenuePerMonth()
         },
         {
           name: "Transactions",
-          data: await this.getTransactionCountPerMonth()
+          data: this.getTransactionCountPerMonth()
         }
       ],
       xaxis: {
@@ -132,7 +141,9 @@ export class DashboardMiddleSectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  // sets the last 6 months for the chart and the categories for (month names) the x-axis.
+  /**
+   * sets the last 6 months for the chart and the categories for (month names) the x-axis.
+   */
   private updateMonthsForChartAndCategories(): void {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();
@@ -148,7 +159,12 @@ export class DashboardMiddleSectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  // returns the month name for a given month number. (0 = Jan, 1 = Feb, ...)
+  /**
+   * returns the month name for a given month number. 
+   * 
+   * @param month the specific month as a number (0 = Jan, 1 = Feb, ...)
+   * @returns the name of the month
+   */
   private getMonthName(month: number): string {
     const monthNames = [
       'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -156,8 +172,13 @@ export class DashboardMiddleSectionComponent implements OnInit, OnDestroy {
     return monthNames[month];
   }
 
-  // analyses the registered users per month (for the last 6 months) and returns an array with the number of registered users per month.
-  private async getUserCountPerMonth(): Promise<number[]> {
+  /**
+   * analyses the registered users per month (for the last 6 months) and
+   * returns an array with the number of registered users per month.
+   * 
+   * @returns the user count per month
+   */
+  private getUserCountPerMonth(): number[] {
     let userCountPerMonth: number[] = [];
     for (let i = 0; i < this.monthsForChart.length; i++) {
       const targetMonth = this.monthsForChart[i];
@@ -177,8 +198,13 @@ export class DashboardMiddleSectionComponent implements OnInit, OnDestroy {
     return userCountPerMonth;
   }
 
-  // analyses the revenue per month (for the last 6 months ()) and returns an array with the revenue per month.
-  private async getRevenuePerMonth(): Promise<number[]> {
+  /**
+   * analyses the revenue per month (for the last 6 months ()) and returns
+   * an array with the revenue per month.
+   * 
+   * @returns the revenue per month
+   */
+  private getRevenuePerMonth(): number[] {
     let revenuePerMonth: number[] = [];
     for (let i = 0; i < this.monthsForChart.length; i++) {
       const targetMonth = this.monthsForChart[i];
@@ -199,8 +225,13 @@ export class DashboardMiddleSectionComponent implements OnInit, OnDestroy {
     return revenuePerMonth;
   }
 
-  // analyses the transactions per month (for the last 6 months) and returns an array with the number of transactions per month.
-  private async getTransactionCountPerMonth(): Promise<number[]> {
+  /**
+   * analyses the transactions per month (for the last 6 months) and returns
+   * an array with the number of transactions per month.
+   * 
+   * @returns the transaction count per month
+   */
+  private getTransactionCountPerMonth(): number[] {
     let transactionCountPerMonth: number[] = [];
     for (let i = 0; i < this.monthsForChart.length; i++) {
       const targetMonth = this.monthsForChart[i];
@@ -220,7 +251,17 @@ export class DashboardMiddleSectionComponent implements OnInit, OnDestroy {
     return transactionCountPerMonth;
   }
 
-  // the chart gets destroyed and the data subscription gets unsubscribed to avoid memory leaks.
+  /**
+   * renders the Chart with the specific options
+   */
+  ngAfterViewInit(): void {
+    this.chart = new ApexCharts(document.querySelector("#chart"), this.chartOptions);
+    this.chart.render();
+  }
+
+  /**
+   * unsubscribe and chart destroy to avoid memory leaks.
+   */
   ngOnDestroy(): void {
     this.chart?.destroy();
     this.dataSubscription?.unsubscribe();
