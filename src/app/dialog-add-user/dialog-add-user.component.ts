@@ -21,12 +21,11 @@ export class DialogAddUserComponent {
 
 
   /**
-   * Number(obj.zipCode) : 0
+   * simple validation
    * 
    * @returns true or false
    */
   protected isFormValid(): boolean {
-    console.log(this.user)
     if (
       this.user.firstName &&
       this.user.lastName &&
