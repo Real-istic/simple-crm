@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Transaction } from 'src/models/transaction.class';
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './dashboard-bottom-section.component.html',
   styleUrls: ['./dashboard-bottom-section.component.scss']
 })
-export class DashboardBottomSectionComponent implements OnInit, OnDestroy {
+export class DashboardBottomSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   private transactionDataService: TransactionDataService = inject(TransactionDataService);
   protected displayedColumns: string[] = ['description', 'price', 'date'];
   protected dataSource: MatTableDataSource<Transaction> = new MatTableDataSource<Transaction>();

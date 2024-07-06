@@ -16,49 +16,60 @@ import { Subscription } from 'rxjs';
   templateUrl: 'data-table.component.html',
 })
 export class DataTableComponent {
-  dialog: MatDialog = inject(MatDialog);
-  route: ActivatedRoute = inject(ActivatedRoute);
-  userDataService: UserDataService = inject(UserDataService);
-
-  displayedColumns: string[] = ['firstName', 'lastName', 'email'];
-  dataSource!: MatTableDataSource<User>;
-  user = new User();
-  dataSubscription: Subscription | undefined;
+  private dialog: MatDialog = inject(MatDialog);
+  protected route: ActivatedRoute = inject(ActivatedRoute);
+  private userDataService: UserDataService = inject(UserDataService);
+  protected displayedColumns: string[] = ['firstName', 'lastName', 'email'];
+  protected dataSource!: MatTableDataSource<User>;
+  protected user = new User();
+  private dataSubscription?: Subscription;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() { }
 
-  // allUsers is subscribed to and the table gets updated when the data changes, also the dataSource paginator and sort gets set.
-  async ngOnInit() {
-    this.dataSubscription = this.userDataService.allUsers$.subscribe(async (users) => {
+  ngOnInit(): void {
+    this.setSubscription();
+  }
+
+  /**
+   * subscribes to allUsers and updates the table gets when the data changes, 
+   * also the dataSource paginator and sort get set.
+   */
+  private setSubscription(): void {
+    this.dataSubscription = this.userDataService.allUsers$.subscribe((users) => {
       this.dataSource = new MatTableDataSource(users);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
 
-  // the dataSource paginator and sort gets set again after the view has been initialized to ensure that the paginator and sort are working properly.
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  // filters the dataSource based on the filterValue.
-  applyFilter(event: Event) {
+  /**
+   * filters the dataSource based on the filterValue.
+   */
+  protected applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     this.dataSource.paginator?.firstPage();
   }
 
-  // opens the dialog for adding a new user.
-  openDialog() {
+  /**
+   * opens the dialog for adding a new user.
+   */
+  protected openDialog(): void {
     this.dialog.open(DialogAddUserComponent);
   }
 
-  // unsubscribes from the subscriptions and closes the dialog when the component gets destroyed to avoid memory leaks.
-  ngOnDestroy() {
+  /**
+   * the dataSource paginator and sort gets set again after the view has been initialized 
+   * to ensure that the paginator and sort are working properly.
+   */
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  ngOnDestroy(): void {
     this.dataSubscription?.unsubscribe();
     this.dialog?.closeAll();
   }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { TransactionDataService } from '../transaction-data.service';
 import { Subscription } from 'rxjs';
@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './dashboard-top-right-section.component.html',
   styleUrls: ['./dashboard-top-right-section.component.scss']
 })
-export class DashboardRightSectionComponent {
+export class DashboardRightSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   private transactionDataService: TransactionDataService = inject(TransactionDataService);
   private chart?: ApexCharts;
   private chartOptions: any = {};

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult } from 'firebaseui-angular';
 
@@ -10,13 +10,13 @@ import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult } from '
   styleUrls: ['./login.component.scss'],
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   constructor(private afAuth: AngularFireAuth, private router: Router) { }
 
-  ngOnInit(): void {}
-
-  // redirect to home page after login
-  successCallback(data: FirebaseUISignInSuccessWithAuthResult) {
+  /**
+   * redirect to home page after login
+   */
+  successCallback() {
     this.router.navigate(['/']);
   }
 

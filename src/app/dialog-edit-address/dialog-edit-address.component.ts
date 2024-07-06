@@ -10,13 +10,15 @@ import { User } from 'src/models/user.class';
 })
 export class DialogEditAddressComponent {
   user: User = new User();
-  loading: boolean = false;
-  dialogRef: MatDialogRef<DialogEditAddressComponent> = inject(MatDialogRef);
-  firestore: Firestore = inject(Firestore)
-  userId: string = '';
+  protected loading: boolean = false;
+  protected dialogRef: MatDialogRef<DialogEditAddressComponent> = inject(MatDialogRef);
+  private firestore: Firestore = inject(Firestore)
+  userId?: string;
 
-  // updates the user data in the database.
-  async saveUser() {
+  /**
+   * updates the user data in the database.
+   */
+  protected async saveUser() {
     this.loading = true;
     let userCollection = collection(this.firestore, 'users')
     await updateDoc(doc(userCollection, this.userId), this.user.toJson());

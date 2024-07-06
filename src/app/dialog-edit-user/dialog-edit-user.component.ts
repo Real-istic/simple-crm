@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Firestore, collection, doc, updateDoc } from '@angular/fire/firestore';
 import { MatDialogRef } from '@angular/material/dialog';
 import { User } from 'src/models/user.class';
@@ -8,21 +8,25 @@ import { User } from 'src/models/user.class';
   templateUrl: './dialog-edit-user.component.html',
   styleUrls: ['./dialog-edit-user.component.scss']
 })
-export class DialogEditUserComponent {
+export class DialogEditUserComponent implements OnInit {
   user: User = new User();
-  loading: boolean = false;
-  dialogRef: MatDialogRef<DialogEditUserComponent> = inject(MatDialogRef);
-  firestore: any = inject(Firestore);
-  birthDate: any = this.user.birthDate;
-  userId: string = '';
+  protected loading: boolean = false;
+  protected dialogRef: MatDialogRef<DialogEditUserComponent> = inject(MatDialogRef);
+  private firestore = inject(Firestore);
+  protected birthDate: Date = new Date();
+  userId = '';
 
-  // sets the birthDate to the user's birthDate.
-  ngOnInit() {
-    this.birthDate = this.user.birthDate ? new Date(this.user.birthDate) : null;
+  /**
+   * sets the birthDate to the user's birthDate.
+   */
+  ngOnInit(): void {
+    this.birthDate = new Date(this.user.birthDate);
   }
 
-  // updates the user data in the database.
-  async saveUser() {
+  /**
+   * updates the user data in the database.
+   */
+  protected async saveUser(): Promise<void> {
     this.loading = true;
     this.user.birthDate = this.birthDate.getTime();
     let userCollection = collection(this.firestore, 'users')

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
 import { Subscription, merge, Observable, BehaviorSubject } from 'rxjs';
@@ -10,7 +10,7 @@ import { Transaction } from 'src/models/transaction.class';
   templateUrl: './dashboard-top-section.component.html',
   styleUrls: ['./dashboard-top-section.component.scss']
 })
-export class DashboardTopSectionComponent implements OnInit {
+export class DashboardTopSectionComponent implements OnInit, OnDestroy {
   private userDataService: UserDataService = inject(UserDataService);
   private transactionDataService: TransactionDataService = inject(TransactionDataService);
   private dataSubscription?: Subscription;

@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { AfterViewInit, Component, HostListener, inject, OnInit } from '@angular/core';
 import { UserDataService } from './user-data.service';
 import { TransactionDataService } from './transaction-data.service';
 import { Auth } from '@angular/fire/auth';
@@ -12,19 +12,25 @@ import { ViewChild } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  userDataService: UserDataService = inject(UserDataService);
-  transactionDataService: TransactionDataService = inject(TransactionDataService);
-  auth: Auth = inject(Auth);
-  router: Router = inject(Router);
-  firebaseAuthModule: FirebaseAuthModule = inject(FirebaseAuthModule);
-  mobileQuery: MediaQueryList;
-  @ViewChild(MatDrawer) drawer: MatDrawer | undefined;
+export class AppComponent implements OnInit, AfterViewInit{
+  private userDataService: UserDataService = inject(UserDataService);
+  private transactionDataService: TransactionDataService = inject(TransactionDataService);
+  private auth: Auth = inject(Auth);
+  private router: Router = inject(Router);
+  protected firebaseAuthModule: FirebaseAuthModule = inject(FirebaseAuthModule);
+  @ViewChild(MatDrawer) drawer?: MatDrawer;
 
-  // checks if the user is logged in
-  constructor() {
-    this.mobileQuery = matchMedia('(max-width: 950px)');
-    this.auth.onAuthStateChanged(async (user) => {
+
+  async ngOnInit(): Promise<void> {
+    this.checkAuthentication();
+    await this.initializeData();
+  }
+
+  /**
+   * checks the user authentication
+   */
+  private checkAuthentication(): void {
+    this.auth.onAuthStateChanged((user) => {
       if (user) {
         this.firebaseAuthModule.isLoggedIn = true;
       } else {
@@ -33,36 +39,47 @@ export class AppComponent {
     });
   }
 
-  // initializes the user and transaction data
-  async ngOnInit() {
+  /**
+   * initializes the data services
+   */
+  private async initializeData(): Promise<void> {
     await this.userDataService.initialize();
     await this.transactionDataService.initialize();
   }
 
-  // logs the user out
-  logout() {
+  /**
+   * logs the user out
+   */
+  protected logout(): void {
     this.auth.signOut();
     this.router.navigate(['/login']);
-    // console.log('LOGGED OUT', this.auth.currentUser)
   }
 
-  // checks if the user is on the user or user-data page
-  isUserDataActive() {
+  /**
+   * checks the auth protected routes
+   * 
+   * @returns true or false
+   */
+  protected isUserDataActive(): boolean {
     return this.router.url.includes('/user-data') || this.router.url.includes('/user');
   }
 
-  // opens or closes the drawer depending on the screen size to make the app more mobile friendly
+  /**
+   * opens or closes the drawer depending on the screen size to make the app more mobile friendly
+   */
   @HostListener('window:resize')
-  onResize() {
-    if (this.mobileQuery.matches) {
+  protected onResize(): void {
+    if (window.innerWidth < 950) {
       this.drawer?.close();
     } else {
       this.drawer?.open();
     }
   }
 
-  // closes the drawer at a small screen size
-  closeDrawerIfMobile() {
+  /**
+   * closes the drawer at a small screen size when navigating
+   */
+  protected closeDrawerIfMobile(): void {
     if (this.drawer && window.innerWidth < 950) {
       this.drawer.close();
     }
