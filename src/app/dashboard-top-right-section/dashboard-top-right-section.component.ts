@@ -190,9 +190,11 @@ export class DashboardRightSectionComponent implements OnInit, AfterViewInit, On
    * initializes and Renders the Chart
    */
   ngAfterViewInit(): void {
-    this.setChartOptions();
-    this.chart = new ApexCharts(document.querySelector("#chart2"), this.chartOptions);
-    this.chart.render();
+    setTimeout(() => { // delay to render after the sidebar vanishes
+      this.setChartOptions();
+      this.chart = new ApexCharts(document.querySelector("#chart2"), this.chartOptions);
+      this.chart.render();
+    }, 200)
   }
 
   /**

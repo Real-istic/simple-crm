@@ -277,8 +277,10 @@ export class DashboardBottomRightSectionComponent implements OnInit, AfterViewIn
   }
 
   ngAfterViewInit(): void {
-    this.chart = new ApexCharts(document.querySelector("#chart3"), this.chartOptions);
-    this.chart.render();
+    setTimeout(() => { // delay to render after the sidebar vanishes
+      this.chart = new ApexCharts(document.querySelector("#chart3"), this.chartOptions);
+      this.chart.render();
+    }, 200);
   }
 
   /**
