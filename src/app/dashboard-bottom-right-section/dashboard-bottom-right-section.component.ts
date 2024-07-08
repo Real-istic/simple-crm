@@ -82,7 +82,7 @@ export class DashboardBottomRightSectionComponent implements OnInit, AfterViewIn
       dataLabels: {
         enabled: false,
         offsetY: 8,
-        offsetX: 15,
+        offsetX: 4,
         formatter: function (value: number) {
           return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 });
         },
