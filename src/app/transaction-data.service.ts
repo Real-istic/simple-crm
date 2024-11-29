@@ -8,7 +8,7 @@ import { Transaction } from 'src/models/transaction.class';
 })
 export class TransactionDataService {
   private firestore: Firestore = inject(Firestore);
-  allTransactions: any[] = [];
+  allTransactions: Transaction[] = [];
   private allTransactionsSubject = new BehaviorSubject<Transaction[]>([]);
   allTransactions$: Observable<Transaction[]> = this.allTransactionsSubject.asObservable();
 
@@ -22,7 +22,8 @@ export class TransactionDataService {
       onSnapshot(transactionCollection, (snapshot) => {
         this.allTransactions = [];
         snapshot.docs.forEach((doc) => {
-          this.allTransactions.push(doc.data());
+          const data = doc.data();
+          if (this.isValidTransaction(data)) this.allTransactions.push(doc.data() as Transaction);
         });
         this.allTransactionsSubject.next(this.allTransactions);
         resolve();
@@ -32,7 +33,7 @@ export class TransactionDataService {
 
   /**
    * returns all transactions for the specific user
-   * 
+   *
    * @returns the user transactions
    */
   getUserTransactions(userId: string): Observable<Transaction[]> {
@@ -40,4 +41,20 @@ export class TransactionDataService {
       map(transactions => transactions.filter(transaction => transaction.userId === userId))
     );
   }
+
+  /**
+   * Validates the Object regarding Transaction
+   *
+   * @param obj the given Object
+   * @returns true if the Object is a valid Transaction
+   */
+  private isValidTransaction(obj: any): obj is Transaction {
+    return obj &&
+      typeof obj.userId === 'string' &&
+      typeof obj.id === 'string' &&
+      typeof obj.description === 'string' &&
+      typeof obj.price === 'number' &&
+      typeof obj.date === 'number';
+  }
 }
+
