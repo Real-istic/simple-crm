@@ -15,7 +15,7 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
   private chart?: ApexCharts;
   private chartOptions = {};
   private dataSubscription?: Subscription;
-  private monthsForChart: number[] = [];
+  private monthsForChart: { month: number; year: number }[] = [];
   private categories: string[] = [];
 
   ngOnInit(): void {
@@ -147,21 +147,27 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
   private updateMonthsForChartAndCategories(): void {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
 
     this.monthsForChart = [];
     this.categories = [];
 
     for (let i = 5; i >= 0; i--) {
-      const targetMonth = (currentMonth - i + 12) % 12; // remember the Year can change
-      this.monthsForChart.push(targetMonth);
+      let targetMonth = (currentMonth - i + 12) % 12;
+      let yearOffset = currentMonth - i < 0 ? -1 : 0;
+      let targetYear = currentYear + yearOffset;
+
+      this.monthsForChart.push({ month: targetMonth, year: targetYear });
+
       const monthName = this.getMonthName(targetMonth);
-      this.categories.push(`${monthName}`);
+      this.categories.push(`${monthName} ${targetYear}`);
     }
   }
 
+
   /**
-   * returns the month name for a given month number. 
-   * 
+   * returns the month name for a given month number.
+   *
    * @param month the specific month as a number (0 = Jan, 1 = Feb, ...)
    * @returns the name of the month
    */
@@ -175,88 +181,90 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
   /**
    * analyses the registered users per month (for the last 6 months) and
    * returns an array with the number of registered users per month.
-   * 
+   *
    * @returns the user count per month
    */
   private getUserCountPerMonth(): number[] {
     let userCountPerMonth: number[] = [];
+
     for (let i = 0; i < this.monthsForChart.length; i++) {
-      const targetMonth = this.monthsForChart[i];
+      const { month: targetMonth, year: targetYear } = this.monthsForChart[i];
       let sum = 0;
-      for (let j = 0; j < this.userDataService.allUsers.length; j++) {
-        const user = this.userDataService.allUsers[j];
+
+      for (const user of this.userDataService.allUsers) {
         const userRegistrationDate = new Date(user.registrationDate);
-        const userRegistrationYear = userRegistrationDate.getFullYear();
-        const userRegistrationMonth = userRegistrationDate.getMonth();
-        const currentYear = new Date().getFullYear();
-        if (userRegistrationMonth === targetMonth && userRegistrationYear === currentYear) {
+        if (userRegistrationDate.getMonth() === targetMonth && userRegistrationDate.getFullYear() === targetYear) {
           sum += 1;
         }
       }
+
       userCountPerMonth.push(sum);
     }
+
     return userCountPerMonth;
   }
+
 
   /**
    * analyses the revenue per month (for the last 6 months ()) and returns
    * an array with the revenue per month.
-   * 
+   *
    * @returns the revenue per month
    */
   private getRevenuePerMonth(): number[] {
     let revenuePerMonth: number[] = [];
+
     for (let i = 0; i < this.monthsForChart.length; i++) {
-      const targetMonth = this.monthsForChart[i];
+      const { month: targetMonth, year: targetYear } = this.monthsForChart[i];
       let sum = 0;
-      for (let j = 0; j < this.transactionDataService.allTransactions.length; j++) {
-        const transaction = this.transactionDataService.allTransactions[j];
-        const value = transaction.price;
+
+      for (const transaction of this.transactionDataService.allTransactions) {
         const transactionDate = new Date(transaction.date);
-        const transactionYear = transactionDate.getFullYear();
-        const transactionMonth = transactionDate.getMonth();
-        const currentYear = new Date().getFullYear();
-        if (transactionMonth === targetMonth && transactionYear === currentYear) {
-          sum += value;
+        if (transactionDate.getMonth() === targetMonth && transactionDate.getFullYear() === targetYear) {
+          sum += transaction.price;
         }
       }
+
       revenuePerMonth.push(sum);
     }
+
     return revenuePerMonth;
   }
+
 
   /**
    * analyses the transactions per month (for the last 6 months) and returns
    * an array with the number of transactions per month.
-   * 
+   *
    * @returns the transaction count per month
    */
   private getTransactionCountPerMonth(): number[] {
     let transactionCountPerMonth: number[] = [];
+
     for (let i = 0; i < this.monthsForChart.length; i++) {
-      const targetMonth = this.monthsForChart[i];
+      const { month: targetMonth, year: targetYear } = this.monthsForChart[i];
       let sum = 0;
-      for (let j = 0; j < this.transactionDataService.allTransactions.length; j++) {
-        const transaction = this.transactionDataService.allTransactions[j];
+
+      for (const transaction of this.transactionDataService.allTransactions) {
         const transactionDate = new Date(transaction.date);
-        const transactionYear = transactionDate.getFullYear();
-        const transactionMonth = transactionDate.getMonth();
-        const currentYear = new Date().getFullYear();
-        if (transactionMonth === targetMonth && transactionYear === currentYear) {
+        if (transactionDate.getMonth() === targetMonth && transactionDate.getFullYear() === targetYear) {
           sum += 1;
         }
       }
+
       transactionCountPerMonth.push(sum);
     }
+
     return transactionCountPerMonth;
   }
+
 
   /**
    * renders the Chart with the specific options
    */
   ngAfterViewInit(): void {
     this.chart = new ApexCharts(document.querySelector("#chart"), this.chartOptions);
-    this.chart.render();
+    void this.chart.render();
   }
 
   /**
