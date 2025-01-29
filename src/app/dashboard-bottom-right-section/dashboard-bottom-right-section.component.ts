@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   OnDestroy,
   OnInit,
@@ -347,7 +346,7 @@ export class DashboardBottomRightSectionComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * renders the Chart if when ready
+   * renders the Chart
    */
   private updateChart(): void {
     requestAnimationFrame(() => {
