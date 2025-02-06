@@ -31,11 +31,7 @@ export class AppComponent implements OnInit, AfterViewInit{
    */
   private checkAuthentication(): void {
     this.auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.firebaseAuthModule.isLoggedIn = true;
-      } else {
-        this.firebaseAuthModule.isLoggedIn = false;
-      }
+      this.firebaseAuthModule.isLoggedIn = !!user;
     });
   }
 
@@ -51,13 +47,13 @@ export class AppComponent implements OnInit, AfterViewInit{
    * logs the user out
    */
   protected logout(): void {
-    this.auth.signOut();
-    this.router.navigate(['/login']);
+    void this.auth.signOut();
+    void this.router.navigate(['/login']);
   }
 
   /**
    * checks the auth protected routes
-   * 
+   *
    * @returns true or false
    */
   protected isUserDataActive(): boolean {
@@ -81,7 +77,7 @@ export class AppComponent implements OnInit, AfterViewInit{
    */
   protected closeDrawerIfMobile(): void {
     if (this.drawer && window.innerWidth < 950) {
-      this.drawer.close();
+      void this.drawer.close();
     }
   }
 

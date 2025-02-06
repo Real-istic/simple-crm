@@ -59,7 +59,7 @@ export class DialogAddTransactionComponent {
 
   /**
    * formats the price to a string with a € sign.
-   * 
+   *
    * @returns price with a currency sign
    */
   protected formatPrice(price: number): string {
@@ -68,14 +68,11 @@ export class DialogAddTransactionComponent {
 
   /**
    * checks if the form is valid.
-   * 
+   *
    * @returns the Transaction
    */
   protected isFormValid(): boolean {
-    if (this.transaction.date && this.transactionVariant.name !== '' && this.transactionVariant.price !== 0) {
-      return true
-    }
-    return false
+    return !!(this.transaction.date && this.transactionVariant.name !== '' && this.transactionVariant.price !== 0);
   }
 
 }

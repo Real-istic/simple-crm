@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import {Component, ViewChild, inject, OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['data-table.component.scss'],
   templateUrl: 'data-table.component.html',
 })
-export class DataTableComponent {
+export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy{
   private dialog: MatDialog = inject(MatDialog);
   protected route: ActivatedRoute = inject(ActivatedRoute);
   private userDataService: UserDataService = inject(UserDataService);
@@ -33,7 +33,7 @@ export class DataTableComponent {
   }
 
   /**
-   * subscribes to allUsers and updates the table gets when the data changes, 
+   * subscribes to allUsers and updates the table gets when the data changes,
    * also the dataSource paginator and sort get set.
    */
   private setSubscription(): void {
@@ -61,7 +61,7 @@ export class DataTableComponent {
   }
 
   /**
-   * the dataSource paginator and sort gets set again after the view has been initialized 
+   * the dataSource paginator and sort gets set again after the view has been initialized
    * to ensure that the paginator and sort are working properly.
    */
   ngAfterViewInit(): void {

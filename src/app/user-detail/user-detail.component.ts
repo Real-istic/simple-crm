@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import {AfterViewInit, Component, ViewChild, inject, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/models/user.class';
@@ -20,7 +20,7 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./user-detail.component.scss']
 })
 
-export class UserDetailComponent implements AfterViewInit{
+export class UserDetailComponent implements OnInit, AfterViewInit{
   private route: ActivatedRoute = inject(ActivatedRoute);
   private dialog: MatDialog = inject(MatDialog);
   private userDataService: UserDataService = inject(UserDataService);
@@ -105,7 +105,7 @@ export class UserDetailComponent implements AfterViewInit{
 
   /**
    * formats the date to a readable format
-   * 
+   *
    * @returns the formatted date
    */
   protected formatDate(timestamp: number): string {
@@ -116,7 +116,7 @@ export class UserDetailComponent implements AfterViewInit{
 
   /**
    * handles the filter for the transaction table
-   * 
+   *
    */
   protected applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
