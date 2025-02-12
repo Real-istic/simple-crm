@@ -1,17 +1,27 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
-import { Subscription, merge } from 'rxjs';
+import { Subscription, merge, asyncScheduler } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-middle-section',
   templateUrl: './dashboard-middle-section.component.html',
-  styleUrls: ['./dashboard-middle-section.component.scss']
+  styleUrls: ['./dashboard-middle-section.component.scss'],
 })
-export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DashboardMiddleSectionComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private userDataService: UserDataService = inject(UserDataService);
-  private transactionDataService: TransactionDataService = inject(TransactionDataService);
+  private transactionDataService: TransactionDataService = inject(
+    TransactionDataService,
+  );
   private chart?: ApexCharts;
   private chartOptions = {};
   private dataSubscription?: Subscription;
@@ -41,17 +51,17 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
   private updateChartSeries(): void {
     this.chart?.updateSeries([
       {
-        name: "New Users",
-        data: this.getUserCountPerMonth()
+        name: 'New Users',
+        data: this.getUserCountPerMonth(),
       },
       {
-        name: "Revenue",
-        data: this.getRevenuePerMonth()
+        name: 'Revenue',
+        data: this.getRevenuePerMonth(),
       },
       {
-        name: "Transactions",
-        data: this.getTransactionCountPerMonth()
-      }
+        name: 'Transactions',
+        data: this.getTransactionCountPerMonth(),
+      },
     ]);
   }
 
@@ -72,7 +82,7 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
           fontSize: '16px',
           fontWeight: '500',
           fontFamily: 'Roboto, sans-serif',
-          color: '#263238'
+          color: '#263238',
         },
       },
       stroke: {
@@ -86,59 +96,58 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
           speed: 1000,
           animateGradually: {
             enabled: true,
-            delay: 0
+            delay: 0,
           },
           dynamicAnimation: {
             enabled: true,
-            speed: 1000
-          }
-        }
+            speed: 1000,
+          },
+        },
       },
-      colors: ["#447AE7", "#ffa200", "#00df77"],
+      colors: ['#447AE7', '#ffa200', '#00df77'],
       series: [
         {
-          name: "New Users",
-          data: this.getUserCountPerMonth()
+          name: 'New Users',
+          data: this.getUserCountPerMonth(),
         },
         {
-          name: "Revenue",
-          data: this.getRevenuePerMonth()
+          name: 'Revenue',
+          data: this.getRevenuePerMonth(),
         },
         {
-          name: "Transactions",
-          data: this.getTransactionCountPerMonth()
-        }
+          name: 'Transactions',
+          data: this.getTransactionCountPerMonth(),
+        },
       ],
       xaxis: {
-        categories: this.categories
+        categories: this.categories,
       },
-      responsive: [{
-        breakpoint: 700,
-        options: {
-          chart: {
-
-          },
-          legend: {
-            fontSize: '8px',
-          },
-          xaxis: {
-            labels: {
-              style: {
-                fontSize: '8px',
+      responsive: [
+        {
+          breakpoint: 700,
+          options: {
+            chart: {},
+            legend: {
+              fontSize: '8px',
+            },
+            xaxis: {
+              labels: {
+                style: {
+                  fontSize: '8px',
+                },
+              },
+            },
+            yaxis: {
+              labels: {
+                style: {
+                  fontSize: '8px',
+                },
               },
             },
           },
-          yaxis: {
-            labels: {
-              style: {
-                fontSize: '8px',
-              },
-            },
-          }
         },
-      }]
-
-    }
+      ],
+    };
   }
 
   /**
@@ -164,7 +173,6 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
     }
   }
 
-
   /**
    * returns the month name for a given month number.
    *
@@ -173,7 +181,18 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
    */
   private getMonthName(month: number): string {
     const monthNames = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return monthNames[month];
   }
@@ -193,7 +212,10 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
 
       for (const user of this.userDataService.allUsers) {
         const userRegistrationDate = new Date(user.registrationDate);
-        if (userRegistrationDate.getMonth() === targetMonth && userRegistrationDate.getFullYear() === targetYear) {
+        if (
+          userRegistrationDate.getMonth() === targetMonth &&
+          userRegistrationDate.getFullYear() === targetYear
+        ) {
           sum += 1;
         }
       }
@@ -203,7 +225,6 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
 
     return userCountPerMonth;
   }
-
 
   /**
    * analyses the revenue per month (for the last 6 months ()) and returns
@@ -220,7 +241,10 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
 
       for (const transaction of this.transactionDataService.allTransactions) {
         const transactionDate = new Date(transaction.date);
-        if (transactionDate.getMonth() === targetMonth && transactionDate.getFullYear() === targetYear) {
+        if (
+          transactionDate.getMonth() === targetMonth &&
+          transactionDate.getFullYear() === targetYear
+        ) {
           sum += transaction.price;
         }
       }
@@ -230,7 +254,6 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
 
     return revenuePerMonth;
   }
-
 
   /**
    * analyses the transactions per month (for the last 6 months) and returns
@@ -247,7 +270,10 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
 
       for (const transaction of this.transactionDataService.allTransactions) {
         const transactionDate = new Date(transaction.date);
-        if (transactionDate.getMonth() === targetMonth && transactionDate.getFullYear() === targetYear) {
+        if (
+          transactionDate.getMonth() === targetMonth &&
+          transactionDate.getFullYear() === targetYear
+        ) {
           sum += 1;
         }
       }
@@ -258,13 +284,17 @@ export class DashboardMiddleSectionComponent implements OnInit, AfterViewInit, O
     return transactionCountPerMonth;
   }
 
-
   /**
    * renders the Chart with the specific options
    */
-  ngAfterViewInit(): void {
-    this.chart = new ApexCharts(document.querySelector("#chart"), this.chartOptions);
-    void this.chart.render();
+  async ngAfterViewInit(): Promise<void> {
+    asyncScheduler.schedule(() => {
+      this.chart = new ApexCharts(
+        document.querySelector('#chart'),
+        this.chartOptions,
+      );
+      void this.chart.render();
+    });
   }
 
   /**

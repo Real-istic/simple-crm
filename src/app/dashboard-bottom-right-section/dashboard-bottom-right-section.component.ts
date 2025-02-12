@@ -1,13 +1,9 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { UserDataService } from '../user-data.service';
 import { TransactionDataService } from '../transaction-data.service';
 import {
+  asyncScheduler,
   combineLatest,
   first,
   Subscription,
@@ -349,13 +345,13 @@ export class DashboardBottomRightSectionComponent implements OnInit, OnDestroy {
    * renders the Chart
    */
   private updateChart(): void {
-    requestAnimationFrame(() => {
+    asyncScheduler.schedule(() => {
       this.chart = new ApexCharts(
         document.querySelector('#chart3'),
         this.chartOptions,
       );
       this.chart?.render();
-    });
+    }, 200);
   }
 
   /**

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { TransactionDataService } from '../transaction-data.service';
-import { Subscription } from 'rxjs';
+import {asyncScheduler, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-top-right-section',
@@ -159,7 +159,7 @@ export class DashboardRightSectionComponent implements OnInit, AfterViewInit, On
 
   /**
    * returns an array with the amount of transactions per description.
-   * 
+   *
    * @returns the transaction amount per description
    */
   private getTransactionAmountPerDescription(): number[] {
@@ -190,10 +190,10 @@ export class DashboardRightSectionComponent implements OnInit, AfterViewInit, On
    * initializes and Renders the Chart
    */
   ngAfterViewInit(): void {
-    setTimeout(() => { // delay to render after the sidebar vanishes
+    asyncScheduler.schedule(()=> {
       this.setChartOptions();
       this.chart = new ApexCharts(document.querySelector("#chart2"), this.chartOptions);
-      this.chart.render();
+      void this.chart.render();
     }, 200)
   }
 
